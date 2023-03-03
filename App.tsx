@@ -6,10 +6,9 @@ import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import ProfileScreen from './screens/ProfileScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import TabNavigator from './navigators/TabNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,8 +19,10 @@ export default function App() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Home Screen " component={HomeScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="TabNav" component={TabNavigator} options={{headerShown: false}}/>
             <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
