@@ -48,8 +48,9 @@ const OnBoardingNextButton = (props: NextButtonProps) => {
     }, []);
 
   return (
-    <Pressable onPress={props.scrollTo} style={[styles.container, {width}]} >
-      <Svg width={size} height={size}>
+    <View style={[styles.container, {width}]}>
+    <Pressable onPress={props.scrollTo}  >
+      <Svg width={size} height={size} >
         <Circle cy={center} cx={center} r={radius} stroke={Colors.grayTone4} strokeWidth={strokeWidth} />
         <Circle 
           ref={progressRef}
@@ -60,15 +61,16 @@ const OnBoardingNextButton = (props: NextButtonProps) => {
           strokeWidth={strokeWidth} 
           strokeDasharray={circumference}
           />
-          <View  style={styles.button} >
+          <Pressable  style={styles.button} >
           <Ionicons
                 name="chevron-forward"
                 size={32}
                 color={Colors.primaryColor}
                 /> 
-          </View >
+          </Pressable >
       </Svg>
     </Pressable>
+    </View>
   );
 };
 
@@ -79,12 +81,12 @@ const styles = StyleSheet.create({
         flex: 0.8,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.whiteTone1,
+        backgroundColor: Colors.whiteTone1 ,
         position: 'relative'
     },
     button: {
       position: 'absolute',
-      backgroundColor: Colors.grayTone4,
+      backgroundColor: Colors.whiteTone1 ,
       borderRadius: 100,
       padding: 8, 
       alignSelf: 'center',

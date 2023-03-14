@@ -5,7 +5,7 @@ import OnboardingItem from '../components/OnboardingItem';
 import OnBoardingNextButton from '../components/OnBoardingNextButton';
 import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
 import Colors from '../styles/colors';
-
+import {useNavigation} from '@react-navigation/native';
 interface OnboardingItemProps {
     image: ImageSourcePropType;
     title: string;
@@ -14,6 +14,7 @@ interface OnboardingItemProps {
 };
 
 const OnboardingScreen = () => {
+    const navigation = useNavigation();
     const [fontsLoaded] = useFonts({
         Poppins_500Medium, 
     });
@@ -56,15 +57,18 @@ const OnboardingScreen = () => {
         if(currentIndex < slides.length - 1){
             slidesRef.current?.scrollToIndex({ index : currentIndex + 1})
         }else {
-            console.log('last item');
+            goToLogin()
         }
     };
 
+    const goToLogin = () => {
+        navigation.navigate('Login' as never);
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.skipContainer ,{  }]}>
-                <Pressable > 
+                <Pressable onPress={goToLogin} > 
                     <Text style={styles.skipText}>Skip</Text> 
                 </Pressable>
             </View>
@@ -103,7 +107,6 @@ const OnboardingScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //marginTop: StatusBar.currentHeight || 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.whiteTone1

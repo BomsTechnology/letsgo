@@ -28,9 +28,9 @@ export default function App() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <NavigationContainer>
           <Stack.Navigator>
-          <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
-            <Stack.Screen name="Login" component={LoginScreen}/>
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>
