@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import OnboardingItem from '../components/OnboardingItem';
 import OnBoardingNextButton from '../components/OnBoardingNextButton';
 import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
-import Colors from '../styles/colors';
+import Colors from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 interface OnboardingItemProps {
     image: ImageSourcePropType;

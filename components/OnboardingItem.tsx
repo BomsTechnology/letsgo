@@ -1,7 +1,7 @@
 import {Text, View , StyleSheet, useWindowDimensions, Image, ImageSourcePropType} from 'react-native';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import React from 'react';
-import Colors from '../styles/colors';
+import Colors from '../constants/colors';
 
 interface OnboardingItemProps {
     image: ImageSourcePropType;

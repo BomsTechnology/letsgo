@@ -1,7 +1,7 @@
 import {StyleSheet, Text, Pressable, GestureResponderEvent} from 'react-native';
 import React from 'react';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
-import Colors from '../styles/colors';
+import Colors from '../constants/colors';
 
 interface CustomButtonProps {
   text: string;

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
-import Colors from '../styles/colors'
+import Colors from '../constants/colors'
 import { useFonts } from 'expo-font';
 import { Poppins_500Medium } from '@expo-google-fonts/poppins';
 import CustomInput from '../components/CustomInput';

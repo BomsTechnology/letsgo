@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, useWindowDimensions, Modal, TouchableOpacity, Image, Dimensions, FlatList } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Colors from '../styles/colors';
+import Colors from '../constants/colors';
 import CustomButton from '../components/CustomButton';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import StepHeader from '../components/StepHeader';
