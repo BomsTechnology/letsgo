@@ -23,17 +23,20 @@ export const SplitOTPBoxesContainer = styled.Pressable`
  justify-content: space-evenly;
 `;
 export const SplitBoxes = styled.View`
- border-color: #e5e5e5;
- border-width: 2px;
+ borderWidth: 1px;
+ borderColor: ${Colors.whiteTone4};
  border-radius: 5px;
  padding: 12px;
  min-width: 50px;
+ shadowColor: '#171717';
+ elevation: 0;
+ backgroundColor: ${Colors.whiteTone3};
 `;
 
 export const SplitBoxText = styled.Text`
  font-size: 20px;
  text-align: center;
- color: #e5e5e5;
+ color: ${Colors.grayTone1};
 `;
 
 export const SplitBoxesFocused = styled(SplitBoxes)`

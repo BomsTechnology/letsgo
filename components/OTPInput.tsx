@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import React, { Ref, useEffect, useRef, useState } from 'react';
 import { OTPInputContainer, TextInputHidden, SplitOTPBoxesContainer, SplitBoxes, SplitBoxText, SplitBoxesFocused } from "../constants/ComponentStyled";
 
@@ -51,7 +51,7 @@ export default function OTPInput(props: OTPInputProps) {
   };
 
   return (
-      <OTPInputContainer>
+      <OTPInputContainer style={{ marginVertical: 20 }}>
          <SplitOTPBoxesContainer onPress={handleOnPress}>{boxArray.map(boxDigit)}</SplitOTPBoxesContainer>
         <TextInputHidden
         keyboardType='numeric'

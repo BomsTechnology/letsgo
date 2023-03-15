@@ -9,12 +9,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
 
 const OTPScreen = () => {
-  const insets = useSafeAreaInsets();
   const [fontsLoaded] = useFonts({
     Poppins_500Medium, 
     Poppins_800ExtraBold,
     Poppins_300Light
   });
+  const insets = useSafeAreaInsets();
+  
   const [otpCode, setOTPCode] = useState("");
   const [isPinReady, setIsPinReady] = useState(false);
   const maximumCodeLength = 4;
@@ -26,7 +27,6 @@ const OTPScreen = () => {
   }
 
   return (
-   
       <Pressable style={[styles.container, {paddingTop: insets.top + 40,
         paddingBottom: insets.bottom + 40}]} onPress={Keyboard.dismiss}>
       <StepHeader elementsNumber={3} currentStep={2} />
@@ -35,7 +35,9 @@ const OTPScreen = () => {
       <Text style={styles.description}>Type the 4-digit code we just sent to ****8027</Text>
       <Text style={{ 
         color: Colors.accentGreen,
-        fontFamily: 'Poppins_500Medium'
+        fontFamily: 'Poppins_500Medium',
+        fontSize: 14,
+        marginVertical:10
        }}>Not your phone's number ?</Text>
       <OTPInput 
         code={otpCode}
@@ -45,19 +47,17 @@ const OTPScreen = () => {
        />
       <StatusBar style="auto" />
 
-      <View style={{ 
-        flexDirection: 'row'
-       }}>
-        <Text>Didn't receive it ?</Text>
-        <TouchableOpacity>Resend in 02:20</TouchableOpacity>
-      </View>
+       <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+          <Text style={{ fontFamily: 'Poppins_300Light',  fontSize: 14,}}>Didn't receive it ?</Text>
+           <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 14, marginLeft: 5}}>Resend in 02:20</Text> 
+       </TouchableOpacity>
+
       <CustomButton 
             type="PRIMARY"
             onPress={verify}
             text="Send a verification code"
           />
       </Pressable>
-   
   );
 };
 
