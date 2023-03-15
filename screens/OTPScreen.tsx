@@ -1,0 +1,88 @@
+import { Keyboard, Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
+import React, { useState } from 'react';
+import Colors from '../constants/colors';
+import StepHeader from '../components/StepHeader';
+import OTPInput from '../components/OTPInput';
+import { StatusBar } from "expo-status-bar";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import CustomButton from '../components/CustomButton';
+
+const OTPScreen = () => {
+  const insets = useSafeAreaInsets();
+  const [fontsLoaded] = useFonts({
+    Poppins_500Medium, 
+    Poppins_800ExtraBold,
+    Poppins_300Light
+  });
+  const [otpCode, setOTPCode] = useState("");
+  const [isPinReady, setIsPinReady] = useState(false);
+  const maximumCodeLength = 4;
+
+  const verify = () => {};
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+   
+      <Pressable style={[styles.container, {paddingTop: insets.top + 40,
+        paddingBottom: insets.bottom + 40}]} onPress={Keyboard.dismiss}>
+      <StepHeader elementsNumber={3} currentStep={2} />
+      
+      <Text style={styles.title}>What's the code?</Text>
+      <Text style={styles.description}>Type the 4-digit code we just sent to ****8027</Text>
+      <Text style={{ 
+        color: Colors.accentGreen,
+        fontFamily: 'Poppins_500Medium'
+       }}>Not your phone's number ?</Text>
+      <OTPInput 
+        code={otpCode}
+        setCode={setOTPCode}
+        maximumLength={maximumCodeLength}
+        setIsPinReady={setIsPinReady}
+       />
+      <StatusBar style="auto" />
+
+      <View style={{ 
+        flexDirection: 'row'
+       }}>
+        <Text>Didn't receive it ?</Text>
+        <TouchableOpacity>Resend in 02:20</TouchableOpacity>
+      </View>
+      <CustomButton 
+            type="PRIMARY"
+            onPress={verify}
+            text="Send a verification code"
+          />
+      </Pressable>
+   
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.whiteTone1,
+    paddingHorizontal: 20,
+    
+  }, 
+  title: {
+    fontFamily: 'Poppins_800ExtraBold',
+    fontWeight: '800',
+    fontSize: 35,
+    marginBottom: 15,
+    textAlign: 'left',
+    color: '#000',
+  },
+  description: {
+      fontFamily: 'Poppins_300Light',
+      textAlign: 'left',
+      fontWeight: '300',
+      color: Colors.grayTone1,
+      fontSize: 16
+  },
+});
+
+export default OTPScreen;

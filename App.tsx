@@ -8,9 +8,9 @@ import { useColorScheme } from 'react-native';
 import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
-import SignUpScreen from './screens/SignUpScreen';
 import TabNavigator from './navigators/TabNavigator';
 import {Text, StatusBar} from 'react-native';
+import OTPScreen from './screens/OTPScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,8 +30,8 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
-            <Stack.Screen name="SignUp" component={SignUpScreen}/>
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>
         </NavigationContainer>

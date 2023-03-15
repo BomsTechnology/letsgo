@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {Ionicons} from '@expo/vector-icons';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { countryCodeProps, countryCodes } from "../data/CountryCode"
+import Colors from '../constants/colors';
 interface CustomPhoneNumberInputProps {
     selectedArea: countryCodeProps,
     setModalVisible: Function,
@@ -44,7 +45,7 @@ const CustomPhoneNumberInput = () => {
              }}
             />
   
-            <Text style={{fontSize: 18, color: "#fff"}}>{item.name}</Text>
+            <Text style={{fontSize: 14, fontFamily: 'Poppins_500Medium', color: Colors.grayTone1}}>{item.name}</Text>
           </TouchableOpacity>
         )
       }
@@ -68,19 +69,19 @@ const CustomPhoneNumberInput = () => {
              style={{flex: 1, alignItems: "center", justifyContent: "center"}}
             >
                 <View
-                 style={{
+                 style={[styles.shadowProp,{
                   height: 400,
                   width: width*0.8,
-                  backgroundColor: "#342342",
+                  backgroundColor: Colors.whiteTone3,
                   borderRadius: 12,
                   paddingBottom: 20
-                 }}
+                 }]}
                 >
             <FlatList
                      data={countryCodes}
                      renderItem={renderItem}
                      keyExtractor={(item)=>item.code}
-                     showsVerticalScrollIndicator={false}
+                     showsVerticalScrollIndicator={true}
                      style={{
                       paddingHorizontal: 20,
                       marginVertical:10
@@ -90,55 +91,52 @@ const CustomPhoneNumberInput = () => {
         </View>
       </Modal>
     <View style={styles.container}>
-      <Text>Phone</Text>
+      <Text style={{ margin: 5 }}>Phone</Text>
       <View style={styles.inputContainer}>
             <TouchableOpacity
             onPress={() => setModalVisible(true)}
-                style={{ 
+                style={[styles.shadowProp,{ 
                     width: 100,
                     height: 50,
-                    marginHorizontal: 5,
-                    borderBottomColor: "#111",
-                    borderBottomWidth: 1,
+                    marginRight: 5,
                     flexDirection: "row",
-                    alignItems: "center"
-                }}
+                    alignItems: "center",
+                    paddingHorizontal: 8
+                }]}
             >
                 <View style={{ justifyContent: 'center' }}>
                     <Ionicons
                     name="chevron-down-outline"
-                    size={20}
-                    color={'#111'}
+                    size={15}
+                    color={Colors.grayTone3}
                     /> 
                 </View>
                 <View style={{ justifyContent: 'center', marginHorizontal: 8 }}>
                 <Image
                     source={ selectedArea?.flag!}
                     style={{
-                    height: 15,
-                    width: 20,
+                    height: 10,
+                    width: 15,
                     }}
                     />
                 </View>
                 <View style={{ justifyContent: 'center',  }}>
-                    <Text style={{ fontSize: 16, color: '#111', fontFamily: 'Poppins_300Light' }}>{ selectedArea?.callingCode }</Text>
+                    <Text style={{ fontSize: 16, color: Colors.grayTone1, fontFamily: 'Poppins_300Light' }}>{ selectedArea?.callingCode }</Text>
                 </View> 
             </TouchableOpacity>
             <TextInput 
             placeholder='Enter your phone number'
-            placeholderTextColor={'#111'}
-            selectionColor={'#111'}
+            placeholderTextColor={Colors.grayTone3}
+            selectionColor={Colors.grayTone1}
             keyboardType='numeric'
-            style={{
+            style={[styles.shadowProp,{
                 flex:1,
-                marginVertical: 10,
-                height: 40,
-                color: '#111',
-                borderBottomColor: "#111",
-                borderBottomWidth: 1,
+                height: 50,
+                color: Colors.grayTone1,
                 fontFamily: 'Poppins_300Light',
-                fontSize: 16
-            }}/>
+                fontSize: 16,
+                paddingHorizontal: 8
+            }]}/>
       </View>
       
     </View>
@@ -155,48 +153,13 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     inputContainer: {
-        elevation: 2,
+        paddingHorizontal:5,
         flexDirection: 'row'
     }, 
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-      },
-    modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      },
-      button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-      },
-      buttonOpen: {
-        backgroundColor: '#F194FF',
-      },
-      buttonClose: {
-        backgroundColor: '#2196F3',
-      },
-      textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-      },
+    shadowProp: {
+      shadowColor: '#171717',
+      elevation: 4,
+      backgroundColor: Colors.whiteTone1,
+      borderRadius: 10
+    },
 });
