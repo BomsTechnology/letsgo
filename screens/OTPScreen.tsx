@@ -7,8 +7,10 @@ import OTPInput from '../components/OTPInput';
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomButton from '../components/CustomButton';
+import {useNavigation} from '@react-navigation/native';
 
 const OTPScreen = () => {
+  const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
     Poppins_500Medium, 
     Poppins_800ExtraBold,
@@ -20,7 +22,9 @@ const OTPScreen = () => {
   const [isPinReady, setIsPinReady] = useState(false);
   const maximumCodeLength = 4;
 
-  const verify = () => {};
+  const verify = () => {
+    navigation.navigate('ResultSearch' as never);
+  };
 
   if (!fontsLoaded) {
     return null;
@@ -70,7 +74,6 @@ const styles = StyleSheet.create({
   }, 
   title: {
     fontFamily: 'Poppins_800ExtraBold',
-    fontWeight: '800',
     fontSize: 35,
     marginBottom: 15,
     textAlign: 'left',
@@ -79,7 +82,6 @@ const styles = StyleSheet.create({
   description: {
       fontFamily: 'Poppins_300Light',
       textAlign: 'left',
-      fontWeight: '300',
       color: Colors.grayTone1,
       fontSize: 16
   },

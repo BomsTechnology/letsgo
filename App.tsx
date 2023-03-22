@@ -9,17 +9,10 @@ import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
 import TabNavigator from './navigators/TabNavigator';
-import {Text, StatusBar} from 'react-native';
 import OTPScreen from './screens/OTPScreen';
+import ResultSearchScreen from './screens/ResultSearchScreen';
 
 const Stack = createNativeStackNavigator();
-
-interface TextWithDefaultProps extends Text {
-  defaultProps?: { fontFamily?: string };
-}
-
-//((Text as unknown) as TextWithDefaultProps).defaultProps = ((Text as unknown) as TextWithDefaultProps).defaultProps || {};
-//((Text as unknown) as TextWithDefaultProps).defaultProps!.fontFamily = '';
 
 export default function App() {
   const colorScheme = useColorScheme();
@@ -31,6 +24,7 @@ export default function App() {
             <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>

@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Poppins_800ExtraBold',
-        fontWeight: '800',
         fontSize: 40,
         marginBottom: 15,
         textAlign: 'center',
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
     description: {
         fontFamily: 'Poppins_300Light',
         textAlign: 'center',
-        fontWeight: '300',
         paddingHorizontal: 30,
         color: Colors.grayTone1,
         fontSize: 16
