@@ -11,6 +11,8 @@ import OnboardingScreen from './screens/OnboardingScreen';
 import TabNavigator from './navigators/TabNavigator';
 import OTPScreen from './screens/OTPScreen';
 import ResultSearchScreen from './screens/ResultSearchScreen';
+import UserRoleScreen from './screens/UserRoleScreen';
+import FavoriteDestinationScreen from './screens/FavoriteDestinationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,8 @@ export default function App() {
             <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="UserRole" component={UserRoleScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="FavoriteDestination" component={FavoriteDestinationScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen}/>

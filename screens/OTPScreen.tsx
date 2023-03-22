@@ -23,7 +23,7 @@ const OTPScreen = () => {
   const maximumCodeLength = 4;
 
   const verify = () => {
-    navigation.navigate('ResultSearch' as never);
+    navigation.navigate('UserRole' as never);
   };
 
   if (!fontsLoaded) {
@@ -33,7 +33,7 @@ const OTPScreen = () => {
   return (
       <Pressable style={[styles.container, {paddingTop: insets.top + 40,
         paddingBottom: insets.bottom + 40}]} onPress={Keyboard.dismiss}>
-      <StepHeader elementsNumber={3} currentStep={2} />
+      <StepHeader elementsNumber={4} currentStep={2} />
       
       <Text style={styles.title}>What's the code?</Text>
       <Text style={styles.description}>Type the 4-digit code we just sent to ****8027</Text>
@@ -57,7 +57,9 @@ const OTPScreen = () => {
        </TouchableOpacity>
 
       <CustomButton 
-            type="PRIMARY"
+            bgColor={Colors.primaryColor}
+            fgColor='#fff'
+            isReady={isPinReady}
             onPress={verify}
             text="Send a verification code"
           />

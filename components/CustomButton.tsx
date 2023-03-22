@@ -1,18 +1,17 @@
 import {StyleSheet, Text, Pressable, GestureResponderEvent} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import Colors from '../constants/colors';
 
 interface CustomButtonProps {
   text: string;
-  type: string;
-  bgColor?: string;
-  fgColor?: string;
+  bgColor: string;
+  fgColor: string;
+  isReady: boolean;
   onPress: (event: GestureResponderEvent) => void;
 }
 
 const CustomButton = (props: CustomButtonProps) => {
-
   const [fontsLoaded] = useFonts({
     Poppins_500Medium, 
     Poppins_800ExtraBold,
@@ -26,25 +25,15 @@ const CustomButton = (props: CustomButtonProps) => {
   return (
     <Pressable
       onPress={props.onPress}
+      disabled={!props.isReady}
       style={[
         styles.container,
-        props.type === 'PRIMARY'
-          ? styles.container_PRIMARY
-          : props.type === 'SECONDARY'
-          ? styles.container_SECONDARY
-          : styles.container_TERTIARY,
-        props.bgColor ? {backgroundColor: props.bgColor} : {},
+        {backgroundColor: props.isReady ? props.bgColor : Colors.grayTone4},
       ]}>
       <Text
         style={[
           styles.text,
-          props.type === 'TERTIARY'
-            ? styles.text_TERTIARY
-            : props.type === 'SECONDARY'
-            ? styles.text_SECONDARY
-            : {},
-          props.fgColor ? {color: props.fgColor} : {},
-          
+          {color: props.isReady ? props.fgColor : Colors.grayTone3},
         ]}>
         {props.text}
       </Text>
@@ -61,31 +50,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
-  container_PRIMARY: {
-    backgroundColor: Colors.primaryColor,
-  },
-
-  container_SECONDARY: {
-    borderColor: '#3B71F3',
-    borderWidth: 2,
-  },
-
-  container_TERTIARY: {},
-
   text: {
     fontWeight: 'bold',
-    color: '#FFF',
     fontFamily: 'Poppins_500Medium',
     textTransform: 'uppercase'
   },
 
-  text_SECONDARY: {
-    color: '#3B71F3',
-  },
 
-  text_TERTIARY: {
-    color: 'gray',
-  },
 });
 
 export default CustomButton;

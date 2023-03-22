@@ -4,16 +4,19 @@ import {Ionicons} from '@expo/vector-icons';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { countryCodeProps, countryCodes } from "../data/CountryCode"
 import Colors from '../constants/colors';
+import {Control, Controller} from 'react-hook-form';
+const { width, height } = Dimensions.get('window');
+
 interface CustomPhoneNumberInputProps {
-    selectedArea: countryCodeProps,
-    setModalVisible: Function,
+  control: Control;
+  name: string;
+  placeholder: string;
+  rules?: Object;
+  selectedCountry: countryCodeProps | null;
 }
 
 
-const { width, height } = Dimensions.get('window');
-
-const CustomPhoneNumberInput = () => {
-    const [phoneNumber, setPhoneNumber] = useState('');
+const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedArea, setSelectedArea] = useState<countryCodeProps | null>(null);
     const [fontsLoaded] = useFonts({
@@ -21,6 +24,10 @@ const CustomPhoneNumberInput = () => {
         Poppins_800ExtraBold,
         Poppins_300Light
     });
+
+    useEffect(() => {
+      setSelectedArea(countryCodes[0]);
+    }, [])
 
   
     const renderItem = ({ item }: {item : countryCodeProps}) =>{
@@ -53,8 +60,6 @@ const CustomPhoneNumberInput = () => {
     if (!fontsLoaded) {
     return null;
     }
-
-    
 
   return (
     <>
@@ -92,53 +97,66 @@ const CustomPhoneNumberInput = () => {
       </Modal>
     <View style={styles.container}>
       <Text style={{ margin: 5 }}>Phone</Text>
-      <View style={styles.inputContainer}>
-            <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-                style={[styles.shadowProp,{ 
-                    width: 100,
-                    height: 50,
-                    marginRight: 5,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    paddingHorizontal: 8
-                }]}
-            >
-                <View style={{ justifyContent: 'center' }}>
-                    <Ionicons
-                    name="chevron-down-outline"
-                    size={15}
-                    color={Colors.grayTone3}
-                    /> 
-                </View>
-                <View style={{ justifyContent: 'center', marginHorizontal: 8 }}>
-                <Image
-                    source={ selectedArea?.flag!}
-                    style={{
-                    height: 10,
-                    width: 15,
-                    }}
-                    />
-                </View>
-                <View style={{ justifyContent: 'center',  }}>
-                    <Text style={{ fontSize: 16, color: Colors.grayTone1, fontFamily: 'Poppins_300Light' }}>{ selectedArea?.callingCode }</Text>
-                </View> 
-            </TouchableOpacity>
-            <TextInput 
-            placeholder='Enter your phone number'
-            placeholderTextColor={Colors.grayTone3}
-            selectionColor={Colors.grayTone1}
-            keyboardType='numeric'
-            style={[styles.shadowProp,{
-                flex:1,
-                height: 50,
-                color: Colors.grayTone1,
-                fontFamily: 'Poppins_300Light',
-                fontSize: 16,
-                paddingHorizontal: 8
-            }]}/>
-      </View>
       
+            <Controller
+              name={props.name}
+              control={props.control}
+              rules={props.rules}
+              render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+                <>
+                <View style={styles.inputContainer}>
+                  <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                      style={[
+                        styles.shadowProp,
+                        styles.boxCountry,
+                        (error || (!error && !selectedArea)) ? styles.input_ERROR : styles.input_NORMAL,
+                      ]}
+                  >
+                      <View style={{ justifyContent: 'center' }}>
+                          <Ionicons
+                          name="chevron-down-outline"
+                          size={15}
+                          color={Colors.grayTone3}
+                          /> 
+                      </View>
+                      <View style={{ justifyContent: 'center', marginHorizontal: 8 }}>
+                      <Image
+                          source={ selectedArea?.flag!}
+                          style={{
+                          height: 10,
+                          width: 15,
+                          }}
+                          />
+                      </View>
+                      <View style={{ justifyContent: 'center',  }}>
+                          <Text style={{ fontSize: 16, color: Colors.grayTone1, fontFamily: 'Poppins_300Light' }}>{ selectedArea?.callingCode }</Text>
+                      </View> 
+                  </TouchableOpacity>
+                    <TextInput 
+                      value={value}
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      placeholder={props.placeholder}
+                      placeholderTextColor={Colors.grayTone3}
+                      selectionColor={Colors.grayTone1}
+                      keyboardType='numeric'
+                      style={[
+                        styles.shadowProp, 
+                        styles.input,
+                        (error || (!error && !selectedArea)) ? styles.input_ERROR : styles.input_NORMAL,
+                      ]}
+                    />
+              </View>
+              {error && (
+                  <Text style={styles.text_ERROR}>{error.message || 'Error'}</Text>
+                )}
+                {(!error && !selectedArea) && (
+                  <Text style={styles.text_ERROR}>{'Country Code is required'}</Text>
+                )}
+                </>
+              )}
+    />
     </View>
     
     </>
@@ -156,10 +174,41 @@ const styles = StyleSheet.create({
         paddingHorizontal:5,
         flexDirection: 'row'
     }, 
+    boxCountry: {
+      width: 100,
+      height: 50,
+      marginRight: 5,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 8,
+      borderWidth: 2,
+    },
     shadowProp: {
       shadowColor: '#171717',
       elevation: 4,
       backgroundColor: Colors.whiteTone1,
       borderRadius: 10
+    },
+    input: {
+      flex:1,
+      height: 50,
+      color: Colors.grayTone1,
+      fontFamily: 'Poppins_300Light',
+      fontSize: 16,
+      paddingHorizontal: 8,
+      borderWidth: 2,
+    },
+    input_NORMAL: {
+      borderColor: Colors.whiteTone1
+    },
+    input_ERROR: {
+      borderColor: 'red',
+    },
+    text_ERROR: {
+      color: 'red',
+      alignSelf: 'stretch',
+      fontFamily: 'Poppins_300Light',
+      fontSize: 12,
+      margin: 5
     },
 });

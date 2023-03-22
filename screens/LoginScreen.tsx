@@ -9,14 +9,30 @@ import CustomPhoneNumberInput from '../components/CustomPhoneNumberInput';
 import Checkbox from 'expo-checkbox';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import { countryCodeProps } from "../data/CountryCode"
+import {useForm, FieldValues} from 'react-hook-form';
+
+
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | null>(null);
+  const [isReady, setIsReady] = useState(false);
   const [isChecked, setChecked] = useState(false);
   const [fontsLoaded] = useFonts({
     Poppins_500Medium, 
     Poppins_800ExtraBold,
     Poppins_300Light
   });
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: {errors},
+  } = useForm();
+
+  const numberPhone = watch("phonenumber");
 
   const login = () => {
     navigation.navigate('OTP' as never);
@@ -30,16 +46,33 @@ const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       
-        <StepHeader elementsNumber={3} currentStep={1} />
+        <StepHeader elementsNumber={4} currentStep={1} />
         <Text style={styles.title}>What's your phone number ?</Text>
         <Text style={styles.description}>Well text you a verification code</Text>
-        <CustomPhoneNumberInput />
-        <CustomButton 
-            type="PRIMARY"
-            onPress={login}
-            text="Send a verification code"
+        <CustomPhoneNumberInput 
+            selectedCountry={selectedCountry}  
+            placeholder="Enter your Phone number"
+            name="phonenumber"
+            control={control}
+            rules={{
+              required: 'Phone number is required',
+              minLength: {
+                value: 9,
+                message: 'Phone number should be least 9 characters long',
+              },
+              maxLength: {
+                value: 9,
+                message: 'Phone number should be max 9 characters long',
+              },
+            }}
           />
-
+            <CustomButton 
+                bgColor={Colors.primaryColor}
+                fgColor='#fff'
+                isReady={numberPhone && isChecked}
+                onPress={handleSubmit(login)}
+                text="Send a verification code"
+              />
 
         <View style={{ 
             flexDirection: 'row',
