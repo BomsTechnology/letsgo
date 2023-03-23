@@ -49,10 +49,6 @@ const OnboardingScreen = () => {
         },
     ];
     
-    if (!fontsLoaded) {
-        return null;
-    }
-
     const scrollTo = () => {
         if(currentIndex < slides.length - 1){
             slidesRef.current?.scrollToIndex({ index : currentIndex + 1})
@@ -65,6 +61,10 @@ const OnboardingScreen = () => {
         navigation.navigate('Login' as never);
     }
 
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.skipContainer ,{  }]}>
@@ -72,7 +72,7 @@ const OnboardingScreen = () => {
                     <Text style={styles.skipText}>Skip</Text> 
                 </Pressable>
             </View>
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 1, backgroundColor: 'red' }}>
                 <FlatList 
                     data={slides}
                     renderItem={
@@ -111,8 +111,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.whiteTone1
     },
-    skipContainer: {
-        flex: 0.2, 
+    skipContainer: { 
         alignItems: 'flex-end', 
         justifyContent: 'flex-end', 
         width: '100%',

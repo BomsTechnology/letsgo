@@ -26,7 +26,8 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
     });
 
     useEffect(() => {
-      setSelectedArea(countryCodes[0]);
+      let initCountry = countryCodes.filter((country) => country.code === 'CM');
+      setSelectedArea(initCountry[0]);
     }, [])
 
   

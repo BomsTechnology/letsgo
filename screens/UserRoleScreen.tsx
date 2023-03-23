@@ -1,15 +1,38 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Colors from '../constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import StepHeader from '../components/StepHeader';
+import CustomDropdownInput, {DropDataProps} from '../components/CustomDropdownInput';
+import CustomButton from '../components/CustomButton';
+import {useNavigation} from '@react-navigation/native';
 
 const UserRoleScreen = () => {
+  const navigation = useNavigation();
+  const [selected, setSelected] = useState("");
+  const data: DropDataProps[] = [
+    {key:'1', value:'Pooler',},
+    {key:'2', value:'Planner'},
+    {key:'3', value:'Driver'},
+  ];
+
+  const save = () => {
+    navigation.navigate('FavoriteDestination' as never);
+  }; 
+
   return (
     <SafeAreaView style={styles.container}>   
         <StepHeader elementsNumber={4} currentStep={3} />
         <Text style={styles.title}>Choose a role !</Text>
         <Text style={styles.description}>Which role whould you want to take in this log in?</Text>
+        <CustomDropdownInput  placeholder='Select a role' data={data} setSelected={setSelected} search={false} />
+        <CustomButton 
+                bgColor={Colors.primaryColor}
+                fgColor='#fff'
+                isReady={selected != ""}
+                onPress={save}
+                text="Save"
+              />
     </SafeAreaView>
   );
 };

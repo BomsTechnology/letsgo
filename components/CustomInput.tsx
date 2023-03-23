@@ -6,7 +6,7 @@ interface CustomInputProps {
    // control: Control;
     name: string;
     placeholder: string;
-    secureTextEntry: boolean;
+    secureTextEntry?: boolean;
     rules?: Object;
   }
 

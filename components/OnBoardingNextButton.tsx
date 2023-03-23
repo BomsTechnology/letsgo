@@ -78,11 +78,12 @@ export default OnBoardingNextButton;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.8,
+        
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.whiteTone1 ,
-        position: 'relative'
+        position: 'relative',
+        paddingBottom: 20
     },
     button: {
       position: 'absolute',
