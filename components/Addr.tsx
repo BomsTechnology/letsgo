@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View,TextInput } from 'react-native'
+import { StyleSheet, Text, View,TextInput, TouchableOpacity } from 'react-native'
 import Colors from '../constants/colors'
 import { Inter_500Medium, useFonts } from '@expo-google-fonts/inter'
-import { Ionicons, MaterialCommunityIcons, MaterialIcons, Octicons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons'
+
 
 const Addr = () => {
-
-    const [text, onChangeText] = useState('');
-
+    const whiteMode =true
+    const [value, onChangeText] = useState('');
+    const [error, setError] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const borderBottomColor = error ? 'red' : isFocused ? Colors.primaryColor : Colors.grayTone1;
+    const handleSubmit = () => {
+      // validez les données et traitez-les ici
+      setError(true); // ou setError(false) si le champ est valide
+    };
 
     const [fontsLoaded] = useFonts({
         Inter_500Medium
@@ -17,35 +24,51 @@ const Addr = () => {
         return null;
       }
   return (
-    <View style={styles.container}>
-        <View style={styles.locationStyle}>
-            <View>
-                <Text style={styles.title}>Your location</Text>
-                <TextInput
-                style={styles.input}
-                onChangeText={onChangeText}
-                value={text}
-                placeholder='Melen,Yaoundé-Cameron'
-                inlineImageLeft='username'
-                />
-                
-            </View>
-            <View>
-            <MaterialCommunityIcons 
-            name='crosshairs-gps' 
-            size={16} 
-            style={styles.crosshairicon}/>
-            
-            </View>
+    <View style={[styles.container,
+        whiteMode? {backgroundColor:Colors.onPrimaryColor}
+        :{backgroundColor:Colors.darkTone1}
+    ]}>
+        
+        <View 
+          style={{
+            flexDirection:'row', 
+            justifyContent:'space-between',
+            marginHorizontal:8,
+            marginTop:14
+            }}> 
+                <Text style={[styles.title,
+                  whiteMode? {color:Colors.onWhiteTone}
+                  :{color:Colors.onPrimaryColor}
+                ]}>Your location</Text>
+                <MaterialCommunityIcons name='crosshairs-gps' size={24} color={Colors.secondaryColor}  />
         </View>
-        <View style={styles.line}></View>
+
+        <TextInput
+            placeholder="Melen,Yaoundé-Cameron"
+            placeholderTextColor={whiteMode? Colors.grayTone3:Colors.grayTone4}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            style={[styles.input,{borderBottomColor :borderBottomColor},
+                whiteMode? {color:Colors.grayTone3}
+                :{color: Colors.grayTone4,}
+            ]}
+            value={value}
+            onChangeText={text =>onChangeText(text)}
+        />
+
         <View style={styles.map}>
             <View>
-            <Text style={styles.choiseText}>Choose on map</Text>
+            <Text style={[styles.choiseText,
+              whiteMode? {color:Colors.onWhiteTone}
+              :{color:Colors.onPrimaryColor}
+            ]}>Choose on map</Text>
             </View>
-            <View>
-            <Octicons name="location" size={16} style={styles.locationDot} />
-            </View>
+           
+            <TouchableOpacity
+             onPress={handleSubmit}
+            >
+                <Octicons name="location" size={24} color={Colors.secondaryColor} />
+            </TouchableOpacity>
         </View>
     </View>
   )
@@ -56,65 +79,44 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'column',
         justifyContent:'space-around',
-        backgroundColor:Colors.darkTone1,
-        height:117,
         borderRadius:10,
-        marginTop:20
+        marginTop:20,
+        shadowColor: '#171717',
+        elevation: 4,
 
     },
-    locationStyle:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginTop:14,
-        marginLeft:8,
-        marginRight:8
-    },
+
     title:{
         fontFamily:'Inter_500Medium',
         fontWeight:'500',
         fontSize:20,
-        lineHeight:20,
-        color:Colors.onPrimaryColor,
     },
-    input:{
-        fontFamily:'Inter_500Medium',
-        fontStyle:'normal',
-        fontWeight:'500',
-        fontSize:15,
-        lineHeight:20,
-        color:Colors.grayTone4,
-        borderBottomColor:Colors.grayTone1,
-        borderBottomWidth:2
-    },
-    line:{
-        backgroundColor:Colors.grayTone1,
-        height:2,
-        marginLeft:8,
-        marginRight:8
-    },
+
     choiseText:{
         fontFamily:'Inter_500Medium',
         fontStyle:'normal',
         fontWeight:'500',
         fontSize:20,
         lineHeight:20,
-        color:Colors.onPrimaryColor
     },
     map:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginLeft:8,
-        marginRight:8,
-        marginBottom:14
+        marginHorizontal:8,
+        marginBottom:14,
+        marginTop:14
     },
-    crosshairicon:{
-        width:16,
-        height:16,
-        color:Colors.secondaryColor
+
+
+    input: {
+        fontFamily:'Inter_500Medium',
+        fontStyle:'normal',
+        fontWeight:'500',
+        fontSize:15,
+        borderBottomWidth: 2,
+        marginHorizontal:8
     },
-    locationDot:{
-        color:Colors.secondaryColor
-    }
+
 })
 
 export default Addr
