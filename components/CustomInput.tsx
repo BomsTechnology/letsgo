@@ -1,37 +1,87 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {Ionicons, MaterialCommunityIcons, FontAwesome5} from '@expo/vector-icons';
+import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
+import {Control, Controller} from 'react-hook-form';
+import Colors from '../constants/colors';
+
 
 interface CustomInputProps {
-   // control: Control;
+    control: Control;
     name: string;
     placeholder: string;
     secureTextEntry?: boolean;
     rules?: Object;
+    prefixType?: string;
+    prefix?: JSX.Element | string;
+    sufixType?: string;
+    sufix?: JSX.Element | string;
+    keyboardType?:  KeyboardTypeOptions;
   }
 
-const CustomInput = () => {
+const CustomInput = (props: CustomInputProps) => {
   return (
-      <View
-        style={[
-          styles.container,
-        ]}>
+    <Controller
+      name={props.name}
+      control={props.control}
+      rules={props.rules}
+      render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
+        <>
           <View
             style={[
-              styles.iconStyle
+              styles.container,
+              styles.shadowProp,
+              error ? styles.container_ERROR : value  ? styles.container_GOOD : styles.container_NORMAL
             ]}>
-           <Ionicons
-                name="information-circle"
-                size={25}
-                color={"#3280F0"}
-                />  
-        </View>
-        <TextInput
-          placeholder="Enter Your Name Here"
-          underlineColorAndroid="transparent"
-          style={styles.input}
-        />
-      </View>
+            {(props.prefixType == 'icon' && props.prefix ) && (
+              <View
+                style={[
+                  styles.iconStyle,
+                  {marginRight: 5}
+                ]}>
+                  {props.prefix}
+              </View>
+            )}
+            {(props.prefixType == 'text' && props.prefix ) && (
+              <View
+                style={[
+                  {marginRight: 5}
+                ]}>
+                  <Text style={styles.fixText}>{props.prefix}</Text> 
+              </View>
+            )} 
+              <TextInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder={props.placeholder}
+                style={styles.input}
+                secureTextEntry={props.secureTextEntry}
+                keyboardType={!props.keyboardType ? "default" : props.keyboardType}
+              />
+              
+            {(props.sufixType == 'icon' && props.sufix )&& (
+              <View
+                  style={[
+                    styles.iconStyle,
+                    {marginLeft: 5}
+                  ]}>   
+                  {props.sufix}        
+              </View>
+            )} 
+            {(props.sufixType == 'text' && props.sufix )&& (
+              <View
+                  style={[
+                    {marginLeft: 5}
+                  ]}>  
+                  <Text style={styles.fixText}>{props.sufix}</Text>         
+              </View>
+            )} 
+          </View>
+      {error && (
+            <Text style={styles.text_ERROR}>{error.message || 'Error'}</Text>
+          )}
+        </>
+      )}
+    />
   );
 };
 
@@ -42,30 +92,45 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#FFF',
       width: '100%',
       borderWidth: 1,
       borderRadius: 5,
       paddingHorizontal: 10,
-      marginVertical: 5,
-      height: 40,
+      marginVertical: 10,
+      height: 50,
+    },
+    shadowProp: {
+      shadowColor: '#171717',
+      elevation: 4,
+      backgroundColor: Colors.whiteTone1,
+      borderRadius: 10
     },
     container_NORMAL: {
-      borderColor: '#e8e8e8',
+      borderColor: Colors.whiteTone1,
+    },
+    container_GOOD: {
+      borderColor: Colors.primaryColor,
     },
     container_ERROR: {
       borderColor: 'red',
     },
     input: {
-      flex: 1
+      flex:1,
+      height: 50,
+      color: Colors.grayTone1,
+      fontFamily: 'Poppins_300Light',
+      fontSize: 16,
     },
     iconStyle: {
-      //padding: 10,
-      margin: 5,
-      height: 25,
-      width: 25,
-      resizeMode: 'stretch',
+      height: 30,
+      width: 30,
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+    fixText: {
+      color: Colors.grayTone3,
+      fontFamily: 'Poppins_300Light',
+      fontSize: 16,
     },
     text_ERROR: {
       color: 'red',

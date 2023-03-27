@@ -1,6 +1,5 @@
 import {StyleSheet, Text, Pressable, GestureResponderEvent} from 'react-native';
-import React, { useState } from 'react';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
+import React from 'react';
 import Colors from '../constants/colors';
 
 interface CustomButtonProps {
@@ -12,15 +11,6 @@ interface CustomButtonProps {
 }
 
 const CustomButton = (props: CustomButtonProps) => {
-  const [fontsLoaded] = useFonts({
-    Poppins_500Medium, 
-    Poppins_800ExtraBold,
-    Poppins_300Light
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <Pressable

@@ -1,5 +1,4 @@
 import { Keyboard, Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import React, { useState } from 'react';
 import Colors from '../constants/colors';
 import StepHeader from '../components/StepHeader';
@@ -11,13 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 
 const OTPScreen = () => {
   const navigation = useNavigation();
-  const [fontsLoaded] = useFonts({
-    Poppins_500Medium, 
-    Poppins_800ExtraBold,
-    Poppins_300Light
-  });
   const insets = useSafeAreaInsets();
-  
   const [otpCode, setOTPCode] = useState("");
   const [isPinReady, setIsPinReady] = useState(false);
   const maximumCodeLength = 4;
@@ -25,10 +18,6 @@ const OTPScreen = () => {
   const verify = () => {
     navigation.navigate('UserRole' as never);
   };
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
       <Pressable style={[styles.container, {paddingTop: insets.top + 40,

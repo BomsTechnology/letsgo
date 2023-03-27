@@ -4,18 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import Colors from '../constants/colors';
 import BackButton from '../components/BackButton';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import CardResultSearch from '../components/CardResultSearchPlaned';
 const ResultSearchScreen = () => {
-  const [fontsLoaded] = useFonts({
-    Poppins_500Medium, 
-    Poppins_800ExtraBold,
-    Poppins_300Light
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <SafeAreaView style={styles.container}>

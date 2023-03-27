@@ -1,5 +1,4 @@
 import {Text, View , StyleSheet, useWindowDimensions, Image, ImageSourcePropType} from 'react-native';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import React from 'react';
 import Colors from '../constants/colors';
 
@@ -12,16 +11,7 @@ interface OnboardingItemProps {
 
 const OnboardingItem = ({props}: {props: OnboardingItemProps}) => {
 
-    const {width} = useWindowDimensions();
-    const [fontsLoaded] = useFonts({
-        Poppins_500Medium, 
-        Poppins_800ExtraBold,
-        Poppins_300Light
-    });
-    
-    if (!fontsLoaded) {
-    return null;
-    }
+  const {width} = useWindowDimensions();
 
   return (
     <View style={[

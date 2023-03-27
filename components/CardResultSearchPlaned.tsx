@@ -1,20 +1,9 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import Colors from '../constants/colors';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light, Poppins_600SemiBold} from '@expo-google-fonts/poppins';
 import {Ionicons, Entypo} from '@expo/vector-icons';
 
 const CardResultSearch = () => {
-  const [fontsLoaded] = useFonts({
-    Poppins_500Medium, 
-    Poppins_800ExtraBold,
-    Poppins_300Light,
-    Poppins_600SemiBold
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>
@@ -167,77 +156,76 @@ const CardResultSearch = () => {
             alignItems: "flex-end",
             justifyContent: "space-between",
            }}>
-            <View style={{ 
-              flexDirection: "row",
-              alignItems: "center",
-            }}>
-              <Text style={{ 
-                          fontSize: 16,
-                          fontFamily: 'Poppins_600SemiBold',
-                          color: Colors.grayTone1,
-                          marginRight: 3,
-                        }}>4</Text>
-              <Ionicons
-                  name="people"
-                  size={25}
-                  color={Colors.grayTone1}
-                /> 
-            </View>
-            <View>
-            <View style={{ 
-              flexDirection: "row",
-              alignItems: "center",
-              
-              flexWrap: "wrap",
-              overflow: "hidden",
-              width: "100%"
-            }}>
-              
+              <View style={{ 
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+                <Text style={{ 
+                            fontSize: 16,
+                            fontFamily: 'Poppins_600SemiBold',
+                            color: Colors.grayTone1,
+                            marginRight: 3,
+                          }}>4</Text>
+                <Ionicons
+                    name="people"
+                    size={25}
+                    color={Colors.grayTone1}
+                  /> 
+              </View>
+              <View>
+              <View style={{ 
+                flexDirection: "row",
+                alignItems: "center",
+                
+                flexWrap: "wrap",
+                overflow: "hidden",
+                width: "100%"
+              }}>
+                
 
-              <Ionicons
-                  name="musical-notes"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
                 <Ionicons
-                  name="wifi"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
-                <Ionicons
-                  name="ios-logo-no-smoking"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
-            </View>
-            <View style={{ 
-              flexDirection: "row",
-              alignItems: "center",
-              
-              flexWrap: "wrap",
-              overflow: "hidden",
-              width: "100%"
-            }}>
-              
+                    name="musical-notes"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+                  <Ionicons
+                    name="wifi"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+                  <Ionicons
+                    name="ios-logo-no-smoking"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+              </View>
+              <View style={{ 
+                flexDirection: "row",
+                alignItems: "center",
+                
+                flexWrap: "wrap",
+                overflow: "hidden",
+                width: "100%"
+              }}>
+                
 
-              <Ionicons
-                  name="snow"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
                 <Ionicons
-                  name="pizza"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
-                <Ionicons
-                  name="tv"
-                  size={15}
-                  color={Colors.grayTone2}
-                />
-            </View>
-            </View>
-            
+                    name="snow"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+                  <Ionicons
+                    name="pizza"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+                  <Ionicons
+                    name="tv"
+                    size={15}
+                    color={Colors.grayTone2}
+                  />
+              </View>
+              </View>
           </View>
         </View>
     </View>

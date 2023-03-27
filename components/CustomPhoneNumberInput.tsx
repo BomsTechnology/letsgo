@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Modal, Dimensions, FlatList, ImageSourcePropType, Alert, Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {Ionicons} from '@expo/vector-icons';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { countryCodeProps, countryCodes } from "../data/CountryCode"
 import Colors from '../constants/colors';
 import {Control, Controller} from 'react-hook-form';
@@ -19,11 +18,6 @@ interface CustomPhoneNumberInputProps {
 const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedArea, setSelectedArea] = useState<countryCodeProps | null>(null);
-    const [fontsLoaded] = useFonts({
-        Poppins_500Medium, 
-        Poppins_800ExtraBold,
-        Poppins_300Light
-    });
 
     useEffect(() => {
       let initCountry = countryCodes.filter((country) => country.code === 'CM');
@@ -57,10 +51,6 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
           </TouchableOpacity>
         )
       }
-    
-    if (!fontsLoaded) {
-    return null;
-    }
 
   return (
     <>

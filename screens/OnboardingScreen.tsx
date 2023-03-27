@@ -3,7 +3,6 @@ import { StyleSheet, FlatList, ImageSourcePropType, Animated, View, StatusBar, P
 import {SafeAreaView} from 'react-native-safe-area-context';
 import OnboardingItem from '../components/OnboardingItem';
 import OnBoardingNextButton from '../components/OnBoardingNextButton';
-import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
 import Colors from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 interface OnboardingItemProps {
@@ -15,9 +14,7 @@ interface OnboardingItemProps {
 
 const OnboardingScreen = () => {
     const navigation = useNavigation();
-    const [fontsLoaded] = useFonts({
-        Poppins_500Medium, 
-    });
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollX = useRef(new Animated.Value(0)).current;
     const slidesRef = useRef<FlatList | null>(null);
@@ -59,10 +56,6 @@ const OnboardingScreen = () => {
 
     const goToLogin = () => {
         navigation.navigate('Login' as never);
-    }
-
-    if (!fontsLoaded) {
-        return null;
     }
 
     return (
@@ -116,7 +109,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end', 
         width: '100%',
         backgroundColor: Colors.whiteTone1,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingVertical: 5
     },
     skipText: {
         fontFamily: 'Poppins_500Medium',

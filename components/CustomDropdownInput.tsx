@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { SelectList, SelectListProps } from 'react-native-dropdown-select-list';
-import {useFonts, Poppins_500Medium, Poppins_300Light} from '@expo-google-fonts/poppins';
 import Colors from '../constants/colors';
 
 export interface  DropDataProps {
@@ -21,18 +20,9 @@ interface CustomDropdownInputProps {
 }
 
 const CustomDropdownInput = (props: CustomDropdownInputProps) => {
- 
-  const [fontsLoaded] = useFonts({
-        Poppins_500Medium, 
-        Poppins_300Light
-    });
-  
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.shadowProp]}>
       <SelectList 
         setSelected={props.setSelected} 
         data={props.data} 
@@ -44,6 +34,7 @@ const CustomDropdownInput = (props: CustomDropdownInputProps) => {
         boxStyles={{ 
           borderWidth: props.asError ? 1 : 0,
           borderBottomWidth: 2,
+          height: 50,
           borderColor: props.asError ? 'red' : Colors.primaryColor
         }}
         dropdownStyles={{ 
@@ -71,6 +62,12 @@ const styles = StyleSheet.create({
     container: {
         marginVertical: 10,
         width: '100%',
+    },
+    shadowProp: {
+      shadowColor: '#171717',
+      elevation: 4,
+      backgroundColor: Colors.whiteTone1,
+      borderRadius: 10
     },
     text_ERROR: {
       color: 'red',

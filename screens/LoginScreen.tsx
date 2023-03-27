@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Colors from '../constants/colors';
 import CustomButton from '../components/CustomButton';
-import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import StepHeader from '../components/StepHeader';
 import CustomPhoneNumberInput from '../components/CustomPhoneNumberInput';
 import Checkbox from 'expo-checkbox';
@@ -19,11 +18,6 @@ const LoginScreen = () => {
   const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [isChecked, setChecked] = useState(false);
-  const [fontsLoaded] = useFonts({
-    Poppins_500Medium, 
-    Poppins_800ExtraBold,
-    Poppins_300Light
-  });
 
   const {
     control,
@@ -37,10 +31,6 @@ const LoginScreen = () => {
   const login = () => {
     navigation.navigate('OTP' as never);
   }; 
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
 
   return (
@@ -139,9 +129,7 @@ const LoginScreen = () => {
             By Checking this box, I agree to be terms of use and acknowledge the privacy note
           </Text>
         </TouchableOpacity>
-
-          
-        
+      
       </SafeAreaView>
   )
 }

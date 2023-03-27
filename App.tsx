@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 
 import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_700Bold, Poppins_900Black, Poppins_600SemiBold, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
@@ -17,7 +18,19 @@ import FavoriteDestinationScreen from './screens/FavoriteDestinationScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold, 
+    Poppins_700Bold,
+    Poppins_800ExtraBold,
+    Poppins_900Black
+  });
   const colorScheme = useColorScheme();
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <Provider store={store} >
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
