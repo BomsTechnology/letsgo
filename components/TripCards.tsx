@@ -45,20 +45,23 @@ const TripCards = (props:tripCardProps) => {
     ]}>
         <View style={styles.cardHeader}>
             <Image 
-            source={props.data.avatar}
-            style={styles.avatar}
+                source={props.data.avatar}
+                style={styles.avatar}
              />
              {
                 props.withRating? 
-                <View style={{flexDirection:'column', marginLeft:14}}>
-                    <Rating rate={4} enablerating={false} />
-                    <Text style={styles.userName}>Your trip with {props.data.name}</Text>
-               </View>
-               :
-               <Text style={[styles.userName,{marginLeft:14},
-                whiteMode? {color:Colors.onWhiteTone}
-                :{color: Colors.onPrimaryColor,}
-               ]}>Your trip with {props.data.name}</Text>
+                (
+                    <View style={{flexDirection:'column', marginLeft:14}}>
+                        <Rating rate={4} enablerating={false} />
+                        <Text style={styles.userName}>Your trip with {props.data.name}</Text>
+                    </View>
+                )
+               :(
+                    <Text style={[styles.userName,{marginLeft:14},
+                        whiteMode? {color:Colors.onWhiteTone}
+                        :{color: Colors.onPrimaryColor,}
+                    ]}>Your trip with {props.data.name}</Text>
+               )
              }
 
         </View>
@@ -66,13 +69,13 @@ const TripCards = (props:tripCardProps) => {
             <View style={styles.locationContainer}>
 
                 <Text style={[styles.start,
-                whiteMode? {color:Colors.onWhiteTone}
-                :{color:Colors.onPrimaryColor}
+                    whiteMode? {color:Colors.onWhiteTone}
+                    :{color:Colors.onPrimaryColor}
                 ]}>From {props.data.from} </Text>
 
                 <Text style={[styles.start,
-                whiteMode? {color:Colors.onWhiteTone}
-                :{color:Colors.onPrimaryColor}
+                    whiteMode? {color:Colors.onWhiteTone}
+                    :{color:Colors.onPrimaryColor}
                 ]}>To {props.data.to} </Text>
 
             </View>
@@ -94,22 +97,27 @@ const TripCards = (props:tripCardProps) => {
             </Text>
 
             { props.withRating ?
-                <View style={{flexDirection:'column',alignItems:'flex-end', marginRight:14}}>
-                    <Text style={styles.price1}>$2.93</Text>
-                    <Text style={styles.rateText}>Free</Text>
-                </View>
-                :
-                <Text style={styles.price}>${props.data.price}</Text>
+                (
+                    <View style={{flexDirection:'column',alignItems:'flex-end', marginRight:14}}>
+                        <Text style={styles.price1}>$2.93</Text>
+                        <Text style={styles.rateText}>Free</Text>
+                    </View>
+                )
+
+                :(
+                    <Text style={styles.price}>${props.data.price}</Text>
+                )
             }
 
             
         </View>
 
         {!props.withRating &&
+            (
             <View style={styles.cardFooter}>
                 <TouchableOpacity
-                onPress={props.onPressHelp}
-                style={[styles.helButton,
+                    onPress={props.onPressHelp}
+                    style={[styles.helButton,
                     whiteMode? {backgroundColor:Colors.whiteTone2}
                     :{backgroundColor:Colors.darkTone3,}
                 ]}>
@@ -122,13 +130,14 @@ const TripCards = (props:tripCardProps) => {
                 </TouchableOpacity>
     
                 <TouchableOpacity
-                onPress={props.onPressRate}
-                style={ [styles.rateButton
+                    onPress={props.onPressRate}
+                    style={ [styles.rateButton
                 ]}
                 >
                     <Text style={styles.helptext}>Rate trip</Text>
                 </TouchableOpacity>
             </View>
+            )
         }
     </View>
   )
