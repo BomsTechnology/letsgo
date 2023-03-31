@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "letsgo",
+    "name": "Lets go",
     "slug": "letsgo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rnletsgo.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
