@@ -1,12 +1,22 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, GestureResponderEvent, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Colors from '../constants/colors';
-import {Ionicons, Entypo} from '@expo/vector-icons';
+import Colors from '../../constants/colors';
+import {Ionicons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
+
+
+interface CardResultSearchProps {
+  opPress: (event: GestureResponderEvent) => void;
+}
 
 const CardResultSearch = () => {
+  const navigation = useNavigation();
+  const next = () =>  {
+    navigation.navigate('TripInfo' as never);
+  }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity  onPress={next} style={styles.container}>
         <View style={{ 
             flexDirection: "row",
             alignItems: "center",
@@ -16,7 +26,7 @@ const CardResultSearch = () => {
             flexDirection: "row",
             alignItems: "center"
            }}>
-              <Image style={styles.image} resizeMode='contain' source={require('../assets/images/logo.png')}></Image>
+              <Image style={styles.image} resizeMode='contain' source={require('../../assets/images/logo.png')}></Image>
               <View style={{ marginLeft: 5 }}>
                   <Text style={styles.name}> Marcelin Sigha </Text>
                   <View style={{ 
@@ -228,7 +238,7 @@ const CardResultSearch = () => {
               </View>
           </View>
         </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

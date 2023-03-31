@@ -6,15 +6,19 @@ import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_700Bold, Popp
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/auth/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OnboardingScreen from './screens/OnboardingScreen';
 import TabNavigator from './navigators/TabNavigator';
-import OTPScreen from './screens/OTPScreen';
-import ResultSearchScreen from './screens/ResultSearchScreen';
-import UserRoleScreen from './screens/UserRoleScreen';
-import FavoriteDestinationScreen from './screens/FavoriteDestinationScreen';
-
+import OTPScreen from './screens/auth/OTPScreen';
+import ResultSearchScreen from './screens/trip/ResultSearchScreen';
+import TripInfoScreen from './screens/trip/TripInfoScreen';
+import UserRoleScreen from './screens/auth/UserRoleScreen';
+import FavoriteDestinationScreen from './screens/auth/FavoriteDestinationScreen';
+import PlannerDetailScreen from './screens/planner/PlannerDetailScreen';
+import DriverDetailScreen from './screens/driver/DriverDetailScreen';
+import VehiculeDetailScreen from './screens/vehicule/VehiculeDetailScreen';
+import SeatDetailScreen from './screens/seat/SeatDetailScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -42,6 +46,11 @@ export default function App() {
             <Stack.Screen name="UserRole" component={UserRoleScreen} options={{ headerShown: false }} />
             <Stack.Screen name="FavoriteDestination" component={FavoriteDestinationScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TripInfo" component={TripInfoScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="PlannerDetail" component={PlannerDetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="DriverDetail" component={DriverDetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>

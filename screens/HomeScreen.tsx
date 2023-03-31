@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import Colors from '../constants/colors'
 import { useFonts } from 'expo-font';
-import CustomInput from '../components/CustomInput';
+import CustomInput from '../components/inputFields/CustomInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const HomeScreen = () => { 
@@ -13,7 +13,6 @@ const HomeScreen = () => {
       height: height,
     }]}>
 
-      <CustomInput />
     </SafeAreaView>
   )
 }

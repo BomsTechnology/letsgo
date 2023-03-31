@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { SelectList, SelectListProps } from 'react-native-dropdown-select-list';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 export interface  DropDataProps {
     key: string | number;

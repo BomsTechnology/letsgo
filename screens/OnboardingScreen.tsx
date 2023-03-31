@@ -1,16 +1,11 @@
 import React, {useState, useRef} from 'react';
 import { StyleSheet, FlatList, ImageSourcePropType, Animated, View, StatusBar, Pressable, Text } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import OnboardingItem from '../components/OnboardingItem';
-import OnBoardingNextButton from '../components/OnBoardingNextButton';
+import OnboardingItem from '../components/onboard/OnboardingItem';
+import OnBoardingNextButton from '../components/onboard/OnBoardingNextButton';
 import Colors from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-interface OnboardingItemProps {
-    image: ImageSourcePropType;
-    title: string;
-    id: string;
-    description: string;
-};
+import slides, {OnboardingItemProps} from '../data/onboardSlider';
 
 const OnboardingScreen = () => {
     const navigation = useNavigation();
@@ -24,27 +19,6 @@ const OnboardingScreen = () => {
     }).current;
 
     const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
-
-    const slides = [
-        {
-            id: '1',
-            title: 'Welcome to letsGo!',
-            description: 'Make the experience of making around the city easier, faster and alfordable',
-            image: require("../assets/images/logo.png"),
-        },
-        {
-            id: '2',
-            title: 'All in one place',
-            description: 'Take the control over your trips costs and access whenever you need to your data',
-            image: require("../assets/images/onboarding1.png"),
-        },
-        {
-            id: '3',
-            title: 'Earn free trips',
-            description: 'Share your trips with people doing same road and get exclusive discounts(even free trips)',
-            image: require("../assets/images/onboarding2.png"),
-        },
-    ];
     
     const scrollTo = () => {
         if(currentIndex < slides.length - 1){

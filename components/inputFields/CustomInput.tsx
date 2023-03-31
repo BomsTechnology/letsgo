@@ -1,7 +1,7 @@
 import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 
 
 interface CustomInputProps {

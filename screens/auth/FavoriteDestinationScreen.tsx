@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import StepHeader from '../components/StepHeader';
-import CustomButton from '../components/CustomButton';
+import StepHeader from '../../components/StepHeader';
+import CustomButton from '../../components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import CustomInput from '../components/CustomInput';
+import CustomInput from '../../components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 

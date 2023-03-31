@@ -43,3 +43,9 @@ export const SplitBoxesFocused = styled(SplitBoxes)`
  border-color: #ecdbba;
  background-color: grey;
 `;
+
+export const Divider = styled.View`
+ width: 100%;
+ height: 1px;
+ background-color: ${Colors.grayTone4};
+`;

@@ -2,14 +2,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
-import Colors from '../constants/colors';
-import BackButton from '../components/BackButton';
-import CardResultSearch from '../components/CardResultSearchPlaned';
+import Colors from '../../constants/colors';
+
+import CardResultSearch from '../../components/cards/CardResultSearchPlaned';
+import SimpleHeader from '../../components/SimpleHeader';
 const ResultSearchScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <BackButton/>
+        <SimpleHeader text='Planned Trips' />
         <View style={{ 
           marginVertical: 10,
           borderWidth: 2,

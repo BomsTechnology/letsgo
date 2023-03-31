@@ -25,23 +25,11 @@ type tripCardProps={
 const TripCards = (props:tripCardProps) => {
 
 
-    const [whiteMode, setMode]=useState(true)
-
-    const [fontsLoaded] = useFonts({
-        Poppins_700Bold,
-        Inter_500Medium,
-        Inter_600SemiBold,
-        Inter_400Regular
-      });
-    
-      if (!fontsLoaded) {
-        return null;
-      }
 
   return (
     <View style={[styles.container,styles.shadowProp,
-        whiteMode? {backgroundColor:Colors.whiteTone2}
-        :{backgroundColor:Colors.darkTone3,}
+        {backgroundColor:Colors.whiteTone2}
+        
     ]}>
         <View style={styles.cardHeader}>
             <Image 
@@ -58,8 +46,8 @@ const TripCards = (props:tripCardProps) => {
                 )
                :(
                     <Text style={[styles.userName,{marginLeft:14},
-                        whiteMode? {color:Colors.onWhiteTone}
-                        :{color: Colors.onPrimaryColor,}
+                        {color:Colors.onWhiteTone}
+                  
                     ]}>Your trip with {props.data.name}</Text>
                )
              }
@@ -69,13 +57,12 @@ const TripCards = (props:tripCardProps) => {
             <View style={styles.locationContainer}>
 
                 <Text style={[styles.start,
-                    whiteMode? {color:Colors.onWhiteTone}
-                    :{color:Colors.onPrimaryColor}
+                     {color:Colors.onWhiteTone}
+                    
                 ]}>From {props.data.from} </Text>
 
                 <Text style={[styles.start,
-                    whiteMode? {color:Colors.onWhiteTone}
-                    :{color:Colors.onPrimaryColor}
+                     {color:Colors.onWhiteTone}
                 ]}>To {props.data.to} </Text>
 
             </View>
@@ -90,8 +77,8 @@ const TripCards = (props:tripCardProps) => {
         <View style={[styles.priceContainer,props.withRating && {marginBottom:14}]}>
 
             <Text style={[styles.datetimeText,
-                whiteMode? {color:Colors.onWhiteTone}
-                : {color:Colors.onPrimaryColor}
+                 {color:Colors.onWhiteTone}
+                
             ]}>
                 On {props.data.datetime} Payed with 
             </Text>
@@ -118,12 +105,12 @@ const TripCards = (props:tripCardProps) => {
                 <TouchableOpacity
                     onPress={props.onPressHelp}
                     style={[styles.helButton,
-                    whiteMode? {backgroundColor:Colors.whiteTone2}
-                    :{backgroundColor:Colors.darkTone3,}
+                    {backgroundColor:Colors.whiteTone2}
+                   
                 ]}>
                     <Text style={[styles.helptext,
-                        whiteMode? {color:Colors.onWhiteTone}
-                        :{color:Colors.onPrimaryColor}
+                        {color:Colors.onWhiteTone}
+                        
                     ]}>
                         I need help
                     </Text>

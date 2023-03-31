@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../constants/colors';
+import Colors from '../../constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import StepHeader from '../components/StepHeader';
-import CustomDropdownInput, {DropDataProps} from '../components/CustomDropdownInput';
-import CustomButton from '../components/CustomButton';
+import StepHeader from '../../components/StepHeader';
+import CustomDropdownInput, {DropDataProps} from '../../components/inputFields/CustomDropdownInput';
+import CustomButton from '../../components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 
 const UserRoleScreen = () => {

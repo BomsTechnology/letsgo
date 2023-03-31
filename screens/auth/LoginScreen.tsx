@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Colors from '../constants/colors';
-import CustomButton from '../components/CustomButton';
-import StepHeader from '../components/StepHeader';
-import CustomPhoneNumberInput from '../components/CustomPhoneNumberInput';
+import Colors from '../../constants/colors';
+import CustomButton from '../../components/buttons/CustomButton';
+import StepHeader from '../../components/StepHeader';
+import CustomPhoneNumberInput from '../../components/inputFields/CustomPhoneNumberInput';
 import Checkbox from 'expo-checkbox';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
-import { countryCodeProps } from "../data/CountryCode"
+import { countryCodeProps } from "../../data/CountryCode"
 import {useForm, FieldValues} from 'react-hook-form';
 
 
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen
+export default LoginScreen;
