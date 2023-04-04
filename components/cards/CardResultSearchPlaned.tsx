@@ -143,7 +143,7 @@ const CardResultSearch = () => {
                     <Ionicons
                         name="location-outline"
                         size={20}
-                        color={Colors.accentGreen}
+                        color={Colors.secondaryColor}
                         /> 
                       <View style={{ marginLeft: 5 }}>
                         <Text style={{ 
@@ -252,7 +252,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding:10,
         width: "100%",
-        overflow: "hidden"
+        overflow: "hidden",
+        marginBottom: 10
       },
     image: {
       width: 50,
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
       color: Colors.grayTone1
     },
     price: {
-      color: Colors.primaryColor,
+      color: Colors.secondaryColor,
       fontFamily: 'Poppins_300Light',
       fontSize: 18,
     }

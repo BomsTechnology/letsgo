@@ -45,7 +45,7 @@ const ResultSearchScreen = () => {
               fontSize: 20,
               marginVertical: 10,
               marginLeft: 5,
-              fontFamily: 'Poppins_800ExtraBold',
+              fontFamily: 'Poppins_600SemiBold',
              }}>Select a Planed trip</Text>
 
     <CardResultSearch />

@@ -20,7 +20,7 @@ const FavoriteDestinationScreen = () => {
 
   const destination = watch('destination');
   const money = watch('money');
-  const destinationIcon = ( <Ionicons name="location-outline" size={20} color={Colors.accentGreen} /> );
+  const destinationIcon = ( <Ionicons name="location-outline" size={20} color={Colors.secondaryColor} /> );
   const moneyIcon = ( <FontAwesome5 name="search-dollar" size={20} color={Colors.primaryColor} /> );
   const save = () => {
     navigation.navigate('ResultSearch' as never);
@@ -54,7 +54,7 @@ const FavoriteDestinationScreen = () => {
         sufixType='text'
         prefix={moneyIcon}
         keyboardType='numeric'
-        sufix="X F A"
+        sufix="X A F"
         rules={{
           required: 'The price is required',
         }}

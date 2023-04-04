@@ -14,7 +14,7 @@ const StepHeader = (props: StepHeaderProps) => {
     for (let index = 0; index < props.elementsNumber; index++) {
         elts.push(<View key={index} style={[styles.headerItem, 
             {
-                backgroundColor: (index + 1 ) <= props.currentStep ? Colors.primaryColor : Colors.grayTone4 , 
+                backgroundColor: (index + 1 ) <= props.currentStep ? Colors.secondaryColor : Colors.grayTone4 , 
                 width: `${(100 / props.elementsNumber) - props.elementsNumber}%`
             }]}></View>)
     } 

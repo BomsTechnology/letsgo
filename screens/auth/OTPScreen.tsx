@@ -27,7 +27,7 @@ const OTPScreen = () => {
       <Text style={styles.title}>What's the code?</Text>
       <Text style={styles.description}>Type the 4-digit code we just sent to ****8027</Text>
       <Text style={{ 
-        color: Colors.accentGreen,
+        color: Colors.secondaryColor,
         fontFamily: 'Poppins_500Medium',
         fontSize: 14,
         marginVertical:10
@@ -50,7 +50,7 @@ const OTPScreen = () => {
             fgColor='#fff'
             isReady={isPinReady}
             onPress={verify}
-            text="Send a verification code"
+            text="Verify it now"
           />
       </Pressable>
   );

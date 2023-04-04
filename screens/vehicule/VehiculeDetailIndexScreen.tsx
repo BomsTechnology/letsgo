@@ -152,6 +152,6 @@ const styles = StyleSheet.create({
   lightText: {
     fontSize: 12,
     fontFamily: 'Poppins_300Light',
-    color: Colors.grayTone3
+    color: Colors.grayTone2
   },
 });

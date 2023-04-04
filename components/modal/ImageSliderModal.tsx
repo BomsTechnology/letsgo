@@ -61,7 +61,7 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
         >
         <View style={[styles.container]}>
             <Text style={[styles.boldText,  {alignSelf: 'center', width: width *0.8, position: 'absolute', top: 30,}]}>Vehicule Image preview</Text>
-           <View style={{right: 10, position: 'absolute', top: 30,}}><IconButton bgColor={Colors.secondaryShade1} icon={closeIcon} onPress={() => setModalVisible(false)}/></View>
+           <View style={{right: 10, position: 'absolute', top: 30,}}><IconButton bgColor={Colors.secondaryColor} icon={closeIcon} onPress={() => setModalVisible(false)}/></View>
         
         <View style={[{width: width *0.8, borderRadius: 20, overflow: 'hidden'}]}>
             <FlatList
@@ -99,13 +99,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_700Bold',
         color: Colors.whiteTone1,
         textAlign: 'center'
-    },
-    closeBtn: {
-        width: 30,
-        height: 30,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Colors.secondaryShade1
-    },
+    }
 });

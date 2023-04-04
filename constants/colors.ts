@@ -1,9 +1,11 @@
 const Colors = {
-    primaryColor: "#6F52EA",
+    primaryColor: "#2D3A96",
+    tertiaryColor1: "#6F52EA",
     primaryShade1: "#5438CD",
     primaryShade2: "#3B22A6",
     lightPrimary: "#E0D9FD",
-    secondaryColor: "#2AADAD",
+    secondaryColor: "#FE9261",
+    tertiaryColor2: "#2AADAD",
     secondaryShade1: "#12ECFA",
     onPrimaryColor: "#FFFFFF",
     onWhiteTone: "#000000",

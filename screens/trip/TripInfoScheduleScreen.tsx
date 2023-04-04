@@ -8,9 +8,11 @@ import TripInfoCard from '../../components/cards/TripInfoCard';
 import CustomButton from '../../components/buttons/CustomButton';
 const { width, height } = Dimensions.get('window');
 import {useNavigation} from '@react-navigation/native';
+import IconButton from '../../components/buttons/IconButton';
 
 const TripInfoScheduleScreen = () => {
   const navigation = useNavigation();
+  const shareIcon = (<Ionicons name="share" size={25} color={Colors.grayTone1} />);
 
   const geToSeat = () => {
     navigation.navigate('SeatDetail' as never);
@@ -28,61 +30,68 @@ const TripInfoScheduleScreen = () => {
     <View style={[styles.container]}>
       <ScrollView showsVerticalScrollIndicator={false}>
             {/* Start Header */}
-            
             <View style={{ 
-                    position: "relative",
-                  }}>
-                    <Ionicons
-                        name="ios-ellipsis-vertical"
-                        size={20}
-                        color={Colors.primaryColor}
-                        style={{ 
-                          position: "absolute", 
-                          bottom:60,
-                          left:0
-                        }}
-                        /> 
-                        <Ionicons
-                        name="ios-ellipsis-vertical"
-                        size={20}
-                        color={Colors.primaryColor}
-                        style={{ 
-                          position: "absolute", 
-                          top:20,
-                          left:0
-                        }}
-                        /> 
-                <View style={{ 
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                  }}>
-                    <Ionicons
-                        name="locate"
-                        size={20}
-                        color={Colors.primaryColor}
-                        /> 
-                      <View style={{ marginLeft: 5 }}>
-                        <Text style={[styles.lightText]}>Departure</Text>
-                        <Text style={[styles.boldText]}>Biyem-Assi</Text>
-                        <Text style={[styles.mediumText]}>7:00, Today</Text>
-                      </View>
-                </View>
-                <View style={{ 
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                    marginTop: 10
-                  }}>
-                    <Ionicons
-                        name="location-outline"
-                        size={20}
-                        color={Colors.accentGreen}
-                        /> 
-                      <View style={{ marginLeft: 5 }}>
-                      <Text style={[styles.lightText]}>Destination</Text>
-                        <Text style={[styles.boldText]}>Melen, Ecole Polytechnique</Text>
-                        <Text style={[styles.mediumText]}>7:00, Today</Text>
-                      </View>
-                </View>
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+             }}>
+            
+              <View style={{ 
+                      position: "relative",
+                    }}>
+                      <Ionicons
+                          name="ios-ellipsis-vertical"
+                          size={20}
+                          color={Colors.primaryColor}
+                          style={{ 
+                            position: "absolute", 
+                            bottom:60,
+                            left:0
+                          }}
+                          /> 
+                          <Ionicons
+                          name="ios-ellipsis-vertical"
+                          size={20}
+                          color={Colors.primaryColor}
+                          style={{ 
+                            position: "absolute", 
+                            top:20,
+                            left:0
+                          }}
+                          /> 
+                  <View style={{ 
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                    }}>
+                      <Ionicons
+                          name="locate"
+                          size={20}
+                          color={Colors.primaryColor}
+                          /> 
+                        <View style={{ marginLeft: 5 }}>
+                          <Text style={[styles.lightText]}>Departure</Text>
+                          <Text style={[styles.boldText]}>Biyem-Assi</Text>
+                          <Text style={[styles.mediumText]}>7:00, Today</Text>
+                        </View>
+                  </View>
+                  <View style={{ 
+                      flexDirection: "row",
+                      alignItems: "flex-start",
+                      marginTop: 10
+                    }}>
+                      <Ionicons
+                          name="location-outline"
+                          size={20}
+                          color={Colors.secondaryColor}
+                          /> 
+                        <View style={{ marginLeft: 5 }}>
+                        <Text style={[styles.lightText]}>Destination</Text>
+                          <Text style={[styles.boldText]}>Melen, Ecole Polytechnique</Text>
+                          <Text style={[styles.mediumText]}>7:00, Today</Text>
+                        </View>
+                  </View>
+              </View>
+
+              <IconButton icon={shareIcon} shadow={false} onPress={() => {}} />
             </View>
 
               <View style={{ 
@@ -113,7 +122,7 @@ const TripInfoScheduleScreen = () => {
                         <FontAwesome5
                           name="dollar-sign"
                           size={20}
-                          color={Colors.primaryColor}
+                          color={Colors.secondaryColor}
                           /> 
                         <View style={{ marginLeft: 5 }}>
                           <Text style={[styles.lightText]}>Budget</Text>
@@ -224,7 +233,7 @@ const styles = StyleSheet.create({
   lightText: {
     fontSize: 12,
     fontFamily: 'Poppins_300Light',
-    color: Colors.grayTone3
+    color: Colors.grayTone2
   },
   seatBox: {
     width: width,
