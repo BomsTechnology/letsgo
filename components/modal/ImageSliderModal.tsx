@@ -44,7 +44,6 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
              style={{
               height: 300,
               width:  width *0.8,
-              
              }}
             />
         )
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
         width: '100%',
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.7)',
-        
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',

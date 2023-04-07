@@ -1,38 +1,46 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import Colors from '../../constants/colors';
-import SeatTable from '../../components/SeatTable';
+import SeatTable from '../../components/table/SeatTable';
+import PersonnalVehiculeModal from '../../components/modal/PersonnalVehiculeModal';
+import MotoVehiculeModal from '../../components/modal/MotoVehiculeModal';
+import MiniBusVehiculeModal from '../../components/modal/MiniBusVehiculeModal';
 
 const VehiculeDetailSeatScreen = () => {
-  return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={{ 
-              width: '70%',
-              borderRadius: 20, 
-              overflow: 'hidden', 
-              height: 120 ,
-              position: 'relative',
-              alignSelf: 'center'
-              }}>
-              <Image resizeMode='contain' style={[styles.image]} source={require('../../assets/images/logo.png')} />
-              <View style={{ 
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#000',
-                opacity: 0.6,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingHorizontal: 5
-                }}>
-                <Text style={[styles.boldText, {color: '#fff'}]}>04 Seats</Text>
-                <Text style={[styles.mediumText, {color: '#fff'}]}>CLick to preview</Text>
-                </View>
-        </View>
+  const [modalVisible, setModalVisible] = useState(false);
 
-        <SeatTable />
-    </ScrollView>
+  return (
+    <>
+      <MiniBusVehiculeModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={{ 
+                width: '70%',
+                borderRadius: 20, 
+                overflow: 'hidden', 
+                height: 120 ,
+                position: 'relative',
+                alignSelf: 'center'
+                }}>
+                
+                <TouchableOpacity onPress={ () => setModalVisible(!modalVisible)} style={{ 
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#000',
+                  opacity: 0.6,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 5
+                  }}>
+                  <Text style={[styles.boldText, {color: '#fff'}]}>04 Seats</Text>
+                  <Text style={[styles.mediumText, {color: '#fff'}]}>CLick to preview</Text>
+                  </TouchableOpacity>
+          </View>
+
+          <SeatTable withStatus/>
+      </ScrollView>
+    </>
   );
 };
 

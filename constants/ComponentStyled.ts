@@ -49,3 +49,51 @@ export const Divider = styled.View`
  height: 1px;
  background-color: ${Colors.grayTone4};
 `;
+
+export const SeatBoxWhite = styled.Text`
+ font-size: 20px;
+ text-align: center;
+ font-family: Poppins_600SemiBold;
+ padding: 5px;
+ width: 40px;
+ height: 40px;
+ border-radius: 8px;
+ backgroundColor: ${Colors.whiteTone1};
+ color: ${Colors.grayTone1};
+`;
+
+export const SeatBoxYellow = styled.Text`
+ font-size: 20px;
+ text-align: center;
+ font-family: Poppins_600SemiBold;
+ padding: 5px;
+ width: 40px;
+ height: 40px;
+ border-radius: 8px;
+ backgroundColor: ${Colors.primaryColor};
+ color: ${Colors.whiteTone1};
+`;
+
+export const SeatBoxGreen = styled.Text`
+ font-size: 20px;
+ text-align: center;
+ font-family: Poppins_600SemiBold;
+ padding: 5px;
+ width: 40px;
+ height: 40px;
+ border-radius: 8px;
+ backgroundColor: ${Colors.accentGreen};
+ color: ${Colors.whiteTone1};
+`;
+
+export const SeatBoxGray = styled.Text`
+ font-size: 20px;
+ text-align: center;
+ font-family: Poppins_600SemiBold;
+ padding: 5px;
+ width: 40px;
+ height: 40px;
+ border-radius: 8px;
+ backgroundColor: ${Colors.grayTone4};
+ color: ${Colors.grayTone2};
+`;
