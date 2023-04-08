@@ -7,7 +7,7 @@ import { SeatBoxYellow, SeatBoxWhite, SeatBoxGreen, SeatBoxGray } from '../../co
 import { ScrollView } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('window');
 
-interface MiniBusVehiculeModalProps {
+interface BigBusVehiculeModalProps {
     modalVisible: boolean;
     setModalVisible: Function;
 }
@@ -17,7 +17,7 @@ interface fakeType {
     value: string;
 }
 
-const MiniBusVehiculeModal = ({modalVisible, setModalVisible}: MiniBusVehiculeModalProps) => {
+const BigBusVehiculeModal = ({modalVisible, setModalVisible}: BigBusVehiculeModalProps) => {
     const closeIcon = (<Ionicons
         name="close"
         size={20}
@@ -32,7 +32,7 @@ const MiniBusVehiculeModal = ({modalVisible, setModalVisible}: MiniBusVehiculeMo
                             marginBottom: 15,
                          }}>
                             <SeatBoxYellow style={{ 
-                                width: ((width * 0.8)  / 4 )- 15,
+                                width: ((width * 0.8)  / 5 )- 15,
                              }}>
                                 {item.value}
                              </SeatBoxYellow>
@@ -47,15 +47,15 @@ const MiniBusVehiculeModal = ({modalVisible, setModalVisible}: MiniBusVehiculeMo
     }}
 >
 <View style={[styles.container]} >
-    <Text style={[styles.boldText,  {alignSelf: 'center', width: width *0.8, position: 'absolute', top: 30,}]}>Mini Bus Vehicule</Text>
+    <Text style={[styles.boldText,  {alignSelf: 'center', width: width *0.8, position: 'absolute', top: 30,}]}>Big Bus Vehicule</Text>
     <View style={{right: 10, position: 'absolute', top: 30,}}><IconButton bgColor={Colors.secondaryColor} icon={closeIcon} onPress={() => setModalVisible(false)}/></View>
 
     <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={(item, index)=>`${index}`}
-        key={4}
-        numColumns={4}
+        key={5}
+        numColumns={5}
         style={{ 
             backgroundColor: Colors.grayTone4,
             borderRadius: 20,
@@ -67,10 +67,10 @@ const MiniBusVehiculeModal = ({modalVisible, setModalVisible}: MiniBusVehiculeMo
     />
 </View>
 </Modal>
-  );
-};
+)
+;};
 
-export default MiniBusVehiculeModal;
+export default BigBusVehiculeModal;
 
 const styles = StyleSheet.create({
     container: {

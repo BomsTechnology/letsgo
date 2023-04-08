@@ -12,7 +12,7 @@ const VehiculeDetailSeatScreen = () => {
 
   return (
     <>
-      <MiniBusVehiculeModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <PersonnalVehiculeModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={{ 
                 width: '70%',
@@ -38,7 +38,7 @@ const VehiculeDetailSeatScreen = () => {
                   </TouchableOpacity>
           </View>
 
-          <SeatTable withStatus/>
+          <SeatTable />
       </ScrollView>
     </>
   );
