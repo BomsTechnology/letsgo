@@ -3,22 +3,24 @@ import 'react-native-gesture-handler';
 import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_700Bold, Poppins_900Black, Poppins_600SemiBold, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
-import { store } from './src/store/store';
+import { store } from '@store/store';
 import { Provider } from 'react-redux';
 import { useColorScheme } from 'react-native';
-import LoginScreen from './src/screens/auth/LoginScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
-import OnboardingScreen from './src/screens/OnboardingScreen';
-import TabNavigator from './src/navigators/TabNavigator';
-import OTPScreen from './src/screens/auth/OTPScreen';
-import ResultSearchScreen from './src/screens/trip/ResultSearchScreen';
-import TripInfoScreen from './src/screens/trip/TripInfoScreen';
-import UserRoleScreen from './src/screens/auth/UserRoleScreen';
-import FavoriteDestinationScreen from './src/screens/auth/FavoriteDestinationScreen';
-import PlannerDetailScreen from './src/screens/planner/PlannerDetailScreen';
-import DriverDetailScreen from './src/screens/driver/DriverDetailScreen';
-import VehiculeDetailScreen from './src/screens/vehicule/VehiculeDetailScreen';
-import SeatDetailScreen from './src/screens/seat/SeatDetailScreen';
+import LoginScreen from '@screens/auth/LoginScreen';
+import ProfileScreen from '@screens/ProfileScreen';
+import OnboardingScreen from '@screens/OnboardingScreen';
+import TabNavigator from '@navigators/TabNavigator';
+import OTPScreen from '@screens/auth/OTPScreen';
+import ResultSearchScreen from '@screens/trip/ResultSearchScreen';
+import TripInfoScreen from '@screens/trip/TripInfoScreen';
+import UserRoleScreen from '@screens/auth/UserRoleScreen';
+import FavoriteDestinationScreen from '@screens/auth/FavoriteDestinationScreen';
+import PlannerDetailScreen from '@screens/planner/PlannerDetailScreen';
+import DriverDetailScreen from '@screens/driver/DriverDetailScreen';
+import VehiculeDetailScreen from '@screens/vehicule/VehiculeDetailScreen';
+import SeatDetailScreen from '@screens/seat/SeatDetailScreen';
+import SelectPayModeScreen from '@screens/payment/SelectPayModeScreen';
+
 import React from 'react';
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +54,7 @@ export default function App() {
             <Stack.Screen name="DriverDetail" component={DriverDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="SelectPayMode" component={SelectPayModeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>

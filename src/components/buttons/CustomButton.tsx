@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontFamily: 'Poppins_500Medium',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    letterSpacing: 3
   },
 
 

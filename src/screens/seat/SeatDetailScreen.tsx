@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import Colors from '../../constants/colors';
 
@@ -10,23 +10,21 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import SeatTable from '../../components/table/SeatTable';
 import PersonnalVehiculeModal from '../../components/modal/PersonnalVehiculeModal';
-import MotoVehiculeModal from '../../components/modal/MotoVehiculeModal';
-import MiniBusVehiculeModal from '../../components/modal/MiniBusVehiculeModal';
-import BigBusVehiculeModal from '../../components/modal/BigBusVehiculeModal';
 import CustomButton from '../../components/buttons/CustomButton';
+const { width, height } = Dimensions.get('window');
+import {useNavigation} from '@react-navigation/native';
 
 const SeatDetailScreen = () => {
+  const navigation = useNavigation();
   const [modalVisibleP, setModalVisibleP] = useState(false);
-  const [modalVisibleM, setModalVisibleM] = useState(false);
-  const [modalVisibleB, setModalVisibleB] = useState(false);
-  const [modalVisibleMB, setModalVisibleMB] = useState(false);
+
+  const geToPayMode = () => {
+    navigation.navigate('SelectPayMode' as never);
+  }
+
   return (
-    
     <>
     <PersonnalVehiculeModal modalVisible={modalVisibleP} setModalVisible={setModalVisibleP} />
-    <MotoVehiculeModal modalVisible={modalVisibleM} setModalVisible={setModalVisibleM} />
-    <MiniBusVehiculeModal modalVisible={modalVisibleMB} setModalVisible={setModalVisibleMB} />
-    <BigBusVehiculeModal modalVisible={modalVisibleB} setModalVisible={setModalVisibleB} />
 
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 20 }}>
@@ -84,39 +82,18 @@ const SeatDetailScreen = () => {
           <SeatTable withStatus />
 
 
-          <CustomButton
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={true}
-                onPress={() => setModalVisibleP(!modalVisibleP)}
-                text="Open personnal"
-          />
-
-          <CustomButton
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={true}
-                onPress={() => setModalVisibleM(!modalVisibleM)}
-                text="Open Moto"
-          />
-
-          <CustomButton
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={true}
-                onPress={() => setModalVisibleMB(!modalVisibleMB)}
-                text="Open Mini Bus"
-          />
-
-          <CustomButton
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={true}
-                onPress={() => setModalVisibleB(!modalVisibleB)}
-                text="Open Big bus"
-          />
+          
 
         </ScrollView>
+        <View key="fixed" style={[styles.seatBox]}>
+              <CustomButton
+                    bgColor={Colors.primaryColor}
+                    fgColor='#fff'
+                    isReady={true}
+                    onPress={geToPayMode}
+                    text="Book the selected seats"
+                  />
+          </View>
       </View>   
     </SafeAreaView>
     </>
@@ -162,4 +139,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_300Light',
     color: Colors.grayTone2
   },
+  seatBox: {
+    width: width,
+    padding: 10,
+    elevation: 10,
+    backgroundColor: Colors.whiteTone1,
+    position: 'absolute',
+    bottom: 0,
+    left:0,
+    right: 0,
+    borderTopWidth: 1,
+    borderColor: Colors.grayTone4
+  }
 });
