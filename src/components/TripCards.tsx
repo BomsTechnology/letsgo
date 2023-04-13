@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View ,GestureResponderEvent, Text, Image, Button, TouchableOpacity, ImageSourcePropType} from 'react-native'
-import Colors from '../constants/colors'
+import Colors from '@constants/colors'
 import { Poppins_700Bold } from '@expo-google-fonts/poppins'
 import { Inter_500Medium ,Inter_600SemiBold,Inter_400Regular, useFonts} from '@expo-google-fonts/inter'
 import Rating from './Rating'

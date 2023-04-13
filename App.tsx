@@ -9,7 +9,6 @@ import { useColorScheme } from 'react-native';
 import LoginScreen from '@screens/auth/LoginScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import OnboardingScreen from '@screens/OnboardingScreen';
-import TabNavigator from '@navigators/TabNavigator';
 import OTPScreen from '@screens/auth/OTPScreen';
 import ResultSearchScreen from '@screens/trip/ResultSearchScreen';
 import TripInfoScreen from '@screens/trip/TripInfoScreen';
@@ -22,6 +21,7 @@ import SeatDetailScreen from '@screens/seat/SeatDetailScreen';
 import SelectPayModeScreen from '@screens/payment/SelectPayModeScreen';
 
 import React from 'react';
+import DrawerNavigator from './src/navigators/DrawerNavigator';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -55,7 +55,7 @@ export default function App() {
             <Stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SelectPayMode" component={SelectPayModeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="TabNav" component={TabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen}/>
           </Stack.Navigator>
         </NavigationContainer>

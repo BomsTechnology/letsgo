@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import UserRating from '../../components/UserRating';
+import UserRating from '@components/UserRating';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Divider } from '../../constants/ComponentStyled';
-import Colors from '../../constants/colors';
+import { Divider } from '@constants/ComponentStyled';
+import Colors from '@constants/colors';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
-import ImageSliderModal from '../../components/modal/ImageSliderModal';
+import ImageSliderModal from '@components/modal/ImageSliderModal';
 
 const VehiculeDetailIndexScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -58,7 +58,7 @@ const VehiculeDetailIndexScreen = () => {
                 height: 120 ,
                 position: 'relative'
                 }}>
-                    <Image resizeMode='contain' style={[styles.image]} source={require('../../assets/images/logo.png')} />
+                    <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/logo.png')} />
                     <View style={{ 
                       position: 'absolute',
                       width: '100%',
@@ -78,7 +78,7 @@ const VehiculeDetailIndexScreen = () => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                  <Image resizeMode='contain' style={{ height: 50, width: 50 }} source={require('../../assets/images/car.png')} />
+                  <Image resizeMode='contain' style={{ height: 50, width: 50 }} source={require('@assets/images/car.png')} />
                   <Text style={styles.boldText}>Personnal</Text>
               </View>
           </View>

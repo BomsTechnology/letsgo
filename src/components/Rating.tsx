@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { TouchableOpacity, View ,StyleSheet} from 'react-native';
-import Colors from '../constants/colors';
+import Colors from '@constants/colors';
 
 type isWritable ={rate:number,size?:number, enablerating:boolean}
 

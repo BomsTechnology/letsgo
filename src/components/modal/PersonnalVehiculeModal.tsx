@@ -1,9 +1,9 @@
 import { Modal, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import IconButton from '../buttons/IconButton';
-import { SeatBoxYellow, SeatBoxWhite, SeatBoxGreen, SeatBoxGray } from '../../constants/ComponentStyled';
+import IconButton from '@components/buttons/IconButton';
+import { SeatBoxYellow, SeatBoxWhite, SeatBoxGreen, SeatBoxGray } from '@constants/ComponentStyled';
 const { width, height } = Dimensions.get('window');
 
 
@@ -33,7 +33,7 @@ const PersonnalVehiculeModal = ({modalVisible, setModalVisible}: PersonnalVehicu
             <View style={{ 
                 position: 'relative'
              }}>
-                <Image resizeMode='cover' style={[styles.image]} source={require('../../assets/images/vehicules/personnal.png')} />
+                <Image resizeMode='cover' style={[styles.image]} source={require('@assets/images/vehicules/personnal.png')} />
                 <TouchableOpacity style={[{
                     right: 65,
                     bottom: 125,

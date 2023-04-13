@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ImageSourcePropType, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, GestureResponderEvent } from 'react-native'
 import { Inter_500Medium ,Inter_600SemiBold,Inter_400Regular,Inter_300Light, useFonts} from '@expo-google-fonts/inter'
 import { Poppins_700Bold } from '@expo-google-fonts/poppins'
-import { tripRider } from '../data/TripData'
-import Colors from '../constants/colors'
+import { tripRider } from '@data/TripData'
+import Colors from '@constants/colors'
 import Rating from './Rating'
 
 

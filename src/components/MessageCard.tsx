@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text, View } from 'react-native'
-import Colors from '../constants/colors'
+import Colors from '@constants/colors'
 import { Poppins_300Light, useFonts } from '@expo-google-fonts/poppins'
 
 type messageTypeProps={

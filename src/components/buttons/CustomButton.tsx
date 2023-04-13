@@ -1,6 +1,6 @@
 import {StyleSheet, Text, Pressable, GestureResponderEvent} from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
 interface CustomButtonProps {
   text: string;
@@ -8,6 +8,8 @@ interface CustomButtonProps {
   fgColor: string;
   isReady: boolean;
   onPress: (event: GestureResponderEvent) => void;
+  marginHorizontal?: number;
+  marginVertical?: number;
 }
 
 const CustomButton = (props: CustomButtonProps) => {
@@ -18,7 +20,10 @@ const CustomButton = (props: CustomButtonProps) => {
       disabled={!props.isReady}
       style={[
         styles.container,
-        {backgroundColor: props.isReady ? props.bgColor : Colors.grayTone4},
+        {
+          backgroundColor: props.isReady ? props.bgColor : Colors.whiteTone3,
+          marginVertical: props.marginVertical ? props.marginVertical : undefined
+        },
       ]}>
       <Text
         style={[

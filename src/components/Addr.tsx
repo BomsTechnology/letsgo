@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View,TextInput, TouchableOpacity } from 'react-native'
-import Colors from '../constants/colors'
+import Colors from '@constants/colors'
 import { Inter_500Medium, useFonts } from '@expo-google-fonts/inter'
 import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons'
 

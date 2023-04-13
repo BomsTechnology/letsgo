@@ -2,7 +2,7 @@ import { StyleSheet, useWindowDimensions, View, TouchableOpacity, Animated, Gest
 import React, {useEffect, useRef} from 'react';
 import {Ionicons} from '@expo/vector-icons';
 import { Svg, G, Circle, CircleProps } from 'react-native-svg';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
 interface NextButtonProps {
   percentage: number,

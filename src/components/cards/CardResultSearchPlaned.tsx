@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, GestureResponderEvent, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
@@ -26,7 +26,7 @@ const CardResultSearch = () => {
             flexDirection: "row",
             alignItems: "center"
            }}>
-              <Image style={styles.image} resizeMode='contain' source={require('../../assets/images/logo.png')}></Image>
+              <Image style={styles.image} resizeMode='contain' source={require('@assets/images/logo.png')}></Image>
               <View style={{ marginLeft: 5 }}>
                   <Text style={styles.name}> Marcelin Sigha </Text>
                   <View style={{ 

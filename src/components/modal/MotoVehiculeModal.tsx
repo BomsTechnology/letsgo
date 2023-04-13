@@ -1,9 +1,9 @@
 import { Modal, StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import { Ionicons } from '@expo/vector-icons';
-import IconButton from '../buttons/IconButton';
-import { SeatBoxYellow, SeatBoxWhite, SeatBoxGreen, SeatBoxGray } from '../../constants/ComponentStyled';
+import IconButton from '@components/buttons/IconButton';
+import { SeatBoxYellow, SeatBoxWhite, SeatBoxGreen, SeatBoxGray } from '@constants/ComponentStyled';
 const { width, height } = Dimensions.get('window');
 
 interface MotoVehiculeModalProps {
@@ -32,7 +32,7 @@ const MotoVehiculeModal = ({modalVisible, setModalVisible}: MotoVehiculeModalPro
     <View style={{ 
         position: 'relative'
      }}>
-        <Image resizeMode='contain' style={[styles.image]} source={require('../../assets/images/vehicules/moto.png')} />
+        <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/vehicules/moto.png')} />
         <TouchableOpacity style={[{
             left: '50%',
             bottom: 165,

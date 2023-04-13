@@ -1,11 +1,11 @@
 import React, {useState, useRef} from 'react';
 import { StyleSheet, FlatList, ImageSourcePropType, Animated, View, StatusBar, Pressable, Text } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import OnboardingItem from '../components/onboard/OnboardingItem';
-import OnBoardingNextButton from '../components/onboard/OnBoardingNextButton';
-import Colors from '../constants/colors';
+import OnboardingItem from '@components/onboard/OnboardingItem';
+import OnBoardingNextButton from '@components/onboard/OnBoardingNextButton';
+import Colors from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
-import slides, {OnboardingItemProps} from '../data/onboardSlider';
+import slides, {OnboardingItemProps} from '@data/onboardSlider';
 
 const OnboardingScreen = () => {
     const navigation = useNavigation();

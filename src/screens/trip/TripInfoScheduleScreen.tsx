@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import { ScrollView } from 'react-native-gesture-handler';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
-import { Divider } from '../../constants/ComponentStyled'; 
-import TripInfoCard from '../../components/cards/TripInfoCard';
-import CustomButton from '../../components/buttons/CustomButton';
+import { Divider } from '@constants/ComponentStyled'; 
+import TripInfoCard from '@components/cards/TripInfoCard';
+import CustomButton from '@components/buttons/CustomButton';
 const { width, height } = Dimensions.get('window');
 import {useNavigation} from '@react-navigation/native';
-import IconButton from '../../components/buttons/IconButton';
+import IconButton from '@components/buttons/IconButton';
 
 const TripInfoScheduleScreen = () => {
   const navigation = useNavigation();
@@ -148,7 +148,7 @@ const TripInfoScheduleScreen = () => {
                 label='Planner'
                 info1='+237 655 667 788'
                 info2='bucavoyage@gmail.com'
-                image={require('../../assets/images/logo.png')} 
+                image={require('@assets/images/logo.png')} 
                 rate={5} 
                 title='Buca Voyage'
                 />
@@ -158,7 +158,7 @@ const TripInfoScheduleScreen = () => {
                 label='Driver'
                 info1='+237 655 667 788'
                 info2='marc@gmail.com'
-                image={require('../../assets/images/logo.png')} 
+                image={require('@assets/images/logo.png')} 
                 rate={5} 
                 title='Marc S.'
                 />
@@ -169,7 +169,7 @@ const TripInfoScheduleScreen = () => {
                 carColor='red'
                 carMatricule='CE 237 CM'
                 info1='Yaris'
-                image={require('../../assets/images/logo.png')} 
+                image={require('@assets/images/logo.png')} 
                 rate={5} 
                 title='Toyote'
                 />

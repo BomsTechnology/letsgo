@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
-import SimpleHeader from '../../components/SimpleHeader';
+import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Divider } from '../../constants/ComponentStyled';
+import { Divider } from '@constants/ComponentStyled';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import SeatTable from '../../components/table/SeatTable';
-import PersonnalVehiculeModal from '../../components/modal/PersonnalVehiculeModal';
-import CustomButton from '../../components/buttons/CustomButton';
+import SeatTable from '@components/table/SeatTable';
+import PersonnalVehiculeModal from '@components/modal/PersonnalVehiculeModal';
+import CustomButton from '@components/buttons/CustomButton';
 const { width, height } = Dimensions.get('window');
 import {useNavigation} from '@react-navigation/native';
 

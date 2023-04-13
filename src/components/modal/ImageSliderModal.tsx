@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Modal, Dimensions, ImageSourcePropType, FlatList, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 const { width, height } = Dimensions.get('window');
 import {Ionicons} from '@expo/vector-icons';
-import IconButton from '../buttons/IconButton';
+import IconButton from '@components/buttons/IconButton';
 
 interface slideImageProps {
     id: string;
@@ -27,11 +27,11 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
     const images: slideImageProps[] = [
         {
             "id": "1",
-            "image": require("../../assets/images/logo.png")
+            "image": require("@assets/images/logo.png")
         },
         {
             "id": "2",
-            "image": require("../../assets/images/logo.png")
+            "image": require("@assets/images/logo.png")
         }
     ];
 

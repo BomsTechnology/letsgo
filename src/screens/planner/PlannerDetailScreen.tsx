@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import SimpleHeader from '../../components/SimpleHeader';
+import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Colors from '../../constants/colors';
-import UserRating from '../../components/UserRating';
+import Colors from '@constants/colors';
+import UserRating from '@components/UserRating';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Divider } from '../../constants/ComponentStyled';
+import { Divider } from '@constants/ComponentStyled';
 const PlannerDetailScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -15,7 +15,7 @@ const PlannerDetailScreen = () => {
           justifyContent: 'center',
           alignItems: 'center'
         }]}>
-          <Image resizeMode='contain' style={[styles.image]} source={require('../../assets/images/logo.png')} />
+          <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/logo.png')} />
           <UserRating rate={4} />
         </View>
       </View>

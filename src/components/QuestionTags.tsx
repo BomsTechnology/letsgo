@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View ,SafeAreaView,FlatList} from 'react-native'
-import Colors from '../constants/colors'
+import Colors from '@constants/colors'
 import { Poppins_400Regular ,useFonts} from '@expo-google-fonts/poppins'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Entypo } from '@expo/vector-icons'

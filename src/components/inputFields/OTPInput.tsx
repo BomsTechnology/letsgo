@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 import React, { Ref, useEffect, useRef, useState } from 'react';
-import { OTPInputContainer, TextInputHidden, SplitOTPBoxesContainer, SplitBoxes, SplitBoxText, SplitBoxesFocused } from "../../constants/ComponentStyled";
+import { OTPInputContainer, TextInputHidden, SplitOTPBoxesContainer, SplitBoxes, SplitBoxText, SplitBoxesFocused } from "@constants/ComponentStyled";
 
 interface OTPInputProps {
   code: string;

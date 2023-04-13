@@ -1,7 +1,7 @@
 import { EvilIcons, Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { StyleSheet, View ,Text, TouchableOpacity } from 'react-native'
-import Colors from '../constants/colors'
+import Colors from '@constants/colors'
 import { Poppins_500Medium, useFonts } from '@expo-google-fonts/poppins'
 
 type AddressProps={

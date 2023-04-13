@@ -1,11 +1,11 @@
 import { Keyboard, Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../../constants/colors';
-import StepHeader from '../../components/StepHeader';
-import OTPInput from '../../components/inputFields/OTPInput';
+import Colors from '@constants/colors';
+import StepHeader from '@components/StepHeader';
+import OTPInput from '@components/inputFields/OTPInput';
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import CustomButton from '../../components/buttons/CustomButton';
+import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 
 const OTPScreen = () => {

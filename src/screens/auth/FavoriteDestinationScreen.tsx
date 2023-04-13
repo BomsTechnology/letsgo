@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import StepHeader from '../../components/StepHeader';
-import CustomButton from '../../components/buttons/CustomButton';
+import StepHeader from '@components/StepHeader';
+import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
-import CustomInput from '../../components/inputFields/CustomInput';
+import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 
@@ -46,7 +46,7 @@ const FavoriteDestinationScreen = () => {
 
       <Text style={styles.description}>What is your budget usually paid for this destination</Text>
       <CustomInput
-        placeholder="300"
+        placeholder="Your budget"
         name="money"
         control={control}
         secureTextEntry={false}

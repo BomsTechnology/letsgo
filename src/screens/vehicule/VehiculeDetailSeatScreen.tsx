@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import Colors from '../../constants/colors';
-import SeatTable from '../../components/table/SeatTable';
-import PersonnalVehiculeModal from '../../components/modal/PersonnalVehiculeModal';
-import MotoVehiculeModal from '../../components/modal/MotoVehiculeModal';
-import MiniBusVehiculeModal from '../../components/modal/MiniBusVehiculeModal';
+import Colors from '@constants/colors';
+import SeatTable from '@components/table/SeatTable';
+import PersonnalVehiculeModal from '@components/modal/PersonnalVehiculeModal';
+import MotoVehiculeModal from '@components/modal/MotoVehiculeModal';
+import MiniBusVehiculeModal from '@components/modal/MiniBusVehiculeModal';
 
 const VehiculeDetailSeatScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);

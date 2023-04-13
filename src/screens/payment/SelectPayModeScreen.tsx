@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SimpleHeader from '../../components/SimpleHeader';
-import CustomButton from '../../components/buttons/CustomButton';
+import SimpleHeader from '@components/SimpleHeader';
+import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
-import CheckboxField from '../../components/inputFields/CheckboxField';
-import CustomDropdownInput, {DropDataProps} from '../../components/inputFields/CustomDropdownInput';
+import CheckboxField from '@components/inputFields/CheckboxField';
+import CustomDropdownInput, {DropDataProps} from '@components/inputFields/CustomDropdownInput';
 
 const SelectPayModeScreen = () => {
   const navigation = useNavigation();
@@ -39,6 +39,10 @@ const SelectPayModeScreen = () => {
 
   const save = () => {
     navigation.navigate('FavoriteDestination' as never);
+  }; 
+
+  const backToHome = () => {
+    navigation.navigate('Home' as never);
   }; 
 
   return (
@@ -94,7 +98,7 @@ const SelectPayModeScreen = () => {
           bgColor={Colors.errorInputColor}
           fgColor='#fff'
           isReady={true}
-          onPress={save}
+          onPress={backToHome}
           text="Back to home"
         />
 

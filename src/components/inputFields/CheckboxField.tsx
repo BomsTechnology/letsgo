@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Checkbox from 'expo-checkbox';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
 interface CheckboxFieldProps {
     text: string;

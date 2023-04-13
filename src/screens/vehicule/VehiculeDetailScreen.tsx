@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import SimpleHeader from '../../components/SimpleHeader';
+import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
-import VehiculeDetailTopTabNavigator from '../../navigators/VehiculeDetailTopTabNavigator';
+import VehiculeDetailTopTabNavigator from '@navigators/VehiculeDetailTopTabNavigator';
 
 const VehiculeDetailScreen = () => {
   return (

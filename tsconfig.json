@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    /*"lib": [
+    "lib": [
       "dom",
       "dom.iterable",
       "esnext",
@@ -9,7 +9,7 @@
       "esnext.intl",
       "esnext.symbol",
       "esnext.array"
-    ],*/
+    ],
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -31,10 +31,11 @@
     "jsx": "react-native",
     "incremental": true,
     "noEmitOnError": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@*": ["./src/*"],
       "@screens/*": ["./src/screens/*"],
+      "@assets/*": ["./src/assets/*"],
       "@components/*": ["src/components/*"],
       "@store/*": ["./src/store/*"],
       "@navigators/*": ["./src/navigators/*"],

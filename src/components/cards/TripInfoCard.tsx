@@ -1,7 +1,7 @@
 import { ImageSourcePropType, StyleSheet, Text, View, Image, TouchableOpacity, GestureResponderEvent } from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
-import Rating from '../Rating';
+import Colors from '@constants/colors';
+import Rating from '@components/Rating';
 
 interface TripInfoCardProps {
   image : string | ImageSourcePropType;

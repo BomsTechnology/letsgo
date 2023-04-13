@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, GestureResponderEvent } from 'react-native';
 import React from 'react';
 import IconButton from './buttons/IconButton';
-import Colors from '../constants/colors';
+import Colors from '@constants/colors';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
@@ -15,11 +15,11 @@ interface SimpleHeaderProps {
 const SimpleHeader = ({text, buttonAction, buttonIcon}: SimpleHeaderProps) => {
     const { goBack } = useNavigation();
     const icon = buttonIcon ? buttonIcon : (<Ionicons name="chevron-back" size={25} color={Colors.grayTone1} /> );
-    const opPress = buttonAction ? buttonAction : goBack;
+    const onPress = buttonAction ? buttonAction : goBack;
 
   return (
     <View style={styles.container}>
-        <IconButton icon={icon} onPress={opPress}/>
+        <IconButton icon={icon} onPress={onPress}/>
         <Text style={styles.text}>{text}</Text>
     </View>
   );

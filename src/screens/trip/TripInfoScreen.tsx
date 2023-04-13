@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import SimpleHeader from '../../components/SimpleHeader';
+import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Colors from '../../constants/colors';
-import TripInfoTopTabNavigator from '../../navigators/TripInfoTopTabNavigator';
+import Colors from '@constants/colors';
+import TripInfoTopTabNavigator from '@navigators/TripInfoTopTabNavigator';
 const TripInfoScreen = () => {
   return (
     <SafeAreaView style={styles.container}>

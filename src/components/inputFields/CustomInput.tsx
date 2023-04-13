@@ -1,7 +1,7 @@
 import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
 
 interface CustomInputProps {
@@ -15,6 +15,10 @@ interface CustomInputProps {
     sufixType?: string;
     sufix?: JSX.Element | string;
     keyboardType?:  KeyboardTypeOptions;
+    shadow?: boolean;
+    bgColor?: string;
+    marginHorizontal?: number;
+    marginVertical?: number;
   }
 
 const CustomInput = (props: CustomInputProps) => {
@@ -28,8 +32,12 @@ const CustomInput = (props: CustomInputProps) => {
           <View
             style={[
               styles.container,
-              styles.shadowProp,
-              error ? styles.container_ERROR : value  ? styles.container_GOOD : styles.container_NORMAL
+              props.shadow != null && props.shadow ? styles.shadowProp : props.shadow != null && !props.shadow ? undefined : styles.shadowProp,
+              error ? styles.container_ERROR : value  ? styles.container_GOOD : styles.container_NORMAL,
+              {
+                backgroundColor: props.bgColor ? props.bgColor : undefined,
+                marginVertical: props.marginVertical ? props.marginVertical : undefined
+              }
             ]}>
             {(props.prefixType == 'icon' && props.prefix ) && (
               <View

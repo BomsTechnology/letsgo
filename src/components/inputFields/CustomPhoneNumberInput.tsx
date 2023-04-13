@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Modal, Dimensions, FlatList, ImageSourcePropType, Alert, Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {Ionicons} from '@expo/vector-icons';
-import { countryCodeProps, countryCodes } from "../../data/CountryCode"
-import Colors from '../../constants/colors';
+import { countryCodeProps, countryCodes } from "@data/CountryCode"
+import Colors from '@constants/colors';
 import {Control, Controller} from 'react-hook-form';
 const { width, height } = Dimensions.get('window');
 

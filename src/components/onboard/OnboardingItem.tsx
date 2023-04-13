@@ -1,6 +1,6 @@
 import {Text, View , StyleSheet, useWindowDimensions, Image, ImageSourcePropType} from 'react-native';
 import React from 'react';
-import Colors from '../../constants/colors';
+import Colors from '@constants/colors';
 
 interface OnboardingItemProps {
     image: ImageSourcePropType;
