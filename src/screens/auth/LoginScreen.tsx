@@ -5,7 +5,6 @@ import Colors from '@constants/colors';
 import CustomButton from '@components/buttons/CustomButton';
 import StepHeader from '@components/StepHeader';
 import CustomPhoneNumberInput from '@components/inputFields/CustomPhoneNumberInput';
-import Checkbox from 'expo-checkbox';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import { countryCodeProps } from "@data/CountryCode"
@@ -62,6 +61,7 @@ const LoginScreen = () => {
                 fgColor='#fff'
                 isReady={numberPhone && isChecked}
                 onPress={handleSubmit(login)}
+                marginVertical={10}
                 text="Send a verification code"
               />
 

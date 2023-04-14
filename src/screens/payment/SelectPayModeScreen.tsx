@@ -13,6 +13,8 @@ const SelectPayModeScreen = () => {
   const navigation = useNavigation();
   const [isCheckedConfirm, setCheckedConfirm] = useState(true);
   const [isCheckedReserve, setCheckedReserve] = useState(false);
+  const [asError, setAsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [selected, setSelected] = useState("");
   const dataConfirm: DropDataProps[] = [
     {key:'1', value:'Mobile Money'},
@@ -28,17 +30,38 @@ const SelectPayModeScreen = () => {
   ];
 
   const toogleReserve = () => {
+    setAsError(false);
     setCheckedConfirm(false);
     setCheckedReserve(true);
   }
 
   const toogleConfirm = () => {
+    setAsError(false);
     setCheckedReserve(false);
     setCheckedConfirm(true);
   }
 
-  const save = () => {
-    navigation.navigate('FavoriteDestination' as never);
+  const selectPay = () => {
+    setAsError(false);
+    switch (selected) {
+      case 'Orange Money':
+        navigation.navigate('OMPayMode' as never);
+        break;
+      case 'Mobile Money':
+        navigation.navigate('MOMOPayMode' as never);
+        break;
+      case 'Card':
+        navigation.navigate('CardPayMode' as never);
+        break;
+      case 'Cash':
+        if(isCheckedReserve){
+          navigation.navigate('CashPayMode' as never);
+        }else{
+            setAsError(true);
+            setErrorMessage('Cash Pay not allow for connfirmation')
+        }
+        break;
+    }
   }; 
 
   const backToHome = () => {
@@ -48,7 +71,7 @@ const SelectPayModeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <SimpleHeader text='Trip Seat Booking' />
-      <ScrollView style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Select Booking Option</Text>
         <Text style={[styles.description]}>
           Do you want to confirm booking by paying now or reserve and pay later
@@ -82,16 +105,18 @@ const SelectPayModeScreen = () => {
             placeholder='Select payment option' 
             data={isCheckedConfirm ? dataConfirm : dataReserve} 
             setSelected={setSelected} 
-            defaultOption={{key:'2', value:'Orange Money'}}
-            search={false} 
+            search={false}
+            asError={asError}
+            errorMessage={errorMessage} 
           />
           
         <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={selected != ""}
-                onPress={save}
+                onPress={selectPay}
                 text="Proced to payment"
+                marginVertical={10}
               />
 
         <CustomButton 
@@ -100,6 +125,7 @@ const SelectPayModeScreen = () => {
           isReady={true}
           onPress={backToHome}
           text="Back to home"
+          marginVertical={10}
         />
 
       </ScrollView>

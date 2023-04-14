@@ -19,6 +19,10 @@ import DriverDetailScreen from '@screens/driver/DriverDetailScreen';
 import VehiculeDetailScreen from '@screens/vehicule/VehiculeDetailScreen';
 import SeatDetailScreen from '@screens/seat/SeatDetailScreen';
 import SelectPayModeScreen from '@screens/payment/SelectPayModeScreen';
+import OMPayModeScreen from '@screens/payment/OMPayModeScreen';
+import MOMOPayModeScreen from '@screens/payment/MOMOPayModeScreen';
+import CardPayModeScreen from '@screens/payment/CardPayModeScreen';
+import CashPayModeScreen from '@screens/payment/CashPayModeScreen';
 
 import React from 'react';
 import DrawerNavigator from './src/navigators/DrawerNavigator';
@@ -56,7 +60,11 @@ export default function App() {
             <Stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="SelectPayMode" component={SelectPayModeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
-            <Stack.Screen name="Profile" component={ProfileScreen}/>
+            <Stack.Screen name="OMPayMode" component={OMPayModeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="MOMOPayMode" component={MOMOPayModeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="CardPayMode" component={CardPayModeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="CashPayMode" component={CashPayModeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>

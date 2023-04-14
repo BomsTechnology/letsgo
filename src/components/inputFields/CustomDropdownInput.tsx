@@ -22,6 +22,7 @@ interface CustomDropdownInputProps {
 const CustomDropdownInput = (props: CustomDropdownInputProps) => {
 
   return (
+    <>
     <View style={[styles.container, styles.shadowProp]}>
       <SelectList 
         setSelected={props.setSelected} 
@@ -40,19 +41,20 @@ const CustomDropdownInput = (props: CustomDropdownInputProps) => {
         dropdownStyles={{ 
           borderColor: props.asError ? 'red' : Colors.primaryColor
          }}
-         dropdownItemStyles={{ 
-          borderBottomWidth: 0.25,
-          borderColor:  Colors.grayTone4,
-          marginHorizontal: 5
+        dropdownItemStyles={{ 
+        borderBottomWidth: 0.25,
+        borderColor:  Colors.grayTone4,
+        marginHorizontal: 5
+        }}
+        dropdownTextStyles={{ 
+          color: Colors.grayTone2
           }}
-          dropdownTextStyles={{ 
-            color: Colors.grayTone2
-           }}
         />
-        {(props.asError) && (
-                  <Text style={styles.text_ERROR}>{props.errorMessage || 'Error'}</Text>
-                )}
     </View>
+      {(props.asError) && (
+        <Text style={styles.text_ERROR}>{props.errorMessage || 'Error'}</Text>
+      )}
+    </>
   );
 };
 

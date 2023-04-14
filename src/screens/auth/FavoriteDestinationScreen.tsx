@@ -39,6 +39,7 @@ const FavoriteDestinationScreen = () => {
         secureTextEntry={false}
         prefixType='icon'
         prefix={destinationIcon}
+        bgColor='#fff'
         rules={{
           required: 'The adress is required',
         }}
@@ -55,6 +56,7 @@ const FavoriteDestinationScreen = () => {
         prefix={moneyIcon}
         keyboardType='numeric'
         sufix="X A F"
+        bgColor='#fff'
         rules={{
           required: 'The price is required',
         }}
@@ -66,6 +68,7 @@ const FavoriteDestinationScreen = () => {
           isReady={destination && money}
           onPress={handleSubmit(save)}
           text="Search"
+          marginVertical={20}
         />
     </SafeAreaView>
   );

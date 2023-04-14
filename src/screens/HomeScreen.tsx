@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import Colors from '@constants/colors'
 import { Ionicons , FontAwesome5 } from '@expo/vector-icons';
 import CustomButton from '@components/buttons/CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -21,8 +21,8 @@ const HomeScreen = () => {
 
   const destination = watch('destination');
   const money = watch('money');
-  const destinationIcon = ( <Ionicons name="location-outline" size={20} color={Colors.secondaryColor} /> );
-  const moneyIcon = ( <FontAwesome5 name="search-dollar" size={20} color={Colors.primaryColor} /> );
+  const destinationIcon = ( <Ionicons name="location-outline" size={18} color={Colors.secondaryColor} /> );
+  const moneyIcon = ( <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} /> );
   const menuIcon =  (<Ionicons name="menu" size={25} color={Colors.whiteTone1} />);
   const locateIcon = (<Ionicons name="ios-locate" size={25} color={Colors.grayTone1} />);
   const onPress = () =>  {}
@@ -31,7 +31,7 @@ const HomeScreen = () => {
       height: height,
     }]}>
       <View style={[styles.headerBtnBox]}>
-        <IconButton icon={menuIcon} bgColor={Colors.primaryColor} onPress={onPress}/>
+        <IconButton icon={menuIcon} bgColor={Colors.primaryColor} onPress={()=>{ navigation.dispatch(DrawerActions.toggleDrawer());}}/>
         <IconButton icon={locateIcon}  onPress={onPress}/>
       </View>
         
@@ -50,6 +50,7 @@ const HomeScreen = () => {
           prefix={destinationIcon}
           shadow={false}
           marginVertical={0}
+          fontSize={13}
           rules={{
             required: 'The adress is required',
           }}
@@ -59,7 +60,8 @@ const HomeScreen = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          gap: 10
+          gap: 10,
+          marginTop: 5
          }}>
           <View style={{  width: "60%" }}>
             <CustomInput
@@ -74,19 +76,21 @@ const HomeScreen = () => {
               shadow={false}
               keyboardType='numeric'
               marginVertical={0}
+              fontSize={13}
               sufix="X A F"
               rules={{
                 required: 'The price is required',
               }}
             />
           </View>
-          <View style={{ width: "39%" }}>
+          <View style={{ width: "36%" }}>
             <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={destination && money}
                 onPress={handleSubmit(onPress)}
                 marginVertical={0}
+                fontSize={12}
                 text="Search"
               />
           </View>

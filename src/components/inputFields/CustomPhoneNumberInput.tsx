@@ -12,6 +12,8 @@ interface CustomPhoneNumberInputProps {
   placeholder: string;
   rules?: Object;
   selectedCountry: countryCodeProps | null;
+  label?: string;
+  labelColor?: string;
 }
 
 
@@ -87,7 +89,22 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
         </View>
       </Modal>
     <View style={styles.container}>
-      <Text style={{ margin: 5 }}>Phone</Text>
+      { props.label ?  
+        <Text style={{ 
+                margin: 5, 
+                fontFamily: 'Poppins_500Medium',
+                color: props.labelColor ? props.labelColor : Colors.grayTone1,
+          }}>
+          {props.label}
+        </Text> :
+        <Text style={{ 
+              margin: 5, 
+              fontFamily: 'Poppins_500Medium',
+              color: props.labelColor ? props.labelColor : Colors.grayTone1,
+        }}>
+          Phone Number
+        </Text>
+      }
       
             <Controller
               name={props.name}

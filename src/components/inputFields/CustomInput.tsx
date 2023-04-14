@@ -19,6 +19,7 @@ interface CustomInputProps {
     bgColor?: string;
     marginHorizontal?: number;
     marginVertical?: number;
+    fontSize?: number;
   }
 
 const CustomInput = (props: CustomInputProps) => {
@@ -53,7 +54,10 @@ const CustomInput = (props: CustomInputProps) => {
                 style={[
                   {marginRight: 5}
                 ]}>
-                  <Text style={styles.fixText}>{props.prefix}</Text> 
+                  <Text style={[
+                    styles.fixText,
+                    {fontSize: props.fontSize ? props.fontSize : undefined,}
+                    ]}>{props.prefix}</Text> 
               </View>
             )} 
               <TextInput
@@ -61,7 +65,10 @@ const CustomInput = (props: CustomInputProps) => {
                 onChangeText={onChange}
                 onBlur={onBlur}
                 placeholder={props.placeholder}
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {fontSize: props.fontSize ? props.fontSize : undefined,}
+                ]}
                 secureTextEntry={props.secureTextEntry}
                 keyboardType={!props.keyboardType ? "default" : props.keyboardType}
               />
@@ -80,7 +87,10 @@ const CustomInput = (props: CustomInputProps) => {
                   style={[
                     {marginLeft: 5}
                   ]}>  
-                  <Text style={styles.fixText}>{props.sufix}</Text>         
+                  <Text style={[
+                    styles.fixText,
+                    {fontSize: props.fontSize ? props.fontSize : undefined,}
+                    ]}>{props.sufix}</Text>         
               </View>
             )} 
           </View>

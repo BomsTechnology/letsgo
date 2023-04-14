@@ -10,6 +10,7 @@ interface CustomButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   marginHorizontal?: number;
   marginVertical?: number;
+  fontSize?: number;
 }
 
 const CustomButton = (props: CustomButtonProps) => {
@@ -22,13 +23,16 @@ const CustomButton = (props: CustomButtonProps) => {
         styles.container,
         {
           backgroundColor: props.isReady ? props.bgColor : Colors.whiteTone3,
-          marginVertical: props.marginVertical ? props.marginVertical : undefined
+          marginVertical: props.marginVertical ? props.marginVertical : undefined,
         },
       ]}>
       <Text
         style={[
           styles.text,
-          {color: props.isReady ? props.fgColor : Colors.grayTone3},
+          {
+            color: props.isReady ? props.fgColor : Colors.grayTone3,
+            fontSize: props.fontSize ? props.fontSize : undefined,
+          },
         ]}>
         {props.text}
       </Text>
