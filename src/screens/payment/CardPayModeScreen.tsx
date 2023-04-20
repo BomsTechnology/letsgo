@@ -25,7 +25,7 @@ const CardPayModeScreen = () => {
 
   const numberPhone = watch("phonenumber");
   const save = () => {
-    navigation.navigate('Home' as never);
+    navigation.navigate('TicketList' as never);
   };
   return (
     <SafeAreaView style={styles.container}>

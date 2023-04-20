@@ -1,5 +1,4 @@
 import 'react-native-gesture-handler';
-
 import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {useFonts, Poppins_500Medium, Poppins_800ExtraBold, Poppins_700Bold, Poppins_900Black, Poppins_600SemiBold, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
@@ -23,6 +22,8 @@ import OMPayModeScreen from '@screens/payment/OMPayModeScreen';
 import MOMOPayModeScreen from '@screens/payment/MOMOPayModeScreen';
 import CardPayModeScreen from '@screens/payment/CardPayModeScreen';
 import CashPayModeScreen from '@screens/payment/CashPayModeScreen';
+import TicketListScreen from '@screens/ticket/TicketListScreen';
+import ReservationTicketDetailScreen from '@screens/ticket/ReservationTicketDetailScreen';
 
 import React from 'react';
 import DrawerNavigator from './src/navigators/DrawerNavigator';
@@ -64,6 +65,8 @@ export default function App() {
             <Stack.Screen name="MOMOPayMode" component={MOMOPayModeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="CardPayMode" component={CardPayModeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="CashPayMode" component={CashPayModeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="TicketList" component={TicketListScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ReservationTicketDetail" component={ReservationTicketDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
