@@ -20,6 +20,7 @@ const TicketDetailScreen = () => {
 
 
           <ImageBackground 
+            resizeMode='cover'
             style={{ width: "100%", flex: 1, paddingTop: 80 }}
             source={require('@assets/images/world_dotted_map.png')} 
         >
@@ -46,7 +47,7 @@ const TicketDetailScreen = () => {
               <QRCode value='bondico' logo={require('@assets/images/logo.png')} size={150}  logoBackgroundColor='#fff' />
             </View>
             <View
-              style={[styles.secondBLock]}
+              style={[styles.secondBLock, styles.shadowProp]}
             >
 
               <View style={{ 
@@ -407,24 +408,24 @@ export default TicketDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone2,
+    backgroundColor: Colors.whiteTone1,
     paddingTop: 40,
     position: "relative"
   },
   qrcodeBLock: {
     width: "100%",
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     borderRadius: 20,
     padding: 20,
     borderBottomWidth: 1,
     borderStyle: 'dashed',
-    borderBottomColor: Colors.grayTone1,
+    borderBottomColor: Colors.grayTone2,
     justifyContent: 'center',
     alignItems: 'center'
   },
   secondBLock: {
     width: "100%",
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     borderRadius: 20,
     padding: 10,
     borderBottomWidth: 1,
@@ -434,7 +435,7 @@ const styles = StyleSheet.create({
   },
   thirdBLock: {
     width: "100%",
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     borderRadius: 20,
     padding: 10,
     borderTopWidth: 1,
