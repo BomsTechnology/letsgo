@@ -138,7 +138,7 @@ export default SelectPayModeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone2,
+    backgroundColor: Colors.whiteTone1,
     paddingHorizontal: 20,
     paddingTop: 40
   },
