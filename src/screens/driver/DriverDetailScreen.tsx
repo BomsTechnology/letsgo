@@ -26,7 +26,7 @@ const DriverDetailScreen = () => {
         <Text style={styles.lightText}>Phone</Text>
         <Text style={styles.semiBoldText}>+237 655 667 788</Text>
         <Text style={styles.lightText}>Email</Text>
-        <Text style={styles.semiBoldText}>bucavoyage@gmail.com</Text>
+        <Text style={styles.semiBoldText}>jackson@gmail.com</Text>
         <Text style={styles.lightText}>National ID Number</Text>
         <Text style={styles.semiBoldText}>5011419</Text>
         <Text style={styles.lightText}>Driving Licence Number</Text>

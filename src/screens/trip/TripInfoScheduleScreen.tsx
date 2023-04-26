@@ -157,10 +157,10 @@ const TripInfoScheduleScreen = () => {
                 onPress={geToDriver}
                 label='Driver'
                 info1='+237 655 667 788'
-                info2='marc@gmail.com'
+                info2='jackson@gmail.com'
                 image={require('@assets/images/avatars/Avatar5.png')} 
                 rate={5} 
-                title='Marc S.'
+                title='Prosper Jackson'
                 />
 
                 <TripInfoCard 
