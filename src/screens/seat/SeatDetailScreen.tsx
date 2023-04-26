@@ -104,7 +104,7 @@ export default SeatDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone3,
+    backgroundColor: Colors.whiteTone1,
     paddingTop: 40
   },
   contentContainer: {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     flexGrow: 1,
     flex: 1,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     elevation: 2,
     paddingHorizontal: 20,
     paddingTop: 15,

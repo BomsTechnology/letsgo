@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
     flex: 1,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     elevation: 2,
     paddingHorizontal: 20,
     paddingTop: 15

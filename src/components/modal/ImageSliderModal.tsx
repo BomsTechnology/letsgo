@@ -32,6 +32,10 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
         {
             "id": "2",
             "image": require("@assets/images/redYaris2.jpg")
+        },
+        {
+            "id": "3",
+            "image": require("@assets/images/redYaris3.jpg")
         }
     ];
 

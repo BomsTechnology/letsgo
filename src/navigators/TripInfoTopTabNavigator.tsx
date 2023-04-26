@@ -12,11 +12,11 @@ const TripInfoTopTabNavigator = () => {
     <Tab.Navigator
       initialRouteName="TripInfoSchedule"
       screenOptions={{
-        tabBarActiveTintColor: Colors.whiteTone1,
-        tabBarInactiveTintColor: Colors.grayTone1,
+        tabBarActiveTintColor: Colors.onPrimaryColor,
+        tabBarInactiveTintColor: Colors.onWhiteTone,
         tabBarIndicatorStyle: {backgroundColor: Colors.primaryColor, height: '100%', borderRadius: 30 },
         tabBarLabelStyle: { fontSize: 13, fontFamily: 'Poppins_500Medium'},
-        tabBarStyle: { backgroundColor: Colors.whiteTone1, borderRadius: 30, elevation: 1, marginHorizontal: 30, marginBottom: 10 },
+        tabBarStyle: { backgroundColor: Colors.whiteTone2, borderRadius: 30, elevation: 1, marginHorizontal: 30, marginBottom: 10 },
       }}
     >
       <Tab.Screen
