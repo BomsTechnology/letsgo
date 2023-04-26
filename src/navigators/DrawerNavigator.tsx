@@ -10,7 +10,7 @@ const DrawerNavigator = () => {
     return (
       <Drawer.Navigator
         screenOptions={{ 
-          drawerPosition: 'right'
+          drawerPosition: 'left'
          }}
       >
         <Drawer.Screen name="Drawer" component={TabNavigator} options={{headerShown: false}}/>

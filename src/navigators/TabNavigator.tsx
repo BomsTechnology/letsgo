@@ -28,11 +28,11 @@ const TabNavigator = () => {
 
           return <Ionicons name={iconName} size={18} color={color} style={{ alignSelf: 'center', marginTop:0 }} />;
         },
-        tabBarActiveTintColor: Colors.whiteTone1,
-        tabBarInactiveTintColor: Colors.grayTone1,
+        tabBarActiveTintColor: Colors.onPrimaryColor,
+        tabBarInactiveTintColor: Colors.onWhiteTone,
         tabBarLabelStyle: { fontSize: 13, fontFamily: 'Poppins_500Medium', alignSelf: 'center' },
         tabBarStyle: { backgroundColor: 'transparent', position:'absolute', bottom:0, elevation: 0, borderTopWidth:0, paddingHorizontal: 10, marginBottom: 15 },
-        tabBarInactiveBackgroundColor: Colors.whiteTone1,
+        tabBarInactiveBackgroundColor: Colors.whiteTone2,
         tabBarActiveBackgroundColor: Colors.secondaryColor,
         headerTransparent: true,
         tabBarItemStyle: {

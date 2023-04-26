@@ -12,7 +12,7 @@ interface NextButtonProps {
 const OnBoardingNextButton = (props: NextButtonProps) => {
     const {width} = useWindowDimensions();
     const size = 80;
-    const strokeWidth = 2;
+    const strokeWidth = 4;
     const center = size / 2;
     const radius = size / 2 - strokeWidth / 2;
     const circumference = 2 * Math.PI * radius;
@@ -49,7 +49,7 @@ const OnBoardingNextButton = (props: NextButtonProps) => {
 
   return (
     <View style={[styles.container, {width}]}>
-    <Pressable onPress={props.scrollTo}  >
+    <Pressable onPress={props.scrollTo}  style={[styles.shadowProp, {display:'flex', alignItems:'center', justifyContent:'center'}]}>
       <Svg width={size} height={size} >
         <Circle cy={center} cx={center} r={radius} stroke={Colors.grayTone4} strokeWidth={strokeWidth} />
         <Circle 
@@ -62,11 +62,13 @@ const OnBoardingNextButton = (props: NextButtonProps) => {
           strokeDasharray={circumference}
           />
           <Pressable  style={styles.button} >
-          <Ionicons
-                name="chevron-forward"
-                size={32}
-                color={Colors.primaryColor}
-                /> 
+          <View style={[styles.circle100, {backgroundColor: (props.percentage === 100) ? Colors.secondaryColor: Colors.whiteTone2}]}>
+            <Ionicons
+              name="chevron-forward"
+              size={32}
+              color={(props.percentage === 100) ? Colors.onPrimaryColor: Colors.onWhiteTone}
+            />
+          </View>
           </Pressable >
       </Svg>
     </Pressable>
@@ -78,19 +80,34 @@ export default OnBoardingNextButton;
 
 const styles = StyleSheet.create({
     container: {
-        
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Colors.whiteTone1 ,
         position: 'relative',
         paddingBottom: 20
     },
+    shadowProp: {
+      shadowColor: '#171717',
+      elevation: 4,
+      backgroundColor: Colors.whiteTone3,
+      borderRadius: 100
+    },
     button: {
       position: 'absolute',
-      backgroundColor: Colors.whiteTone1 ,
+      backgroundColor: Colors.whiteTone1,
       borderRadius: 100,
-      padding: 8, 
       alignSelf: 'center',
-      top: 14
+      display:'flex',
+      alignItems:'center',
+      justifyContent:'center',
+      top: 14,
+    },
+    circle100:{
+      borderRadius:100,
+      width:50,
+      height:50,
+      display:'flex',
+      alignItems:'center',
+      justifyContent:'center',
     }
 });

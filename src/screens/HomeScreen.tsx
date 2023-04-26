@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const destinationIcon = ( <Ionicons name="location-outline" size={18} color={Colors.secondaryColor} /> );
   const moneyIcon = ( <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} /> );
   const menuIcon =  (<Ionicons name="menu" size={25} color={Colors.whiteTone1} />);
-  const locateIcon = (<Ionicons name="ios-locate" size={25} color={Colors.grayTone1} />);
+  const locateIcon = (<Ionicons name="ios-locate" size={25} color={Colors.onWhiteTone} />);
   const onPress = () =>  {}
   return (
     <SafeAreaView style={[styles.container, {
@@ -41,7 +41,7 @@ const HomeScreen = () => {
           Where are you going today ?
         </Text>
         <CustomInput
-          placeholder="Enter the adress"
+          placeholder="Enter the address"
           name="destination"
           control={control}
           secureTextEntry={false}
@@ -52,7 +52,7 @@ const HomeScreen = () => {
           marginVertical={0}
           fontSize={13}
           rules={{
-            required: 'The adress is required',
+            required: 'The address is required',
           }}
         />
 
@@ -111,32 +111,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 15,
-    backgroundColor: Colors.whiteTone3,
+    backgroundColor: Colors.whiteTone1,
     position: 'relative'
   },
   headerBtnBox: {
     position: 'absolute',
-    top: 40,
-    right: 20
+    top: 60,
+    left: 20
   },
   bottomBox: {
     position: 'absolute',
     bottom: 80,
     width: '100%',
     padding: 20,
-    backgroundColor: Colors.whiteTone1
+    backgroundColor: Colors.whiteTone2
   },
   shadowProp: {
     shadowColor: '#171717',
     elevation: 4,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     borderRadius: 10
   },
   title: {
     fontFamily: 'Poppins_800ExtraBold',
     fontSize: 18,
     textAlign: 'left',
-    color: Colors.grayTone1,
+    color: Colors.onWhiteTone,
   },
   description: {
     fontFamily: 'Poppins_300Light',

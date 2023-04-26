@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 const PlanScreen = () => {
   return (
     <View>
-      <Text>NatificationScreen</Text>
+      <Text>NotificationScreen</Text>
     </View>
   )
 }
