@@ -24,13 +24,13 @@ export const SplitOTPBoxesContainer = styled.Pressable`
 `;
 export const SplitBoxes = styled.View`
  borderWidth: 1px;
- borderColor: ${Colors.whiteTone4};
+ borderColor: ${Colors.primaryColor};
  border-radius: 5px;
  padding: 12px;
  min-width: 50px;
  shadowColor: '#171717';
  elevation: 0;
- backgroundColor: ${Colors.whiteTone3};
+ backgroundColor: ${Colors.whiteTone2};
 `;
 
 export const SplitBoxText = styled.Text`

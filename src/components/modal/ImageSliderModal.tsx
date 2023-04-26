@@ -27,11 +27,11 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
     const images: slideImageProps[] = [
         {
             "id": "1",
-            "image": require("@assets/images/logo.png")
+            "image": require("@assets/images/redYaris.jpg")
         },
         {
             "id": "2",
-            "image": require("@assets/images/logo.png")
+            "image": require("@assets/images/redYaris2.jpg")
         }
     ];
 
@@ -40,7 +40,7 @@ const ImageSliderModal = ({modalVisible, setModalVisible}: ImageSliderModalProps
           
             <Image
              source={ item.image}
-             resizeMode='contain'
+             resizeMode='cover'
              style={{
               height: 300,
               width:  width *0.8,

@@ -15,7 +15,7 @@ const ResultSearchScreen = () => {
           marginVertical: 10,
           borderWidth: 2,
           borderColor: Colors.primaryColor,
-          backgroundColor: Colors.whiteTone1,
+          backgroundColor: Colors.whiteTone2,
           borderRadius: 20,
           paddingHorizontal: 10,
           paddingVertical: 16,
@@ -57,7 +57,7 @@ const ResultSearchScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.whiteTone3,
+        backgroundColor: Colors.whiteTone1,
         paddingHorizontal: 20,
         paddingVertical: 40
     },

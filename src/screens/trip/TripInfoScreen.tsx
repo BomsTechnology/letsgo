@@ -8,7 +8,7 @@ const TripInfoScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 20 }}>
-        <SimpleHeader text='Trip info By Marcelin S.' />
+        <SimpleHeader text='Trip Info By Buca Voyage' />
       </View>
         <TripInfoTopTabNavigator />
     </SafeAreaView>

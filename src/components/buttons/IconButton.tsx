@@ -18,7 +18,7 @@ const IconButton = ({icon, bgColor, shadow, isReady, onPress, padding }: IconBut
         <Pressable disabled={(isReady != null) ? isReady : false} onPress={onPress} style={[
          (shadow != null && shadow == false) ? null : styles.shadowProp, 
           {padding: padding != null ? padding : 6},
-          {backgroundColor: bgColor ? bgColor : Colors.whiteTone1},
+          {backgroundColor: bgColor ? bgColor : Colors.whiteTone2},
           ]}>
           {icon}
         </Pressable>

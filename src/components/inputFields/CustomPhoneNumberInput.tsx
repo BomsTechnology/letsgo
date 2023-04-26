@@ -70,7 +70,7 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
                  style={[styles.shadowProp,{
                   height: 400,
                   width: width*0.8,
-                  backgroundColor: Colors.whiteTone3,
+                  backgroundColor: Colors.whiteTone2,
                   borderRadius: 12,
                   paddingBottom: 20
                  }]}
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     shadowProp: {
       shadowColor: '#171717',
       elevation: 4,
-      backgroundColor: Colors.whiteTone1,
+      backgroundColor: Colors.whiteTone2,
       borderRadius: 10
     },
     input: {
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
       borderWidth: 2,
     },
     input_NORMAL: {
-      borderColor: Colors.whiteTone1
+      borderColor: Colors.whiteTone2
     },
     input_ERROR: {
       borderColor: 'red',

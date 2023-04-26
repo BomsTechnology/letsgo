@@ -26,9 +26,9 @@ const CardResultSearch = () => {
             flexDirection: "row",
             alignItems: "center"
            }}>
-              <Image style={styles.image} resizeMode='contain' source={require('@assets/images/logo.png')}></Image>
+              <Image style={styles.image} resizeMode='contain' source={require('@assets/images/buca.jpeg')}></Image>
               <View style={{ marginLeft: 5 }}>
-                  <Text style={styles.name}> Marcelin Sigha </Text>
+                  <Text style={styles.name}> Buca Voyage </Text>
                   <View style={{ 
                       flexDirection: "row",
                       alignItems: "center",

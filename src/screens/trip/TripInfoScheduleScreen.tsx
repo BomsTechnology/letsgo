@@ -148,7 +148,7 @@ const TripInfoScheduleScreen = () => {
                 label='Planner'
                 info1='+237 655 667 788'
                 info2='bucavoyage@gmail.com'
-                image={require('@assets/images/logo.png')} 
+                image={require('@assets/images/buca.jpeg')} 
                 rate={5} 
                 title='Buca Voyage'
                 />
@@ -158,7 +158,7 @@ const TripInfoScheduleScreen = () => {
                 label='Driver'
                 info1='+237 655 667 788'
                 info2='marc@gmail.com'
-                image={require('@assets/images/logo.png')} 
+                image={require('@assets/images/avatars/Avatar5.png')} 
                 rate={5} 
                 title='Marc S.'
                 />
@@ -169,9 +169,9 @@ const TripInfoScheduleScreen = () => {
                 carColor='red'
                 carMatricule='CE 237 CM'
                 info1='Yaris'
-                image={require('@assets/images/logo.png')} 
+                image={require('@assets/images/redYaris.jpg')} 
                 rate={5} 
-                title='Toyote'
+                title='Toyota'
                 />
             {/* End Trip Info Card */}
 

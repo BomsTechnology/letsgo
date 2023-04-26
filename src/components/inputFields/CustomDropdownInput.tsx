@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     shadowProp: {
       shadowColor: '#171717',
       elevation: 4,
-      backgroundColor: Colors.whiteTone1,
+      backgroundColor: Colors.whiteTone2,
       borderRadius: 10
     },
     text_ERROR: {

@@ -16,26 +16,21 @@ const DriverDetailScreen = () => {
           justifyContent: 'center',
           alignItems: 'center'
         }]}>
-          <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/logo.png')} />
+          <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/avatars/Avatar5.png')} />
           <UserRating rate={4} />
         </View>
       </View>
       <ScrollView style={[styles.contentScroll]} showsVerticalScrollIndicator={false}>
-        <Text style={styles.lightText}>Organisation</Text>
-        <Text style={styles.semiBoldText}>Buca Voyage</Text>
-        <Divider style={{ marginVertical: 10 }} />
+        <Text style={styles.lightText}>Name and Surname</Text>
+        <Text style={styles.semiBoldText}>Prosper Jackson</Text>
         <Text style={styles.lightText}>Phone</Text>
         <Text style={styles.semiBoldText}>+237 655 667 788</Text>
-        <Divider style={{ marginVertical: 10 }} />
         <Text style={styles.lightText}>Email</Text>
         <Text style={styles.semiBoldText}>bucavoyage@gmail.com</Text>
-        <Divider style={{ marginVertical: 10 }} />
-        <Text style={styles.lightText}>Offical Website</Text>
-        <Text style={styles.semiBoldText}>www.bucavoyage.com</Text>
-        <Divider style={{ marginVertical: 10 }} />
-        <Text style={styles.lightText}>Business Registration Number</Text>
-        <Text style={styles.semiBoldText}>123456789</Text>
-        <Divider style={{ marginVertical: 10 }} />
+        <Text style={styles.lightText}>National ID Number</Text>
+        <Text style={styles.semiBoldText}>5011419</Text>
+        <Text style={styles.lightText}>Driving Licence Number</Text>
+        <Text style={styles.semiBoldText}>4018419</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -46,7 +41,7 @@ export default DriverDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone3,
+    backgroundColor: Colors.whiteTone1,
     paddingTop: 40
   },
   image: {
@@ -72,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Poppins_600SemiBold',
     color: Colors.grayTone1,
+    marginVertical: 10 
   },
   lightText: {
     fontSize: 12,

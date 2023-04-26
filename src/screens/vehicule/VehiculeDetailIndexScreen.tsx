@@ -20,20 +20,16 @@ const VehiculeDetailIndexScreen = () => {
             <UserRating rate={4} />
         </View>
           <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-          <Text style={styles.lightText}>Organisation</Text>
-          <Text style={styles.semiBoldText}>Buca Voyage</Text>
-          <Divider style={{ marginVertical: 10 }} />
-          <Text style={styles.lightText}>Phone</Text>
-          <Text style={styles.semiBoldText}>+237 655 667 788</Text>
-          <Divider style={{ marginVertical: 10 }} />
-          <Text style={styles.lightText}>Email</Text>
-          <Text style={styles.semiBoldText}>bucavoyage@gmail.com</Text>
-          <Divider style={{ marginVertical: 10 }} />
-          <Text style={styles.lightText}>Offical Website</Text>
-          <Text style={styles.semiBoldText}>www.bucavoyage.com</Text>
-          <Divider style={{ marginVertical: 10 }} />
-          <Text style={styles.lightText}>Business Registration Number</Text>
-          <Text style={styles.semiBoldText}>123456789</Text>
+          <Text style={styles.lightText}>Model</Text>
+          <Text style={styles.semiBoldText}>Toyota</Text>
+          <Text style={styles.lightText}>Name</Text>
+          <Text style={styles.semiBoldText}>Yaris</Text>
+          <Text style={styles.lightText}>Licence Plate Number</Text>
+          <Text style={styles.semiBoldText}>CE 237 CM</Text>
+          <Text style={styles.lightText}>Chasis Number</Text>
+          <Text style={styles.semiBoldText}>5XYZUDLA0DG073053</Text>
+          <Text style={styles.lightText}>Insurance Number</Text>
+          <Text style={styles.semiBoldText}>BOUF 9401 1419</Text>
           <Divider style={{ marginVertical: 10 }} />
 
           <View style={{ 
@@ -58,7 +54,7 @@ const VehiculeDetailIndexScreen = () => {
                 height: 120 ,
                 position: 'relative'
                 }}>
-                    <Image resizeMode='contain' style={[styles.image]} source={require('@assets/images/logo.png')} />
+                    <Image resizeMode='cover' style={[styles.image]} source={require('@assets/images/redYaris.jpg')} />
                     <View style={{ 
                       position: 'absolute',
                       width: '100%',
@@ -104,7 +100,7 @@ const VehiculeDetailIndexScreen = () => {
                   size={25}
                   color={Colors.grayTone1}
                   /> 
-              <Text style={[styles.semiBoldText, {marginLeft: 10}]}>No Smoking in the car</Text>
+              <Text style={[styles.semiBoldText, {marginLeft: 10}]}>No Smoking in the car during the trip</Text>
             </View>
             
           </View>
@@ -142,7 +138,8 @@ const styles = StyleSheet.create({
   semiBoldText: {
     fontSize: 16,
     fontFamily: 'Poppins_600SemiBold',
-    color: Colors.grayTone1
+    color: Colors.grayTone1,
+    marginVertical: 10
   },
   mediumText: {
     fontSize: 14,
