@@ -26,6 +26,8 @@ module.exports = function(api) {
             "@navigators" : ["./src/navigators"],
             "@constants" : ["./src/constants"],
             "@assets" : ["./src/assets"],
+            "@hooks" : ["./src/hooks"],
+            "@context" : ["./src/context"],
           }
         }
       ]

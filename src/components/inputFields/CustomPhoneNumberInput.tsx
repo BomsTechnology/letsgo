@@ -11,7 +11,8 @@ interface CustomPhoneNumberInputProps {
   name: string;
   placeholder: string;
   rules?: Object;
-  selectedCountry: countryCodeProps | null;
+  selectedCountry?: countryCodeProps;
+  setSelectedCountry?: Function;
   label?: string;
   labelColor?: string;
 }
@@ -19,11 +20,12 @@ interface CustomPhoneNumberInputProps {
 
 const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedArea, setSelectedArea] = useState<countryCodeProps | null>(null);
+    const [selectedArea, setSelectedArea] = useState<countryCodeProps | undefined>(undefined);
 
     useEffect(() => {
       let initCountry = countryCodes.filter((country) => country.code === 'CM');
       setSelectedArea(initCountry[0]);
+      props.setSelectedCountry!(initCountry[0]);
     }, [])
 
   
@@ -37,6 +39,7 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
             }}
             onPress={() =>{
               setSelectedArea(item),
+              props.setSelectedCountry!(item),
               setModalVisible(false)
             }}
           >

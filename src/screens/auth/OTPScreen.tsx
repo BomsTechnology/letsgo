@@ -16,7 +16,7 @@ const OTPScreen = () => {
   const maximumCodeLength = 4;
 
   const verify = () => {
-    navigation.navigate('UserRole' as never);
+   // navigation.navigate('UserRole' as never);
   };
 
   return (

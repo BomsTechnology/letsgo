@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Colors from '@constants/colors';
@@ -10,13 +10,13 @@ import {useNavigation} from '@react-navigation/native';
 import { countryCodeProps } from "@data/CountryCode"
 import {useForm, FieldValues} from 'react-hook-form';
 import CheckboxField from '@components/inputFields/CheckboxField';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const LoginScreen = () => {
+  const { login, isLoading } = useContext(AuthContext);
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | undefined>(undefined);
   const [isChecked, setChecked] = useState(false);
 
   const {
@@ -28,8 +28,10 @@ const LoginScreen = () => {
 
   const numberPhone = watch("phonenumber");
 
-  const login = () => {
-    navigation.navigate('OTP' as never);
+  const signin = async () => {
+    let phoneNumber = `${selectedCountry!.callingCode}${numberPhone}`;
+    await login(phoneNumber, 'POOLER'); 
+    //navigation.navigate('OTP' as never);
   }; 
 
 
@@ -40,7 +42,7 @@ const LoginScreen = () => {
         <Text style={styles.title}>What's your phone number ?</Text>
         <Text style={styles.description}>Well text you a verification code</Text>
         <CustomPhoneNumberInput 
-            selectedCountry={selectedCountry}  
+            setSelectedCountry={setSelectedCountry}
             placeholder="Enter your Phone number"
             name="phonenumber"
             control={control}
@@ -56,11 +58,12 @@ const LoginScreen = () => {
               },
             }}
           />
+          
             <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={numberPhone && isChecked}
-                onPress={handleSubmit(login)}
+                onPress={handleSubmit(signin)}
                 marginVertical={10}
                 text="Send a verification code"
               />

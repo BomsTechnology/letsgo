@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import Colors from '@constants/colors'
 import { Ionicons , FontAwesome5 } from '@expo/vector-icons';
@@ -8,9 +8,11 @@ import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import IconButton from '@components/buttons/IconButton';
+import { AuthContext } from '@context/AuthContext';
 
 const HomeScreen = () => { 
   const {height, width} = useWindowDimensions();
+  const { logout, isLoading } = useContext(AuthContext);
   const navigation = useNavigation();
   const {
     control,
@@ -34,6 +36,16 @@ const HomeScreen = () => {
         <IconButton icon={menuIcon} bgColor={Colors.primaryColor} onPress={()=>{ navigation.dispatch(DrawerActions.toggleDrawer());}}/>
         <IconButton icon={locateIcon}  onPress={onPress}/>
       </View>
+
+      <CustomButton 
+                bgColor={Colors.primaryColor}
+                fgColor='#fff'
+                isReady={true}
+                onPress={logout}
+                marginVertical={0}
+                fontSize={12}
+                text="logout"
+              />
         
       <View style={[styles.bottomBox, styles.shadowProp]}>
         <Text style={styles.title}>Hi Traveller</Text>
