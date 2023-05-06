@@ -13,7 +13,7 @@ import AppFirstOpenStackNavigator from './AppFirstOpenStackNavigator';
 
 const AppNavigator = () => {
     const colorScheme = useColorScheme();
-    const { isLoading, userToken, isFirstOpen } = useContext(AuthContext);
+    const { isLoading, userAccessToken, userRefreshToken, isFirstOpen } = useContext(AuthContext);
 
     if(isLoading) {
        return (<View style={{ flex:1, justifyContent: 'center', alignItems:'center' }}>
@@ -26,9 +26,9 @@ const AppNavigator = () => {
                     <StatusBar style="auto" />
                     <NavigationContainer>
                     <QueryClientProvider client={queryClient}>
-                       { !isFirstOpen && userToken !== null ?
+                       { !isFirstOpen && userAccessToken !== null ?
                             <AppStackNavigator /> :
-                            userToken !== null ?
+                            userAccessToken !== null ?
                             <AppFirstOpenStackNavigator /> :
                             <AuthStackNavigator /> 
                         }

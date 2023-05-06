@@ -6,18 +6,23 @@ import CustomButton from '@components/buttons/CustomButton';
 import StepHeader from '@components/StepHeader';
 import CustomPhoneNumberInput from '@components/inputFields/CustomPhoneNumberInput';
 import {Ionicons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/core';
 import { countryCodeProps } from "@data/CountryCode"
 import {useForm, FieldValues} from 'react-hook-form';
 import CheckboxField from '@components/inputFields/CheckboxField';
 import { AuthContext } from '../../context/AuthContext';
+import { ActivityIndicator } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '@navigators/AuthStackNavigator';
+import LoadingButton from '@components/buttons/LoadingButton';
 
 
 const LoginScreen = () => {
-  const { login, isLoading } = useContext(AuthContext);
-  const navigation = useNavigation();
+  const { login } = useContext(AuthContext);
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
   const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | undefined>(undefined);
   const [isChecked, setChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
@@ -29,16 +34,20 @@ const LoginScreen = () => {
   const numberPhone = watch("phonenumber");
 
   const signin = async () => {
+    setLoading(true);
     let phoneNumber = `${selectedCountry!.callingCode}${numberPhone}`;
-    await login(phoneNumber, 'POOLER'); 
-    //navigation.navigate('OTP' as never);
+    let res = await login(phoneNumber, 'POLLER'); 
+    setLoading(false);
+    navigation.navigate('OTP', {
+      verificationId: res.verificationId
+    })
   }; 
 
 
   return (
     <SafeAreaView style={styles.container}>
       
-        <StepHeader elementsNumber={4} currentStep={1} />
+        <StepHeader elementsNumber={3} currentStep={1} />
         <Text style={styles.title}>What's your phone number ?</Text>
         <Text style={styles.description}>Well text you a verification code</Text>
         <CustomPhoneNumberInput 
@@ -59,14 +68,17 @@ const LoginScreen = () => {
             }}
           />
           
-            <CustomButton 
+          { !loading ? 
+              <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={numberPhone && isChecked}
                 onPress={handleSubmit(signin)}
                 marginVertical={10}
                 text="Send a verification code"
-              />
+              /> :
+              <LoadingButton />
+          }
 
         <View style={{ 
             flexDirection: 'row',

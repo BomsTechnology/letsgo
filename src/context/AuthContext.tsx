@@ -7,8 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export interface AuthContextProps {
     isLoading: boolean;
     isFirstOpen: boolean;
-    userToken: string | null;
-    login: (phoneNumber: string, userType: string) => Promise<void>;
+    userAccessToken: string | null;
+    userRefreshToken: string | null;
+    login: (phoneNumber: string, userType: string) => Promise<{ status: string, verificationId: string }>;
+    verifyCode: (verificationId: string, code: string) => Promise<{access_token?: string, refresh_token?: string, error?: string, error_description?: string}>;
     logout: () => Promise<void>;
     isLoggedIn: () => Promise<void>;
 }
@@ -19,10 +21,10 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isFirstOpen, setIsFirstOpen] = useState<boolean>(true);
-    const [userToken, setUserToken] = useState<string | null>(null);
+    const [userAccessToken, setUserAccessToken] = useState<string | null>(null);
+    const [userRefreshToken, setUserRefreshToken] = useState<string | null>(null);
 
-    const login = async (phoneNumber: string, userType: string): Promise<void> => {
-        setIsLoading(true);
+    const login = async (phoneNumber: string, userType: string): Promise<{ status: string, verificationId: string }> => {
         let data = {
             "phoneNumber": phoneNumber,
             "userType": userType,
@@ -32,39 +34,68 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
             "deviceName" : "ItelA56", 
             "deviceId" : "aakfkfkfnekfnekfnenfnfsn" 
         };
-        console.log(data)
-        await axios.post('http://localhost:9000/api/v0/register/mobile/phone', data, {
+        let responseData = null;
+
+        await axios.post('http://172.20.10.4:9000/api/v0/register/mobile/phone', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
             .then((response) => {
-                //setUserToken('token');
-                //AsyncStorage.setItem('userToken', 'token');
-                //setIsLoading(false);
-                console.log(response);
+                responseData = response.data;
             })
             .catch((error) => {
                 console.log('Error: ' + error.message);
-                setIsLoading(false);
             });
+            return responseData!;
+    };
+
+    const verifyCode = async (verificationId: string, code: string): Promise<{access_token?: string, refresh_token?: string, error?: string, error_description?: string}> => {
+        let data = {
+            "verification_id" : verificationId,
+            "verification_code" : code, 
+            "device_id" : "aakfkfkfnekfnekfnenfnfsn" 
+        };
+        let responseData = null;
+
+        await axios.post('http://172.20.10.4:9000/api/v0/auth/sms/code/verify', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                setUserAccessToken(response.data.access_token);
+                AsyncStorage.setItem('userAccessToken', response.data.access_token);
+                setUserRefreshToken(response.data.refresh_token);
+                AsyncStorage.setItem('userRefreshToken', response.data.refresh_token);
+            })
+            .catch((error) => {
+                responseData = error.response.data;
+            });
+            return responseData!;
     };
 
     const logout = async (): Promise<void> => {
         setIsLoading(true);
-        setUserToken(null);
-        AsyncStorage.removeItem('userToken');
+        setUserAccessToken(null);
+        setUserRefreshToken(null);
+        AsyncStorage.removeItem('userAccessToken');
+        AsyncStorage.removeItem('userRefreshToken');
         setIsLoading(false);
     };
 
     const isLoggedIn = async () => {
+        setIsLoading(true);
         try {
             setIsLoading(true);
-            let userToken = await AsyncStorage.getItem('userToken');
+            let userAccessToken = await AsyncStorage.getItem('userAccessToken');
+            let userRefreshToken = await AsyncStorage.getItem('userRefreshToken');
             setIsFirstOpen(false);
-            setUserToken(userToken)
+            setUserAccessToken(userAccessToken);
+            setUserRefreshToken(userRefreshToken);
             setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.log('isLogged in error' + error);
         }
     }
@@ -74,7 +105,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     }, []);
     
     return (
-        <AuthContext.Provider value={{isLoading, userToken, login, logout, isLoggedIn, isFirstOpen}} >
+        <AuthContext.Provider value={{isLoading, userAccessToken, userRefreshToken, login, verifyCode, logout, isLoggedIn, isFirstOpen}} >
             {children}
         </AuthContext.Provider>
     );

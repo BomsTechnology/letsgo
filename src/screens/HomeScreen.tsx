@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import Colors from '@constants/colors'
 import { Ionicons , FontAwesome5 } from '@expo/vector-icons';
@@ -9,10 +9,12 @@ import {useForm, FieldValues} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import IconButton from '@components/buttons/IconButton';
 import { AuthContext } from '@context/AuthContext';
+import LoadingButton from '@components/buttons/LoadingButton';
 
 const HomeScreen = () => { 
   const {height, width} = useWindowDimensions();
-  const { logout, isLoading } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
   const {
     control,
@@ -20,6 +22,13 @@ const HomeScreen = () => {
     watch,
     //formState: {errors},
   } = useForm();
+
+  const signout = async () => {
+    console.log('yo')
+    setLoading(true);
+    await logout();
+    setLoading(false);
+  }
 
   const destination = watch('destination');
   const money = watch('money');
@@ -37,15 +46,18 @@ const HomeScreen = () => {
         <IconButton icon={locateIcon}  onPress={onPress}/>
       </View>
 
+      { !loading ? 
       <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={true}
-                onPress={logout}
+                onPress={signout}
                 marginVertical={0}
                 fontSize={12}
                 text="logout"
-              />
+              />:
+              <LoadingButton />
+          }
         
       <View style={[styles.bottomBox, styles.shadowProp]}>
         <Text style={styles.title}>Hi Traveller</Text>

@@ -18,7 +18,7 @@ export const TextInputHidden = styled.TextInput`
 `;
 
 export const SplitOTPBoxesContainer = styled.Pressable`
- width: 80%;
+ width: 95%;
  flex-direction: row;
  justify-content: space-evenly;
 `;

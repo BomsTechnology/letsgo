@@ -3,7 +3,14 @@ import LoginScreen from '@screens/auth/LoginScreen';
 import OnboardingScreen from '@screens/OnboardingScreen';
 import OTPScreen from '@screens/auth/OTPScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
+
+export type AuthStackParamList = {
+  OnBoarding: undefined;
+  Login: undefined;
+  OTP: { verificationId: string };
+};
+
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStackNavigator = () => {
   return (
