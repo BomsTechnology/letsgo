@@ -24,7 +24,6 @@ const HomeScreen = () => {
   } = useForm();
 
   const signout = async () => {
-    console.log('yo')
     setLoading(true);
     await logout();
     setLoading(false);

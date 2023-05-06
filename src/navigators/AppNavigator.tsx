@@ -26,10 +26,10 @@ const AppNavigator = () => {
                     <StatusBar style="auto" />
                     <NavigationContainer>
                     <QueryClientProvider client={queryClient}>
-                       { !isFirstOpen && userAccessToken !== null ?
-                            <AppStackNavigator /> :
-                            userAccessToken !== null ?
-                            <AppFirstOpenStackNavigator /> :
+                       { isFirstOpen === true && userAccessToken !== null ?
+                            <AppFirstOpenStackNavigator />  :
+                            isFirstOpen === false && userAccessToken !== null?
+                             <AppStackNavigator />:
                             <AuthStackNavigator /> 
                         }
                     </QueryClientProvider>
