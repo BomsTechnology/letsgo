@@ -49,7 +49,7 @@ const LoginScreen = () => {
       
         <StepHeader elementsNumber={3} currentStep={1} />
         <Text style={styles.title}>What's your phone number ?</Text>
-        <Text style={styles.description}>Well text you a verification code</Text>
+        <Text style={styles.description}>Will send you a verification code</Text>
         <CustomPhoneNumberInput 
             setSelectedCountry={setSelectedCountry}
             placeholder="Enter your Phone number"
