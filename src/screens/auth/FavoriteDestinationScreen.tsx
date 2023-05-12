@@ -4,13 +4,15 @@ import Colors from '@constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import StepHeader from '@components/StepHeader';
 import CustomButton from '@components/buttons/CustomButton';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/core';
 import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '@navigators/AppStackNavigator';
 
 const FavoriteDestinationScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const {
     control,
     handleSubmit,
@@ -23,7 +25,10 @@ const FavoriteDestinationScreen = () => {
   const destinationIcon = ( <Ionicons name="location-outline" size={20} color={Colors.secondaryColor} /> );
   const moneyIcon = ( <FontAwesome5 name="search-dollar" size={20} color={Colors.primaryColor} /> );
   const save = () => {
-    navigation.navigate('ResultSearch' as never);
+    navigation.navigate('ResultSearch', {
+      destination: destination,
+      price: money
+    });
   }; 
 
   return (
