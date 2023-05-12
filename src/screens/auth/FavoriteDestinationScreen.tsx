@@ -29,7 +29,7 @@ const FavoriteDestinationScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StepHeader elementsNumber={4} currentStep={4} />
-      <Text style={styles.title}>Hi Travailler !</Text>
+      <Text style={styles.title}>Hi Traveller !</Text>
 
       <Text style={styles.description}>What is your favorite destination</Text>
       <CustomInput

@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import VehiculeDetailIndexScreen from '../screens/vehicule/VehiculeDetailIndexScreen';
-import VehiculeDetailSeatScreen from '../screens/vehicule/VehiculeDetailSeatScreen';
-import Colors from '../constants/colors';
+import VehiculeDetailIndexScreen from '@screens/vehicule/VehiculeDetailIndexScreen';
+import VehiculeDetailSeatScreen from '@screens/vehicule/VehiculeDetailSeatScreen';
+import Colors from '@constants/colors';
 
 
 const Tab = createMaterialTopTabNavigator();

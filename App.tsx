@@ -5,7 +5,6 @@ import { AuthProvider } from '@context/AuthContext';
 import AppNavigator from '@navigators/AppNavigator';
 
 
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_300Light,
@@ -26,3 +25,4 @@ export default function App() {
     </AuthProvider>
   );
 }
+

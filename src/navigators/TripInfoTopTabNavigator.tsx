@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import TripInfoScheduleScreen from '../screens/trip/TripInfoScheduleScreen';
-import TripInfoPOIScreen from '../screens/trip/TripInfoPOIScreen';
-import TripInfoItineraryScreen from '../screens/trip/TripInfoItineraryScreen';
-import Colors from '../constants/colors';
+import TripInfoScheduleScreen from '@screens/trip/info/TripInfoScheduleScreen';
+import TripInfoPOIScreen from '@screens/trip/info/TripInfoPOIScreen';
+import TripInfoItineraryScreen from '@screens/trip/info/TripInfoItineraryScreen';
+import Colors from '@constants/colors';
 
 
 const Tab = createMaterialTopTabNavigator();

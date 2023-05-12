@@ -36,7 +36,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         };
         let responseData = null;
 
-        await axios.post('http://172.16.1.205:9000/api/v0/register/mobile/phone', data, {
+        await axios.post('http://192.168.43.110:9000/api/v0/register/mobile/phone', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -58,7 +58,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         };
         let responseData = null;
 
-        await axios.post('http://172.16.1.205:9000/api/v0/auth/sms/code/verify', data, {
+        await axios.post('http://192.168.43.110:9000/api/v0/auth/sms/code/verify', data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

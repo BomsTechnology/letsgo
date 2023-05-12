@@ -10,12 +10,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import IconButton from '@components/buttons/IconButton';
 import { AuthContext } from '@context/AuthContext';
 import LoadingButton from '@components/buttons/LoadingButton';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppStackParamList } from '@navigators/AppStackNavigator';
 
 const HomeScreen = () => { 
   const {height, width} = useWindowDimensions();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const [loading, setLoading] = useState(false);
   const { logout } = useContext(AuthContext);
-  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -35,6 +37,12 @@ const HomeScreen = () => {
   const moneyIcon = ( <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} /> );
   const menuIcon =  (<Ionicons name="menu" size={25} color={Colors.whiteTone1} />);
   const locateIcon = (<Ionicons name="ios-locate" size={25} color={Colors.onWhiteTone} />);
+  const search = () =>  {
+    navigation.navigate('ResultSearch', {
+      destination: destination,
+      price: money
+    });
+  };
   const onPress = () =>  {}
   return (
     <SafeAreaView style={[styles.container, {
@@ -111,7 +119,7 @@ const HomeScreen = () => {
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={destination && money}
-                onPress={handleSubmit(onPress)}
+                onPress={handleSubmit(search)}
                 marginVertical={0}
                 fontSize={12}
                 text="Search"

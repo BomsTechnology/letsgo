@@ -38,9 +38,9 @@ const LoginScreen = () => {
     let phoneNumber = `${selectedCountry!.callingCode}${numberPhone}`;
     let res = await login(phoneNumber, 'POLLER'); 
     setLoading(false);
-    navigation.navigate('OTP', {
+    navigation.replace('OTP', {
       verificationId: res.verificationId
-    })
+    });
   }; 
 
 

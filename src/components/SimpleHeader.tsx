@@ -9,17 +9,18 @@ interface SimpleHeaderProps {
     text: string;
     buttonAction?: (event: GestureResponderEvent) => void;
     buttonIcon?: JSX.Element;
+    showButton?: boolean
 }
 
 
-const SimpleHeader = ({text, buttonAction, buttonIcon}: SimpleHeaderProps) => {
+const SimpleHeader = ({text, buttonAction, buttonIcon, showButton}: SimpleHeaderProps) => {
     const { goBack } = useNavigation();
     const icon = buttonIcon ? buttonIcon : (<Ionicons name="chevron-back" size={25} color={Colors.grayTone1} /> );
     const onPress = buttonAction ? buttonAction : goBack;
 
   return (
     <View style={styles.container}>
-        <IconButton icon={icon} onPress={onPress}/>
+        {showButton == undefined || (showButton != undefined && showButton == true) ? <IconButton icon={icon} onPress={onPress}/> : undefined}
         <Text style={styles.text}>{text}</Text>
     </View>
   );

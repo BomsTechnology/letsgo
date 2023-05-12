@@ -1,7 +1,8 @@
 import React from 'react';
 import ProfileScreen from '@screens/ProfileScreen';
 import ResultSearchScreen from '@screens/trip/ResultSearchScreen';
-import TripInfoScreen from '@screens/trip/TripInfoScreen';
+import TripInfoScreen from '@screens/trip/info/TripInfoScreen';
+import TripPlanScreen from '@screens/trip/planned/TripPlanScreen';
 import PlannerDetailScreen from '@screens/planner/PlannerDetailScreen';
 import DriverDetailScreen from '@screens/driver/DriverDetailScreen';
 import VehiculeDetailScreen from '@screens/vehicule/VehiculeDetailScreen';
@@ -15,7 +16,28 @@ import TicketListScreen from '@screens/ticket/TicketListScreen';
 import ReservationTicketDetailScreen from '@screens/ticket/ReservationTicketDetailScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DrawerNavigator from '@navigators/DrawerNavigator';
-const Stack = createNativeStackNavigator();
+
+
+export type AppStackParamList = {
+  Home: undefined;
+  ResultSearch: { destination: string, price: number };
+  TripInfo: undefined;
+  TripPlan: undefined;
+  PlannerDetail: undefined;
+  DriverDetail: undefined;
+  VehiculeDetail: undefined;
+  SeatDetail: undefined;
+  SelectPayMode: undefined;
+  OMPayMode: undefined;
+  MOMOPayMode: undefined;
+  CardPayMode: undefined;
+  CashPayMode: undefined;
+  TicketList: undefined;
+  ReservationTicketDetail: undefined;
+  Profile: undefined;
+};
+
+const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const StackNavigator = () => {
   return (
@@ -23,6 +45,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TripInfo" component={TripInfoScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="TripPlan" component={TripPlanScreen} options={{ headerShown: false }} />
       <Stack.Screen name="PlannerDetail" component={PlannerDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="DriverDetail" component={DriverDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />

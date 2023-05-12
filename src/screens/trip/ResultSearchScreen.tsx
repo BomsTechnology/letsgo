@@ -3,10 +3,18 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import Colors from '@constants/colors';
+import {useNavigation} from '@react-navigation/core';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AppStackParamList } from '@navigators/AppStackNavigator';
+
+type Props = NativeStackScreenProps<AppStackParamList, 'ResultSearch'>;
 
 import CardResultSearch from '@components/cards/CardResultSearchPlaned';
 import SimpleHeader from '@components/SimpleHeader';
-const ResultSearchScreen = () => {
+import NoResultotTrip from '../../components/NoResultotTrip';
+const ResultSearchScreen = ({route}: Props) => {
+  const { goBack } = useNavigation();
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,13 +35,13 @@ const ResultSearchScreen = () => {
             <Text style={{ 
               fontSize: 16,
               fontFamily: 'Poppins_500Medium',
-             }}>Melen, Ecole Polytechnique</Text>
+             }}>{route.params.destination}</Text>
             <Text style={{ 
               fontSize: 16,
               fontFamily: 'Poppins_300Light',
-             }}>XFA 250</Text>
+             }}>XFA {route.params.price}</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => goBack()} >
           <Ionicons
                 name="close-circle"
                 size={25}
@@ -41,14 +49,18 @@ const ResultSearchScreen = () => {
                 />
           </TouchableOpacity>
         </View>
-        <Text style={{ 
+       {/*  <Text style={{ 
               fontSize: 20,
               marginVertical: 10,
               marginLeft: 5,
               fontFamily: 'Poppins_600SemiBold',
              }}>Select a Planed trip</Text>
+      <CardResultSearch /> */}
 
-    <CardResultSearch />
+      
+      <NoResultotTrip destination={route.params.destination} />
+
+
     </SafeAreaView>
   );
 };
