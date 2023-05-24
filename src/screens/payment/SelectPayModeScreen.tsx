@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import Colors from '@constants/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,6 +13,7 @@ const SelectPayModeScreen = () => {
   const navigation = useNavigation();
   const [isCheckedConfirm, setCheckedConfirm] = useState(true);
   const [isCheckedReserve, setCheckedReserve] = useState(false);
+  const [isCheckedPolicy, setCheckedPolicy] = useState(false);
   const [asError, setAsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [selected, setSelected] = useState("");
@@ -109,11 +110,28 @@ const SelectPayModeScreen = () => {
             asError={asError}
             errorMessage={errorMessage} 
           />
+
+          <View style={{ 
+            paddingHorizontal: 30
+           }}>
+            <CheckboxField 
+              text="By checking this box, I agree to the terms of use and acknowledge yhe"
+              isChecked={isCheckedPolicy}
+              setChecked={() => setCheckedPolicy(!isCheckedPolicy)}
+              size={25}
+              />
+             { isCheckedConfirm ? <TouchableOpacity>
+                 <Text style={[styles.hText]}>Confirmation Policy</Text>
+              </TouchableOpacity> :
+              <TouchableOpacity>
+                  <Text style={[styles.hText]}>Reservation Policy</Text>
+              </TouchableOpacity>}
+          </View>
           
         <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
-                isReady={selected != ""}
+                isReady={(selected != "") && isCheckedPolicy == true}
                 onPress={selectPay}
                 text="Proced to payment"
                 marginVertical={10}
@@ -163,4 +181,11 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 15,
   },
+  hText: {
+    fontSize: 14,
+    fontFamily: 'Poppins_500Medium',
+    color: Colors.secondaryColor,
+    textAlign: 'left',
+    marginLeft: 50
+}
 });

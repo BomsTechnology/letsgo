@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import TripDetailTable from '@components/table/TripDetailTable';
 import CreditCardField from '@components/inputFields/CreditCardField';
+import PromoCodeLuggage from '@components/PromoCodeLuggage';
 const { width, height } = Dimensions.get('window');
 
 const CardPayModeScreen = () => {
@@ -44,6 +45,7 @@ const CardPayModeScreen = () => {
         from your mobile money account to pay your trip. 
         Verify transaction details and Enter your Payment information
       </Text>
+      <PromoCodeLuggage />
       <TripDetailTable/>
       </ScrollView>
       <View key="fixed" style={[styles.fixedBox]}>

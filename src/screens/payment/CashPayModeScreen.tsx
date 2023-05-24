@@ -10,6 +10,7 @@ import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import TripDetailTable from '@components/table/TripDetailTable';
+import PromoCodeLuggage from '@components/PromoCodeLuggage';
 const { width, height } = Dimensions.get('window');
 
 const CashPayModeScreen = () => {
@@ -43,6 +44,7 @@ const CashPayModeScreen = () => {
         to the trip planner to pay your trip. 
         Pay your trip while a confirmation is awaited from the trip planner
       </Text>
+      <PromoCodeLuggage />
       <TripDetailTable/>
       </ScrollView>
       <View key="fixed" style={[styles.fixedBox]}>

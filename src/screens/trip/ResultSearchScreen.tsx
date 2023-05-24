@@ -49,13 +49,13 @@ const ResultSearchScreen = ({route}: Props) => {
                 />
           </TouchableOpacity>
         </View>
-       {/*  <Text style={{ 
+       {/*   <Text style={{ 
               fontSize: 20,
               marginVertical: 10,
               marginLeft: 5,
               fontFamily: 'Poppins_600SemiBold',
              }}>Select a Planed trip</Text>
-      <CardResultSearch /> */}
+      <CardResultSearch />  */}
 
       
       <NoResultotTrip destination={route.params.destination} />

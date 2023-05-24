@@ -8,6 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { Divider } from '@constants/ComponentStyled';
 import QRCode from 'react-native-qrcode-svg';
+import TripDetailTable from '../../components/table/TripDetailTable';
 
 const TicketDetailScreen = () => {
   return (
@@ -367,7 +368,7 @@ const TicketDetailScreen = () => {
                 >Orange Money</Text>
             </View>
               </View>
-
+              <TripDetailTable />
               <View style={{ marginTop:20 }}>
                 <Text
                 style={[{ 
