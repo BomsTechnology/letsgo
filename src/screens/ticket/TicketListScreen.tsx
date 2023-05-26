@@ -5,10 +5,16 @@ import SimpleHeader from '@components/SimpleHeader';
 import Colors from '@constants/colors';
 import TicketCard from '@components/cards/TicketCard';
 import CustomButton from '@components/buttons/CustomButton';
+import { useNavigation } from '@react-navigation/core';
 const { width, height } = Dimensions.get('window');
 
 
 const TicketListScreen = () => {
+  
+  const navigation = useNavigation();
+  const next = () =>  {
+    navigation.navigate('TicketDetail' as never);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ 
@@ -26,7 +32,7 @@ const TicketListScreen = () => {
           <View style={{ 
           paddingHorizontal: 20,
        }}>
-            <TicketCard/>
+            <TicketCard onPress={next} />
             
         </View>
         

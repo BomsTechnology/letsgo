@@ -6,7 +6,7 @@ import PlanScreen from '@screens/PlanScreen';
 import NotificationScreen from '@screens/NotificationScreen';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@constants/colors';
-import { View } from 'react-native';
+import TripListScreen from '@screens/trip/TripListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,7 +56,7 @@ const TabNavigator = () => {
               />
             <Tab.Screen 
                 name="Trip" 
-                component={PlanScreen} 
+                component={TripListScreen} 
                 options={{ 
                   tabBarLabel: 'Trips', 
                   headerShown:false, 

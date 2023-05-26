@@ -4,17 +4,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import Colors from '@constants/colors';
 import {useNavigation} from '@react-navigation/core';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppStackParamList } from '@navigators/AppStackNavigator';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ResultSearch'>;
 
 import CardResultSearch from '@components/cards/CardResultSearchPlaned';
 import SimpleHeader from '@components/SimpleHeader';
-import NoResultotTrip from '../../components/NoResultotTrip';
+import NoResultotTrip from '@components/NoResultotTrip';
+import CustomButton from '@components/buttons/CustomButton';
+
 const ResultSearchScreen = ({route}: Props) => {
   const { goBack } = useNavigation();
-
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  const next = () =>  {
+    navigation.navigate('TripInfo', {
+      from: 'search'
+    });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,16 +56,23 @@ const ResultSearchScreen = ({route}: Props) => {
                 />
           </TouchableOpacity>
         </View>
-       {/*   <Text style={{ 
+         <Text style={{ 
               fontSize: 20,
               marginVertical: 10,
               marginLeft: 5,
               fontFamily: 'Poppins_600SemiBold',
              }}>Select a Planed trip</Text>
-      <CardResultSearch />  */}
+        <CardResultSearch onPress={next} />  
 
-      
-      <NoResultotTrip destination={route.params.destination} />
+        <CustomButton 
+                bgColor={Colors.primaryColor}
+                fgColor='#fff'
+                isReady={true}
+                onPress={() =>  { navigation.push('TripPlan') }}
+                text="Plan trip"
+                marginVertical={20}
+              />
+    {/* <NoResultotTrip destination={route.params.destination} /> */}
 
 
     </SafeAreaView>

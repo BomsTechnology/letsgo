@@ -7,7 +7,11 @@ import Colors from '@constants/colors';
 
 const Tab = createMaterialTopTabNavigator();
 
-const TripInfoTopTabNavigator = () => {
+import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+type Props = NativeStackScreenProps<AppStackParamList, 'TripInfo'>;
+const TripInfoTopTabNavigator = ({route}: Props) => {
   return (
     <Tab.Navigator
       initialRouteName="TripInfoSchedule"
@@ -21,9 +25,10 @@ const TripInfoTopTabNavigator = () => {
     >
       <Tab.Screen
         name="TripInfoSchedule"
-        component={TripInfoScheduleScreen}
         options={{ tabBarLabel: 'Schedule',  }}
-      />
+      >
+        {(props) => <TripInfoScheduleScreen {...props} from={route.params.from} />}
+      </Tab.Screen>
       <Tab.Screen
         name="TripInfoItinerary"
         component={TripInfoItineraryScreen}

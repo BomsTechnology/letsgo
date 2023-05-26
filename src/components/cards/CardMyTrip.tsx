@@ -1,76 +1,21 @@
 import { StyleSheet, Text, View, Image, GestureResponderEvent, ImageSourcePropType, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Colors from '@constants/colors';
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 
-interface CardResultSearchProps {
+interface CardMyTripProps {
   onPress: (event: GestureResponderEvent) => void;
 }
 
-const CardResultSearch = (props: CardResultSearchProps) => {
+const CardMyTrip = (props: CardMyTripProps) => {
 
   return (
     <TouchableOpacity  onPress={props.onPress} style={styles.container}>
         <View style={{ 
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between"
-           }}>
-          <View style={{ 
-            flexDirection: "row",
-            alignItems: "center"
-           }}>
-              <Image style={styles.image} resizeMode='contain' source={require('@assets/images/buca.jpeg')}></Image>
-              <View style={{ marginLeft: 5 }}>
-                  <Text style={styles.name}> Buca Voyage </Text>
-                  <View style={{ 
-                      flexDirection: "row",
-                      alignItems: "center",
-                      paddingHorizontal: 3
-                    }}>
-                    <Ionicons
-                      name="ios-star"
-                      size={10}
-                      color={Colors.accentYellow}
-                      style={{ marginRight: 2 }}
-                      />
-                      <Ionicons
-                      name="ios-star"
-                      size={10}
-                      color={Colors.accentYellow}
-                      style={{ marginRight: 2 }}
-                      />
-                      <Ionicons
-                      name="ios-star"
-                      size={10}
-                      color={Colors.accentYellow}
-                      style={{ marginRight: 2 }}
-                      />
-                      <Ionicons
-                      name="ios-star"
-                      size={10}
-                      color={Colors.accentYellow}
-                      style={{ marginRight: 2 }}
-                      />
-                      <Ionicons
-                      name="ios-star"
-                      size={10}
-                      color={Colors.grayTone3}
-                      style={{ marginRight: 2 }}
-                      />
-                  </View>
-              </View>
-              
-          </View>
-          <Text style={styles.price}>
-              XFA 500
-          </Text>
-        </View>
-        <View style={{ 
               flexDirection: "row",
-              alignItems: "stretch",
+              alignItems: "center",
               justifyContent: "space-between"
             }}>
           <View style={{ 
@@ -156,89 +101,96 @@ const CardResultSearch = (props: CardResultSearchProps) => {
                 </View>
               </View>            
           </View>
-          <View style={{ 
-            flexDirection: "column",
-            flexGrow: 1,
-            alignItems: "flex-end",
-            justifyContent: "space-between",
+          
+          <Text style={styles.price}>
+              XFA 500
+          </Text>
+        </View>
+        <View style={{ 
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            marginTop: 10,
+            gap: 20,
            }}>
+          
+          <View style={{ 
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+                <FontAwesome5
+                    name="weight-hanging"
+                    size={15}
+                    color={Colors.grayTone1}
+                  />
+                  <Text style={{ 
+                            fontSize: 14,
+                            fontFamily: 'Poppins_600SemiBold',
+                            color: Colors.grayTone1,
+                            marginLeft: 3,
+                          }}>0Kg</Text>
+              </View>
               <View style={{ 
                 flexDirection: "row",
                 alignItems: "center",
               }}>
                 <Text style={{ 
-                            fontSize: 16,
+                            fontSize: 14,
                             fontFamily: 'Poppins_600SemiBold',
                             color: Colors.grayTone1,
                             marginRight: 3,
                           }}>4</Text>
                 <Ionicons
                     name="people"
-                    size={25}
+                    size={20}
                     color={Colors.grayTone1}
                   /> 
               </View>
-              <View>
-              <View style={{ 
+        </View>
+        <View style={{ 
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 10,
+            gap: 20,
+           }}>
+          
+          <View style={{ 
                 flexDirection: "row",
                 alignItems: "center",
-                
-                flexWrap: "wrap",
-                overflow: "hidden",
-                width: "100%"
               }}>
-                
-
-                <Ionicons
-                    name="musical-notes"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
-                  <Ionicons
-                    name="wifi"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
-                  <Ionicons
-                    name="ios-logo-no-smoking"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
+                  <Text style={{ 
+                            fontSize: 14,
+                            fontFamily: 'Poppins_500Medium',
+                            color: Colors.grayTone1,
+                            marginRight: 3,
+                          }}>Service: </Text>
+                  <Text style={{ 
+                            fontSize: 14,
+                            fontFamily: 'Poppins_600SemiBold',
+                            color: Colors.grayTone1,
+                            marginLeft: 3,
+                          }}>Moto - Normal</Text>
               </View>
               <View style={{ 
-                flexDirection: "row",
-                alignItems: "center",
-                
-                flexWrap: "wrap",
-                overflow: "hidden",
-                width: "100%"
+                backgroundColor: Colors.lightPrimary,
+                borderRadius: 20,
+                paddingHorizontal: 10,
+                paddingVertical: 2
               }}>
-                
-
-                <Ionicons
-                    name="snow"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
-                  <Ionicons
-                    name="pizza"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
-                  <Ionicons
-                    name="tv"
-                    size={15}
-                    color={Colors.grayTone2}
-                  />
+                <Text style={{ 
+                            fontSize: 12,
+                            fontFamily: 'Poppins_500Medium',
+                            color: Colors.grayTone1,
+                            marginRight: 3,
+                          }}>Suscriber</Text>
               </View>
-              </View>
-          </View>
         </View>
     </TouchableOpacity>
   );
 };
 
-export default CardResultSearch;
+export default CardMyTrip;
 
 const styles = StyleSheet.create({
     container: {

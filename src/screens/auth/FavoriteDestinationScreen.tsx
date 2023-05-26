@@ -9,10 +9,10 @@ import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppFirstOpenStackParamList } from '@navigators/AppFirstOpenStackNavigator';
 
 const FavoriteDestinationScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<AppFirstOpenStackParamList>>();
   const {
     control,
     handleSubmit,

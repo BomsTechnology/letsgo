@@ -5,17 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 interface TicketCardProps {
-  opPress: (event: GestureResponderEvent) => void;
+  onPress: (event: GestureResponderEvent) => void;
 }
 
-const TicketCard = () => {
-  const navigation = useNavigation();
-  const next = () =>  {
-    navigation.navigate('ReservationTicketDetail' as never);
-  }
+const TicketCard = (props: TicketCardProps) => {
+  
   return (
 
-    <TouchableOpacity onPress={next} style={[styles.container]}>
+    <TouchableOpacity onPress={props.onPress} style={[styles.container]}>
         <View style={[styles.topBlock, styles.shadowProp]}>
 
           <View style={{ 

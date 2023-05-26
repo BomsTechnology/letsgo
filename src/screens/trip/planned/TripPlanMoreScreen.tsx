@@ -136,6 +136,14 @@ const TripPlanMoreScreen = () => {
           />
           
         <CustomButton 
+                bgColor={Colors.tertiaryColor1}
+                fgColor='#fff'
+                isReady={true}
+                onPress={onPress}
+                text="Save draft"
+              />
+
+          <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
                 isReady={true}
@@ -150,7 +158,6 @@ const TripPlanMoreScreen = () => {
           isReady={true}
           onPress={onPress}
           text="Discard"
-          marginVertical={10}
         />
       
       </ScrollView>

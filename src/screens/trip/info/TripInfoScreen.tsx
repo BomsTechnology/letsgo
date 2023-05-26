@@ -4,13 +4,17 @@ import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@constants/colors';
 import TripInfoTopTabNavigator from '@navigators/TripInfoTopTabNavigator';
-const TripInfoScreen = () => {
+import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+type Props = NativeStackScreenProps<AppStackParamList, 'TripInfo'>;
+const TripInfoScreen = ({route, navigation}: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 20 }}>
         <SimpleHeader text='Trip Info By Buca Voyage' />
       </View>
-        <TripInfoTopTabNavigator />
+        <TripInfoTopTabNavigator route={route} navigation={navigation} />
     </SafeAreaView>
   );
 };
