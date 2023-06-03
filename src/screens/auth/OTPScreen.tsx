@@ -8,14 +8,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/core';
 import { AuthStackParamList } from '@navigators/AuthStackNavigator';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthContext } from '@context/AuthContext';
 import LoadingButton from '@components/buttons/LoadingButton';
+import { AppStackParamList } from '@navigators/AppStackNavigator';
 
-type Props = NativeStackScreenProps<AuthStackParamList, 'OTP'>;
 
-const OTPScreen = ({route}: Props) => {
-  const navigation = useNavigation();
+const OTPScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const { verifyCode } = useContext(AuthContext);
   const insets = useSafeAreaInsets();
   const [otpCode, setOTPCode] = useState("");
@@ -25,13 +25,7 @@ const OTPScreen = ({route}: Props) => {
   const maximumCodeLength = 6;
 
   const verify = async () => {
-    setLoading(true);
-    setErrors("");
-    let res = await verifyCode(route.params.verificationId, otpCode);
-    if(res.error && res.error != ""){
-      setErrors(res.error_description!);
-    }
-    setLoading(false);
+    navigation.navigate("FavoriteDestination");
   };
 
   return (

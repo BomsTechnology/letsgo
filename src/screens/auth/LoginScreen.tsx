@@ -11,15 +11,14 @@ import { countryCodeProps } from "@data/CountryCode"
 import {useForm, FieldValues} from 'react-hook-form';
 import CheckboxField from '@components/inputFields/CheckboxField';
 import { AuthContext } from '../../context/AuthContext';
-import { ActivityIndicator } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AuthStackParamList } from '@navigators/AuthStackNavigator';
 import LoadingButton from '@components/buttons/LoadingButton';
+import { AppStackParamList } from '@navigators/AppStackNavigator';
 
 
 const LoginScreen = () => {
   const { login } = useContext(AuthContext);
-  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | undefined>(undefined);
   const [isChecked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,13 +33,7 @@ const LoginScreen = () => {
   const numberPhone = watch("phonenumber");
 
   const signin = async () => {
-    setLoading(true);
-    let phoneNumber = `${selectedCountry!.callingCode}${numberPhone}`;
-    let res = await login(phoneNumber, 'POLLER'); 
-    setLoading(false);
-    navigation.replace('OTP', {
-      verificationId: res.verificationId
-    });
+    navigation.replace('OTP');
   }; 
 
 

@@ -17,6 +17,10 @@ import TicketDetailScreen from '@screens/ticket/TicketDetailScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DrawerNavigator from '@navigators/DrawerNavigator';
 import TripPublishScreen from '@screens/trip/TripPublishScreen';
+import OTPScreen from '@screens/auth/OTPScreen';
+import LoginScreen from '@screens/auth/LoginScreen';
+import OnboardingScreen from '@screens/OnboardingScreen';
+import FavoriteDestinationScreen from '@screens/auth/FavoriteDestinationScreen';
 
 
 export type AppStackParamList = {
@@ -37,6 +41,10 @@ export type AppStackParamList = {
   TicketList: undefined;
   TicketDetail: undefined;
   Profile: undefined;
+  OnBoarding: undefined;
+  Login: undefined;
+  OTP: undefined;
+  FavoriteDestination: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -44,6 +52,10 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="FavoriteDestination" component={FavoriteDestinationScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="TripInfo" component={TripInfoScreen} options={{ headerShown: false }} />
