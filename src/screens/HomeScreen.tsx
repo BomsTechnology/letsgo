@@ -8,16 +8,18 @@ import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import IconButton from '@components/buttons/IconButton';
-import { AuthContext } from '@context/AuthContext';
 import LoadingButton from '@components/buttons/LoadingButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
+import { signOut } from '@services/useAuth';
 
 const HomeScreen = () => { 
+  const authState = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
   const {height, width} = useWindowDimensions();
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-  const [loading, setLoading] = useState(false);
-  const { logout } = useContext(AuthContext);
+
   const {
     control,
     handleSubmit,
@@ -26,9 +28,7 @@ const HomeScreen = () => {
   } = useForm();
 
   const signout = async () => {
-    setLoading(true);
-    await logout();
-    setLoading(false);
+    dispatch(signOut());
   }
 
   const destination = watch('destination');
@@ -53,7 +53,7 @@ const HomeScreen = () => {
         <IconButton icon={locateIcon}  onPress={onPress}/>
       </View>
 
-      { !loading ? 
+      { !authState.loading ? 
       <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'

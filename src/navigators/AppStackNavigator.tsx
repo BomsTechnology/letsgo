@@ -23,57 +23,31 @@ import OnboardingScreen from '@screens/OnboardingScreen';
 import FavoriteDestinationScreen from '@screens/auth/FavoriteDestinationScreen';
 
 
-export type AppStackParamList = {
-  Home: undefined;
-  ResultSearch: { destination: string, price: number };
-  TripInfo: {from: string};
-  TripPlan: undefined;
-  TripPublish: undefined;
-  PlannerDetail: undefined;
-  DriverDetail: undefined;
-  VehiculeDetail: undefined;
-  SeatDetail: undefined;
-  SelectPayMode: undefined;
-  OMPayMode: undefined;
-  MOMOPayMode: undefined;
-  CardPayMode: undefined;
-  CashPayMode: undefined;
-  TicketList: undefined;
-  TicketDetail: undefined;
-  Profile: undefined;
-  OnBoarding: undefined;
-  Login: undefined;
-  OTP: undefined;
-  FavoriteDestination: undefined;
-};
 
-const Stack = createNativeStackNavigator<AppStackParamList>();
 
-const StackNavigator = () => {
+const Stack = createNativeStackNavigator();
+
+const StackNavigator = (stack: any) => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="FavoriteDestination" component={FavoriteDestinationScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TripInfo" component={TripInfoScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TripPlan" component={TripPlanScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TripPublish" component={TripPublishScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="PlannerDetail" component={PlannerDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="DriverDetail" component={DriverDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="SelectPayMode" component={SelectPayModeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="OMPayMode" component={OMPayModeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="MOMOPayMode" component={MOMOPayModeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CardPayMode" component={CardPayModeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CashPayMode" component={CashPayModeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TicketList" component={TicketListScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="TicketDetail" component={TicketDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-  </Stack.Navigator>
+    <>
+      <stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
+      <stack.Screen name="ResultSearch" component={ResultSearchScreen} options={{ headerShown: false }} />
+      <stack.Screen name="TripInfo" component={TripInfoScreen} options={{ headerShown: false }} />
+      <stack.Screen name="TripPlan" component={TripPlanScreen} options={{ headerShown: false }} />
+      <stack.Screen name="TripPublish" component={TripPublishScreen} options={{ headerShown: false }} />
+      <stack.Screen name="PlannerDetail" component={PlannerDetailScreen} options={{ headerShown: false }} />
+      <stack.Screen name="DriverDetail" component={DriverDetailScreen} options={{ headerShown: false }} />
+      <stack.Screen name="VehiculeDetail" component={VehiculeDetailScreen} options={{ headerShown: false }} />
+      <stack.Screen name="SeatDetail" component={SeatDetailScreen} options={{ headerShown: false }} />
+      <stack.Screen name="SelectPayMode" component={SelectPayModeScreen} options={{ headerShown: false }} />
+      <stack.Screen name="OMPayMode" component={OMPayModeScreen} options={{ headerShown: false }} />
+      <stack.Screen name="MOMOPayMode" component={MOMOPayModeScreen} options={{ headerShown: false }} />
+      <stack.Screen name="CardPayMode" component={CardPayModeScreen} options={{ headerShown: false }} />
+      <stack.Screen name="CashPayMode" component={CashPayModeScreen} options={{ headerShown: false }} />
+      <stack.Screen name="TicketList" component={TicketListScreen} options={{ headerShown: false }} />
+      <stack.Screen name="TicketDetail" component={TicketDetailScreen} options={{ headerShown: false }} />
+      <stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+  </>
   );
 };
 

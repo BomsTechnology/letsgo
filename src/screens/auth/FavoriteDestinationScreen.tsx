@@ -9,10 +9,10 @@ import CustomInput from '@components/inputFields/CustomInput';
 import {useForm, FieldValues} from 'react-hook-form';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppFirstOpenStackParamList } from '@navigators/AppFirstOpenStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
 
 const FavoriteDestinationScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<AppFirstOpenStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const {
     control,
     handleSubmit,
@@ -33,7 +33,7 @@ const FavoriteDestinationScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StepHeader elementsNumber={4} currentStep={4} />
+      <StepHeader elementsNumber={3} currentStep={3} />
       <Text style={styles.title}>Hi Traveller !</Text>
 
       <Text style={styles.description}>What is your favorite destination</Text>

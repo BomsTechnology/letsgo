@@ -5,7 +5,7 @@ import {Ionicons} from '@expo/vector-icons';
 import Colors from '@constants/colors';
 import {useNavigation} from '@react-navigation/core';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'ResultSearch'>;
 
@@ -42,11 +42,11 @@ const ResultSearchScreen = ({route}: Props) => {
             <Text style={{ 
               fontSize: 16,
               fontFamily: 'Poppins_500Medium',
-             }}>{route.params.destination}</Text>
+             }}>{route.params!.destination}</Text>
             <Text style={{ 
               fontSize: 16,
               fontFamily: 'Poppins_300Light',
-             }}>XFA {route.params.price}</Text>
+             }}>XFA {route.params!.price}</Text>
           </View>
           <TouchableOpacity onPress={() => goBack()} >
           <Ionicons

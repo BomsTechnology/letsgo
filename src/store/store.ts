@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from './features/counter/counterSlice';
+import authReducer from './features/auth/authSlice';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+      auth: authReducer,
   },
 });
 
@@ -15,3 +17,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

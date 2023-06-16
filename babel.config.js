@@ -28,6 +28,9 @@ module.exports = function(api) {
             "@assets" : ["./src/assets"],
             "@hooks" : ["./src/hooks"],
             "@context" : ["./src/context"],
+            "@functions" : ["./src/functions"],
+            "@config" : ["./src/config"],
+            "@services" : ["./src/services"],
           }
         }
       ]

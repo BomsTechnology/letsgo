@@ -36,6 +36,7 @@ export default StepHeader
 const styles = StyleSheet.create({
     header: {
         flex: 0.010,
+        flexShrink: 0,
         marginBottom: 20,
         justifyContent: 'space-between',
         overflow: 'hidden',

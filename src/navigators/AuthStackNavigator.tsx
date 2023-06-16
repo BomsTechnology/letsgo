@@ -2,23 +2,15 @@ import React from 'react';
 import LoginScreen from '@screens/auth/LoginScreen';
 import OnboardingScreen from '@screens/OnboardingScreen';
 import OTPScreen from '@screens/auth/OTPScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TypedNavigator } from '@react-navigation/core';
 
-export type AuthStackParamList = {
-  OnBoarding: undefined;
-  Login: undefined;
-  OTP: { verificationId: string };
-};
-
-const Stack = createNativeStackNavigator<AuthStackParamList>();
-
-const AuthStackNavigator = () => {
+const AuthStackNavigator = (stack: any) => {
   return (
-    <Stack.Navigator>
-        <Stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
-  </Stack.Navigator>
+        <>
+          <stack.Screen name="OnBoarding" component={OnboardingScreen} options={{ headerShown: false }} />
+          <stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <stack.Screen name="OTP" component={OTPScreen} options={{ headerShown: false }} />
+        </>
   );
 };
 

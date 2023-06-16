@@ -1,5 +1,5 @@
 import { Keyboard, Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Colors from '@constants/colors';
 import StepHeader from '@components/StepHeader';
 import OTPInput from '@components/inputFields/OTPInput';
@@ -7,26 +7,69 @@ import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomButton from '@components/buttons/CustomButton';
 import {useNavigation} from '@react-navigation/core';
-import { AuthStackParamList } from '@navigators/AuthStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AuthContext } from '@context/AuthContext';
 import LoadingButton from '@components/buttons/LoadingButton';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
+import { showError, showSuccess } from '@functions/helperFunctions';
+import { login, verifyOTP } from '@services/useAuth';
 
 
-const OTPScreen = () => {
+type Props = NativeStackScreenProps<AppStackParamList, 'OTP'>;
+const OTPScreen = ({route}: Props) => {
+  const authState = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-  const { verifyCode } = useContext(AuthContext);
   const insets = useSafeAreaInsets();
   const [otpCode, setOTPCode] = useState("");
   const [isPinReady, setIsPinReady] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState("");
-  const maximumCodeLength = 6;
+  const [canResend, setCanResend] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState<number>(120);
 
+  const maximumCodeLength = 6;
   const verify = async () => {
-    navigation.navigate("FavoriteDestination");
+    dispatch(verifyOTP(otpCode, authState.verificationId!));
+    if(!authState.loading && authState.error){
+      showError(authState.error);
+    }else if(!authState.loading && !authState.error){
+      showSuccess('Connexion reussi :)');
+      //navigation.replace("FavoriteDestination");
+    }
   };
+
+  const goBack = async () => {
+    navigation.replace("Login", {phoneNumber: route.params.phoneNumber});
+  };
+
+  const resend = () => { 
+    if(canResend == true){
+      dispatch(login(route.params.phoneNumber));
+      if(!authState.loading && authState.error){
+        showError(authState.error);
+      }else if(!authState.loading && !authState.error){
+        setCanResend(false);
+        showSuccess('Code de vérification envoyé avec succès !');
+        setSecondsLeft(120);
+      }
+    }
+  }; 
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (secondsLeft > 0) {
+        setSecondsLeft(secondsLeft - 1);
+      }else{
+        setCanResend(true);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [secondsLeft]);
+
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
 
   return (
       <Pressable style={[styles.container, {paddingTop: insets.top + 40,
@@ -34,21 +77,15 @@ const OTPScreen = () => {
       <StepHeader elementsNumber={3} currentStep={2} />
       
       <Text style={styles.title}>What's the code?</Text>
-      <Text style={styles.description}>Type the 4-digit code we just sent to ****8027</Text>
-      <Text style={{ 
-        color: Colors.secondaryColor,
-        fontFamily: 'Poppins_500Medium',
-        fontSize: 14,
-        marginVertical:10
-       }}>Not your phone's number ?</Text>
-
-       {errors && <Text style={{ 
+      <Text style={styles.description}>Type the 4-digit code we just sent to *****{route.params.phoneNumber.substring(route.params.phoneNumber.length - 4)}</Text>
+      <TouchableOpacity onPress={goBack} >
+        <Text style={{ 
+          color: Colors.secondaryColor,
           fontFamily: 'Poppins_500Medium',
           fontSize: 14,
-          color: Colors.errorInputColor,
-          textAlign: 'center',
-          marginTop: 10
-        }} >{errors}</Text>}
+          marginVertical:10
+        }}>Not your phone's number ?</Text>
+       </TouchableOpacity>
 
       <OTPInput 
         code={otpCode}
@@ -58,12 +95,15 @@ const OTPScreen = () => {
        />
       <StatusBar style="auto" />
 
-       <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+       <TouchableOpacity onPress={resend} style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
           <Text style={{ fontFamily: 'Poppins_300Light',  fontSize: 14,}}>Didn't receive it ?</Text>
-           <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 14, marginLeft: 5}}>Resend in 02:20</Text> 
+           <Text style={{ fontFamily: 'Poppins_500Medium', fontSize: 14, marginLeft: 5}}>
+            Resend in
+            {minutes < 10 ? ` 0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+          </Text> 
        </TouchableOpacity>
 
-       { !loading ? 
+       { !authState.loading ? 
       <CustomButton 
             bgColor={Colors.primaryColor}
             fgColor='#fff'

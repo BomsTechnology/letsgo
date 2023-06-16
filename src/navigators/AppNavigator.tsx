@@ -1,36 +1,72 @@
-import { store } from '@store/store';
-import { Provider } from 'react-redux';
-import { DarkTheme, DefaultTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native';
+import {  NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 const queryClient = new QueryClient();
-import { ActivityIndicator, View, useColorScheme } from 'react-native';
-import React, { useContext } from 'react'
-import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppStackNavigator from '@navigators/AppStackNavigator';
 import AuthStackNavigator from '@navigators/AuthStackNavigator';
-import { AuthContext } from '@context/AuthContext';
+import { RootState, useAppSelector, useAppDispatch } from '@store/store';
 import AppFirstOpenStackNavigator from './AppFirstOpenStackNavigator';
+import { checkToken } from '@services/useAuth';
+
+export type AppStackParamList = {
+    Home: undefined;
+    ResultSearch: { destination: string, price: number };
+    TripInfo: {from: string};
+    TripPlan: undefined;
+    TripPublish: undefined;
+    PlannerDetail: undefined;
+    DriverDetail: undefined;
+    VehiculeDetail: undefined;
+    SeatDetail: undefined;
+    SelectPayMode: undefined;
+    OMPayMode: undefined;
+    MOMOPayMode: undefined;
+    CardPayMode: undefined;
+    CashPayMode: undefined;
+    TicketList: undefined;
+    TicketDetail: undefined;
+    Profile: undefined;
+    OnBoarding: undefined;
+    Login: {phoneNumber?: string};
+    OTP: {phoneNumber: string};
+    FavoriteDestination: undefined;
+  };
+
+const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => {
-    const colorScheme = useColorScheme();
-    const { isLoading, userAccessToken, userRefreshToken, isFirstOpen } = useContext(AuthContext);
+    const authState = useAppSelector((state: RootState) => state.auth);
+    const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const checkAuth = async () => {
+            setLoading(true);
+            await dispatch(checkToken());
+            setLoading(false);
+        };
+        checkAuth();
+    }, [dispatch]);
 
-    if(isLoading) {
+    if(loading) {
        return (<View style={{ flex:1, justifyContent: 'center', alignItems:'center' }}>
             <ActivityIndicator size={'large'} />
         </View>)
     }
     return (
-            <Provider store={store} >
-                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                    <StatusBar style="auto" />
-                    <NavigationContainer>
-                    <QueryClientProvider client={queryClient}>
-                             <AppStackNavigator />
-                    </QueryClientProvider>
-                    </NavigationContainer>
-                </ThemeProvider>
-            </Provider>
+                <NavigationContainer>
+                <QueryClientProvider client={queryClient}>
+                    <Stack.Navigator>
+                            {authState.token != null && authState.isFirstLogin == true ?
+                                AppFirstOpenStackNavigator(Stack) : authState.token != null && authState.isFirstLogin == false ?
+                                AppStackNavigator(Stack) :
+                                AuthStackNavigator(Stack)
+                            }
+                    </Stack.Navigator>
+                </QueryClientProvider>
+                </NavigationContainer>
+            
     );
 }
 

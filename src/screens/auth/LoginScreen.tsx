@@ -10,36 +10,49 @@ import {useNavigation} from '@react-navigation/core';
 import { countryCodeProps } from "@data/CountryCode"
 import {useForm, FieldValues} from 'react-hook-form';
 import CheckboxField from '@components/inputFields/CheckboxField';
-import { AuthContext } from '../../context/AuthContext';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import LoadingButton from '@components/buttons/LoadingButton';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
+import { showError, showSuccess } from '@functions/helperFunctions';
+import { login } from '@services/useAuth';
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 
-
-const LoginScreen = () => {
-  const { login } = useContext(AuthContext);
+type Props = NativeStackScreenProps<AppStackParamList, 'Login'>;
+const LoginScreen = ({route}: Props) => {
+  const authState = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | undefined>(undefined);
-  const [isChecked, setChecked] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isChecked, setChecked] = useState(true);
 
   const {
     control,
     handleSubmit,
     watch,
     formState: {errors},
+    setValue,
   } = useForm();
 
   const numberPhone = watch("phonenumber");
 
-  const signin = async () => {
-    navigation.replace('OTP');
+  const signin = () => { 
+    dispatch(login(`${selectedCountry?.callingCode}${numberPhone}`));
+    if(!authState.loading && authState.error){
+      showError(authState.error);
+    }else if(!authState.loading && !authState.error){
+      showSuccess('Code de vérification envoyé avec succès !');
+      navigation.replace('OTP',{phoneNumber: `${selectedCountry?.callingCode}${numberPhone}`});
+    }
   }; 
 
+  useEffect(() => {
+      if(route.params?.phoneNumber!){
+        setValue('phonenumber', route.params.phoneNumber.substring(4));
+      }
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      
         <StepHeader elementsNumber={3} currentStep={1} />
         <Text style={styles.title}>What's your phone number ?</Text>
         <Text style={styles.description}>Will send you a verification code</Text>
@@ -61,7 +74,7 @@ const LoginScreen = () => {
             }}
           />
           
-          { !loading ? 
+          { !authState.loading ? 
               <CustomButton 
                 bgColor={Colors.primaryColor}
                 fgColor='#fff'
