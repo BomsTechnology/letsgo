@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import PlanScreen from '@screens/PlanScreen';
-import NotificationScreen from '@screens/NotificationScreen';
+import NotificationScreen from '@screens/alert/NotificationScreen';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@constants/colors';
 import TripListScreen from '@screens/trip/TripListScreen';
