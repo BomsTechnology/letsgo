@@ -17,7 +17,7 @@ import TicketDetailScreen from '@screens/ticket/TicketDetailScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DrawerNavigator from '@navigators/DrawerNavigator';
 import TripPublishScreen from '@screens/trip/TripPublishScreen';
-import OTPScreen from '@screens/auth/OTPScreen';
+import DraftScreen from '@screens/trip/DrafScreen';
 import LoginScreen from '@screens/auth/LoginScreen';
 import OnboardingScreen from '@screens/OnboardingScreen';
 import FavoriteDestinationScreen from '@screens/auth/FavoriteDestinationScreen';
@@ -47,6 +47,7 @@ const StackNavigator = (stack: any) => {
       <stack.Screen name="TicketList" component={TicketListScreen} options={{ headerShown: false }} />
       <stack.Screen name="TicketDetail" component={TicketDetailScreen} options={{ headerShown: false }} />
       <stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <stack.Screen name="Draft" component={DraftScreen} options={{ headerShown: false }} />
   </>
   );
 };

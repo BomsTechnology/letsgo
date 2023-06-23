@@ -9,7 +9,7 @@ const TripPlanScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 10 }}>
-        <SimpleHeader showButton={false} text='Plan Trip' />
+        <SimpleHeader showLeftButton={false} text='Plan Trip' />
       </View>
         <TripPlanTopTabNavigator />
     </SafeAreaView>

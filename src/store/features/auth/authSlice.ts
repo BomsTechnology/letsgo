@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface AuthStateTokenProps {
   "access_token": string | null;

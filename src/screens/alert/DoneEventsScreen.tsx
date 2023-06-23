@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-function DoneEvents() {
+function DoneEventsScreen() {
     return ( 
         <View>
          
@@ -8,4 +8,4 @@ function DoneEvents() {
      );
 }
 
-export default DoneEvents;
+export default DoneEventsScreen;

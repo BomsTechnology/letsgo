@@ -7,7 +7,7 @@ import Colors from '@constants/colors';
 
 const Tab = createMaterialTopTabNavigator();
 
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'TripInfo'>;

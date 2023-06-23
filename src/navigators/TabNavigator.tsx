@@ -3,10 +3,10 @@ import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
 import PlanScreen from '@screens/PlanScreen';
-import NotificationScreen from '@screens/alert/NotificationScreen';
+import AlertScreen from '@screens/alert/AlertScreen';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@constants/colors';
-import TripListScreen from '@screens/trip/TripListScreen';
+import TripListScreen from '@screens/trip/mytrip/TripListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ const TabNavigator = () => {
             iconName = focused
               ? 'ios-home'
               : 'ios-home-outline';
-          } else if (route.name === 'Notification') {
+          } else if (route.name === 'Alert') {
             iconName = focused ? 'ios-notifications' : 'ios-notifications-outline';
           } else {
             iconName = focused ? 'location' : 'location-outline';
@@ -63,8 +63,8 @@ const TabNavigator = () => {
                 }}
               />
             <Tab.Screen 
-                name="Notification" 
-                component={NotificationScreen} 
+                name="Alert" 
+                component={AlertScreen} 
                 options={{ 
                   tabBarLabel: 'Alerts', 
                   headerShown:false 

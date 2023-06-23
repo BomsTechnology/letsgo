@@ -4,7 +4,7 @@ import SimpleHeader from '@components/SimpleHeader';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@constants/colors';
 import TripInfoTopTabNavigator from '@navigators/TripInfoTopTabNavigator';
-import { AppStackParamList } from '@navigators/AppStackNavigator';
+import { AppStackParamList } from '@navigators/AppNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<AppStackParamList, 'TripInfo'>;

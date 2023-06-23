@@ -11,7 +11,7 @@ type Props = NativeStackScreenProps<AppStackParamList, 'ResultSearch'>;
 
 import CardResultSearch from '@components/cards/CardResultSearchPlaned';
 import SimpleHeader from '@components/SimpleHeader';
-import NoResultotTrip from '@components/NoResultotTrip';
+import NoResult from '@components/NoResult';
 import CustomButton from '@components/buttons/CustomButton';
 
 const ResultSearchScreen = ({route}: Props) => {
@@ -22,6 +22,8 @@ const ResultSearchScreen = ({route}: Props) => {
       from: 'search'
     });
   }
+
+    const goToPlan = () =>  { navigation.push('TripPlan') }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,23 +58,20 @@ const ResultSearchScreen = ({route}: Props) => {
                 />
           </TouchableOpacity>
         </View>
-         <Text style={{ 
+       <Text style={{ 
               fontSize: 20,
               marginVertical: 10,
               marginLeft: 5,
               fontFamily: 'Poppins_600SemiBold',
              }}>Select a Planed trip</Text>
         <CardResultSearch onPress={next} />  
-
-        <CustomButton 
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={true}
-                onPress={() =>  { navigation.push('TripPlan') }}
-                text="Plan trip"
-                marginVertical={20}
-              />
-    {/* <NoResultotTrip destination={route.params.destination} /> */}
+        
+     {/*   <NoResult 
+          message={`There are no trip available to the address ${route.params.destination}`} 
+          image={require('@assets/images/traveller.png')}
+          actionButton={goToPlan}
+          buttonLabel='Plan this trip'
+        /> */}
 
 
     </SafeAreaView>

@@ -7,21 +7,25 @@ import {useNavigation} from '@react-navigation/native';
 
 interface SimpleHeaderProps {
     text: string;
-    buttonAction?: (event: GestureResponderEvent) => void;
-    buttonIcon?: JSX.Element;
-    showButton?: boolean
+    LeftbuttonAction?: (event: GestureResponderEvent) => void;
+    LeftbuttonIcon?: JSX.Element;
+    showLeftButton?: boolean;
+    RightbuttonAction?: (event: GestureResponderEvent) => void;
+    RightbuttonIcon?: JSX.Element;
 }
 
 
-const SimpleHeader = ({text, buttonAction, buttonIcon, showButton}: SimpleHeaderProps) => {
+const SimpleHeader = ({text, LeftbuttonAction, LeftbuttonIcon, showLeftButton, RightbuttonIcon, RightbuttonAction}: SimpleHeaderProps) => {
     const { goBack } = useNavigation();
-    const icon = buttonIcon ? buttonIcon : (<Ionicons name="chevron-back" size={25} color={Colors.grayTone1} /> );
-    const onPress = buttonAction ? buttonAction : goBack;
+    const leftIcon = LeftbuttonIcon ? LeftbuttonIcon : (<Ionicons name="chevron-back" size={25} color={Colors.grayTone1} /> );
+    const leftOnPress = LeftbuttonAction ? LeftbuttonAction : goBack;
+    const rightOnPress = RightbuttonAction ? RightbuttonAction : null;
 
   return (
     <View style={styles.container}>
-        {showButton == undefined || (showButton != undefined && showButton == true) ? <IconButton icon={icon} onPress={onPress}/> : undefined}
+        {showLeftButton == undefined || (showLeftButton != undefined && showLeftButton == true) ? <IconButton icon={leftIcon} onPress={leftOnPress}/> : undefined}
         <Text style={styles.text}>{text}</Text>
+        { RightbuttonIcon != undefined  ? <IconButton icon={RightbuttonIcon} onPress={rightOnPress!}/> : undefined}
     </View>
   );
 };

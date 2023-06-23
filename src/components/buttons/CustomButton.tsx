@@ -10,7 +10,9 @@ interface CustomButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   marginHorizontal?: number;
   marginVertical?: number;
+  radius?: number;
   fontSize?: number;
+  icon?: JSX.Element
 }
 
 const CustomButton = (props: CustomButtonProps) => {
@@ -24,8 +26,10 @@ const CustomButton = (props: CustomButtonProps) => {
         {
           backgroundColor: props.isReady ? props.bgColor : Colors.whiteTone3,
           marginVertical: props.marginVertical ? props.marginVertical : undefined,
+          borderRadius: props.radius ? props.radius : 5
         },
       ]}>
+      {props.icon && props.icon}
       <Text
         style={[
           styles.text,
@@ -46,7 +50,8 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 5,
     alignItems: 'center',
-    borderRadius: 5,
+    gap: 5,
+    flexDirection: 'row',
   },
 
   text: {

@@ -32,6 +32,7 @@ export type AppStackParamList = {
     Login: {phoneNumber?: string};
     OTP: {phoneNumber: string};
     FavoriteDestination: undefined;
+    Draft: undefined;
   };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
