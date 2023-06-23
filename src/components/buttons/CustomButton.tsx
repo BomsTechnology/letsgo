@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
     flexDirection: 'row',
+    justifyContent: 'center'
   },
 
   text: {

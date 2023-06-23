@@ -11,7 +11,6 @@ export interface AuthStateTokenProps {
 export interface AuthState {
   "loading": boolean;
   "token": AuthStateTokenProps | null;
-  "error"?: string | null;
   "isFirstLogin": boolean;
   "verificationId"?: string | null;
 }
@@ -28,19 +27,16 @@ const authSlice = createSlice({
   reducers: {
     loadingStart: (state) => {
       state.loading = true;
-      state.error = null;
     },
     otpSendSuccess: (state, action: PayloadAction<{verificationId: string}>) => {
       state.verificationId = action.payload.verificationId;
-      state.error = null;
       state.loading = false;
     },
     loginSuccess: (state, action: PayloadAction<AuthStateTokenProps>) => {
       state.token = action.payload;
-      state.error = null;
       state.loading = false;
     },
-    loginFailure: (state, action: PayloadAction<{ error: string }>) => {
+    loginFailure: (state) => {
       state.token = null;
       state.loading = false;
     },

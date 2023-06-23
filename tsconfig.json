@@ -45,7 +45,8 @@
       "@context/*": ["./src/context/*"],
       "@functions/*": ["./src/functions/*"],
       "@config/*": ["./src/config/*"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@types/*": ["./src/types/*"]
     }
   },
   "include": [

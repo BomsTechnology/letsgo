@@ -2,6 +2,7 @@ import { loginSuccess, loginFailure, logout, loadingStart, otpSendSuccess, toogl
 import { AppThunk, AppDispatch, RootState } from "@store/store";
 import { API_BASE_URL } from "@config";
 import axios from "axios";
+import { getUserInfo } from '@services/useUser';
 import { getDeviceId, getManufacturer, getDeviceName, getBundleId, getModel } from 'react-native-device-info';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -24,7 +25,7 @@ export const login = (phoneNumber: string): AppThunk => async (dispatch) => {
     })
     .catch((error) => {
         console.log('Error: ' + error.message);
-        dispatch(loginFailure({ error: error.message }));
+        dispatch(loginFailure());
     });
         
 };
@@ -45,7 +46,7 @@ export const verifyOTP = (code: string, verificationId: string): AppThunk => asy
     })
     .catch((error) => {
         console.log('Error: ' + error.message);
-        dispatch(loginFailure({ error: error.message }));
+        dispatch(loginFailure());
     });
        
 };

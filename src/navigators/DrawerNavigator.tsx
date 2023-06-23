@@ -11,10 +11,6 @@ import { AppStackParamList } from '@navigators/AppNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import Rating from '@components/Rating';
-import { Linking } from 'react-native';
-
-
-
 
 interface UserRatingProps {
   bgColor?: string; 
@@ -60,23 +56,25 @@ const DrawerNavigator = ({ bgColor, fgColor}: UserRatingProps) => {
           drawerPosition: 'left'
          }}
       >
+        
         <Drawer.Screen 
-          name="Drawer" 
+          name="TabNavigator" 
           component={TabNavigator}
           options={{headerShown: false,
-                    drawerLabel:"Drawer",
-                    title: "Drawer",
+                    drawerLabel:"Home",
+                    title: "Home",
                     drawerInactiveTintColor:'black',
                     drawerActiveTintColor:'black',
+                    drawerInactiveBackgroundColor:Colors.whiteTone2,
                     drawerIcon: () => (
                       <Ionicons name="chevron-forward" size={25} color={Colors.onWhiteTone}  style={{position:'absolute', right:10}}/>
                     )
         }}/>
-        <Drawer.Screen name="Menu"
+        <Drawer.Screen name="Profile"
           component={ProfileScreen}                  
           options={{headerShown: false,
-                    drawerLabel:"Menu",
-                    title: "Menu",
+                    drawerLabel:"Profile",
+                    title: "Profile",
                     drawerInactiveTintColor:'black',
                     drawerActiveTintColor:'black',                   
                     drawerIcon: () => (
