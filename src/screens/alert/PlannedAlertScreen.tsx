@@ -3,8 +3,17 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from "@constants/colors";
 import CustomButton from "@components/buttons/CustomButton";
 import NoResult from "@components/NoResult";
+import { useAppDispatch } from "@store/store";
+import { toogleShowFilter, toogleShowInput } from '@store/features/search/myTripSearchSlice'
+import React, { useEffect } from "react";
+import SortBy from "@components/SortBy";
 
 function PlannedAlertScreen() {
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(toogleShowFilter(false));
+        dispatch(toogleShowInput(true));
+    }, []);
     const icon = (<Ionicons name="pencil" size={18} color={Colors.whiteTone1} /> );
     return ( 
         <View style={{ 
@@ -13,6 +22,7 @@ function PlannedAlertScreen() {
             alignItems: 'center',
             justifyContent: 'flex-start'
          }}>
+            <SortBy />
             <NoResult 
                 message={`You didn't planned any alert yet`} 
                 image={require('@assets/images/planner.png')}
