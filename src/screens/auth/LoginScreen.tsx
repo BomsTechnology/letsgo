@@ -1,163 +1,172 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Colors from '@constants/colors';
-import CustomButton from '@components/buttons/CustomButton';
-import StepHeader from '@components/StepHeader';
-import CustomPhoneNumberInput from '@components/inputFields/CustomPhoneNumberInput';
-import {Ionicons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/core';
-import { countryCodeProps } from "@data/CountryCode"
-import {useForm, FieldValues} from 'react-hook-form';
-import CheckboxField from '@components/inputFields/CheckboxField';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import LoadingButton from '@components/buttons/LoadingButton';
-import { AppStackParamList } from '@navigators/AppNavigator';
-import { showError, showSuccess } from '@functions/helperFunctions';
-import { login } from '@services/useAuth';
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Colors from "@constants/colors";
+import CustomButton from "@components/buttons/CustomButton";
+import StepHeader from "@components/StepHeader";
+import CustomPhoneNumberInput from "@components/inputFields/CustomPhoneNumberInput";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
+import { countryCodeProps } from "@data/CountryCode";
+import { useForm, FieldValues } from "react-hook-form";
+import CheckboxField from "@components/inputFields/CheckboxField";
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from "@react-navigation/native-stack";
+import LoadingButton from "@components/buttons/LoadingButton";
+import { AppStackParamList } from "@navigators/AppNavigator";
+import { showError, showSuccess } from "@functions/helperFunctions";
+import { sendOTP } from "@services/useAuth";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 
-type Props = NativeStackScreenProps<AppStackParamList, 'Login'>;
-const LoginScreen = ({route}: Props) => {
+type Props = NativeStackScreenProps<AppStackParamList, "Login">;
+const LoginScreen = ({ route }: Props) => {
   const authState = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
-  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-  const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | undefined>(undefined);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  const [selectedCountry, setSelectedCountry] = useState<
+    countryCodeProps | undefined
+  >(undefined);
   const [isChecked, setChecked] = useState(true);
 
   const {
     control,
     handleSubmit,
     watch,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
   const numberPhone = watch("phonenumber");
 
-  const signin = () => { 
-    dispatch(login(`${selectedCountry?.callingCode}${numberPhone}`));
-    if(!authState.loading && authState.error){
-      showError(authState.error);
-    }else if(!authState.loading && !authState.error){
-      showSuccess('Code de vérification envoyé avec succès !');
-      navigation.replace('OTP',{phoneNumber: `${selectedCountry?.callingCode}${numberPhone}`});
-    }
-  }; 
+  const signin = async () => {
+    await dispatch(sendOTP(`${selectedCountry?.callingCode}${numberPhone}`))
+      .unwrap()
+      .then((data) => {
+        showSuccess("Code de vérification envoyé avec succès !");
+        navigation.replace("OTP", {
+          phoneNumber: `${selectedCountry?.callingCode}${numberPhone}`,
+        });
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
 
   useEffect(() => {
-      if(route.params?.phoneNumber!){
-        setValue('phonenumber', route.params.phoneNumber.substring(4));
-      }
+    if (route.params?.phoneNumber!) {
+      setValue("phonenumber", route.params.phoneNumber.substring(4));
+    }
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-        <StepHeader elementsNumber={3} currentStep={1} />
-        <Text style={styles.title}>What's your phone number ?</Text>
-        <Text style={styles.description}>Will send you a verification code</Text>
-        <CustomPhoneNumberInput 
-            setSelectedCountry={setSelectedCountry}
-            placeholder="Enter your Phone number"
-            name="phonenumber"
-            control={control}
-            rules={{
-              required: 'Phone number is required',
-              minLength: {
-                value: 9,
-                message: 'Phone number should be least 9 characters long',
-              },
-              maxLength: {
-                value: 9,
-                message: 'Phone number should be max 9 characters long',
-              },
+      <StepHeader elementsNumber={3} currentStep={1} />
+      <Text style={styles.title}>What's your phone number ?</Text>
+      <Text style={styles.description}>Will send you a verification code</Text>
+      <CustomPhoneNumberInput
+        setSelectedCountry={setSelectedCountry}
+        placeholder="Enter your Phone number"
+        name="phonenumber"
+        control={control}
+        rules={{
+          required: "Phone number is required",
+          minLength: {
+            value: 9,
+            message: "Phone number should be least 9 characters long",
+          },
+          maxLength: {
+            value: 9,
+            message: "Phone number should be max 9 characters long",
+          },
+        }}
+      />
+
+      {!authState.loading ? (
+        <CustomButton
+          bgColor={Colors.primaryColor}
+          fgColor="#fff"
+          isReady={numberPhone && isChecked}
+          onPress={handleSubmit(signin)}
+          marginVertical={10}
+          text="Send a verification code"
+        />
+      ) : (
+        <LoadingButton />
+      )}
+
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          paddingHorizontal: 20,
+          marginVertical: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            flexDirection: "row",
+          }}
+        >
+          <Text
+            style={{
+              color: Colors.grayTone1,
+              fontFamily: "Poppins_500Medium",
+              fontSize: 14,
             }}
-          />
-          
-          { !authState.loading ? 
-              <CustomButton 
-                bgColor={Colors.primaryColor}
-                fgColor='#fff'
-                isReady={numberPhone && isChecked}
-                onPress={handleSubmit(signin)}
-                marginVertical={10}
-                text="Send a verification code"
-              /> :
-              <LoadingButton />
-          }
-
-        <View style={{ 
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20,
-            marginVertical: 10
-           }}>
-
-        <TouchableOpacity
-          style={{ 
-            flexDirection: 'row'
-           }}
-        >
-          <Text style={{ 
-              color: Colors.grayTone1,
-              fontFamily: 'Poppins_500Medium',
-              fontSize: 14
-           }}>Terms of use</Text>
-          <Ionicons
-                name="chevron-forward"
-                size={18}
-                color={Colors.grayTone1}
-                /> 
+          >
+            Terms of use
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={Colors.grayTone1} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ 
-            flexDirection: 'row'
-           }}
+          style={{
+            flexDirection: "row",
+          }}
         >
-          <Text style={{ 
+          <Text
+            style={{
               color: Colors.grayTone1,
-              fontFamily: 'Poppins_500Medium',
-              fontSize: 14
-           }}>Terms of use</Text>
-          <Ionicons
-                name="chevron-forward"
-                size={18}
-                color={Colors.grayTone1}
-                /> 
+              fontFamily: "Poppins_500Medium",
+              fontSize: 14,
+            }}
+          >
+            Terms of use
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={Colors.grayTone1} />
         </TouchableOpacity>
+      </View>
 
-        </View>
-
-
-        <CheckboxField 
-          text="By Checking this box, I agree to be terms of use and acknowledge the privacy note"
-          isChecked={isChecked}
-          setChecked={setChecked}
-          />
-      
-      </SafeAreaView>
-  )
-}
+      <CheckboxField
+        text="By Checking this box, I agree to be terms of use and acknowledge the privacy note"
+        isChecked={isChecked}
+        setChecked={setChecked}
+      />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: Colors.whiteTone1,
-      paddingHorizontal: 20,
-      paddingVertical: 40
+    flex: 1,
+    backgroundColor: Colors.whiteTone1,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
   },
-    title: {
-      fontFamily: 'Poppins_800ExtraBold',
-      fontSize: 35,
-      marginBottom: 15,
-      textAlign: 'left',
-      color: '#000',
+  title: {
+    fontFamily: "Poppins_800ExtraBold",
+    fontSize: 35,
+    marginBottom: 15,
+    textAlign: "left",
+    color: "#000",
   },
   description: {
-      fontFamily: 'Poppins_300Light',
-      textAlign: 'left',
-      color: Colors.grayTone1,
-      fontSize: 16
+    fontFamily: "Poppins_300Light",
+    textAlign: "left",
+    color: Colors.grayTone1,
+    fontSize: 16,
   },
   paragraph: {
     fontSize: 15,

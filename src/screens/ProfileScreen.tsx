@@ -8,19 +8,20 @@ import { useNavigation } from '@react-navigation/native'
 import { countryCodeProps } from '@data/CountryCode'
 import CustomPhoneNumberInput from '@components/inputFields/CustomPhoneNumberInput'
 import CustomButton from '@components/buttons/CustomButton'
-import CheckboxField from '@components/inputFields/CheckboxField'
 import { useForm } from 'react-hook-form'
 import CustomInput from '@components/inputFields/CustomInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import UserRating from '@components/UserRating'
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { ScrollView } from 'react-native-gesture-handler'
+import { getUserInfo, udapteUserInfo } from '@services/useUser';
 
 const ProfileScreen = () => {
+  const authState = useAppSelector((state: RootState) => state.auth);
+  const userState = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState<countryCodeProps | null>(null);
-  const [isReady, setIsReady] = useState(false);
-  const [isChecked, setChecked] = useState(false);
 
   const {
     control,
@@ -35,7 +36,7 @@ const ProfileScreen = () => {
   const lastname = watch("lastname")
 
   const editProfile = () => {
-    
+    dispatch(getUserInfo(authState.token!.access_token!));
   }; 
   
   return (
@@ -138,7 +139,7 @@ const ProfileScreen = () => {
         <CustomButton 
             bgColor={Colors.primaryColor}
             fgColor='#fff'
-            isReady={numberPhone && isChecked}
+            isReady={true}
             onPress={handleSubmit(editProfile)}
             marginVertical={30}
             text="update profile"

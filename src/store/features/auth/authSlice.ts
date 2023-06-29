@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { sendOTP, checkAuth, verifyOTP, logout } from '@services/useAuth';
 
 export interface AuthStateTokenProps {
   "access_token": string | null;
@@ -6,6 +7,7 @@ export interface AuthStateTokenProps {
   "refresh_token": string | null;
   "refresh_token_expires_in": string | null;
   "token_type": string | null;
+  "role": string[] | null;
 }
 
 export interface AuthState {
@@ -13,43 +15,88 @@ export interface AuthState {
   "token": AuthStateTokenProps | null;
   "isFirstLogin": boolean;
   "verificationId"?: string | null;
+  "error": string | null;
 }
-// Define the initial state using that type
+
+
 const initialState: AuthState = {
   "token": null,
   "loading": false,
   "isFirstLogin": true,
+  "error": null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loadingStart: (state) => {
-      state.loading = true;
+    setIsFirstLogin: (state, action: PayloadAction<boolean>) => {
+      state.isFirstLogin = action.payload;
     },
-    otpSendSuccess: (state, action: PayloadAction<{verificationId: string}>) => {
-      state.verificationId = action.payload.verificationId;
-      state.loading = false;
-    },
-    loginSuccess: (state, action: PayloadAction<AuthStateTokenProps>) => {
-      state.token = action.payload;
-      state.loading = false;
-    },
-    loginFailure: (state) => {
-      state.token = null;
-      state.loading = false;
-    },
-    logout: (state) => {
-      state.token = null;
-      state.loading = false;
-    },
-    toogleIsFirstLogin: (state) => {
-      state.isFirstLogin = !state.isFirstLogin
-    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(sendOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(sendOTP.fulfilled, (state, action: PayloadAction<string>) => {
+        state.loading = false;
+        state.verificationId = action.payload;
+      })
+      .addCase(sendOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.token =  null;
+        state.verificationId =  null;
+        state.error = action.error.message as string;
+      })
+      .addCase(checkAuth.pending, (state) => {
+        state.loading = true;
+        state.isFirstLogin = true;
+        state.error = null;
+      })
+      .addCase(checkAuth.fulfilled, (state, action: PayloadAction<AuthStateTokenProps>) => {
+        state.loading = false;
+        state.isFirstLogin = false;
+        state.token = action.payload;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.loading = false;
+        state.isFirstLogin = true;
+        state.error = action.error.message as string;
+        state.token = null;
+      })
+      .addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOTP.fulfilled, (state, action: PayloadAction<AuthStateTokenProps>) => {
+        state.loading = false;
+        state.token = action.payload;
+      })
+      .addCase(verifyOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message as string;
+        state.token = null;
+      })
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = null;
+        state.verificationId =  null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message as string;
+        state.token = null;
+        state.verificationId =  null;
+      });
   },
 });
 
-export const { loginSuccess, loginFailure, logout, loadingStart, otpSendSuccess, toogleIsFirstLogin } = authSlice.actions;
+export const { setIsFirstLogin } = authSlice.actions;
 
 export default authSlice.reducer;

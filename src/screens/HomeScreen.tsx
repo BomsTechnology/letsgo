@@ -12,7 +12,8 @@ import LoadingButton from '@components/buttons/LoadingButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '@navigators/AppNavigator';
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
-import { signOut } from '@services/useAuth';
+import { logout } from '@services/useAuth';
+import { showError, showSuccess } from '@functions/helperFunctions';
 
 const HomeScreen = () => { 
   const authState = useAppSelector((state: RootState) => state.auth);
@@ -28,7 +29,14 @@ const HomeScreen = () => {
   } = useForm();
 
   const signout = async () => {
-    dispatch(signOut());
+    await dispatch(logout(authState.token!.access_token!))
+      .unwrap()
+      .then((data) => {
+        showSuccess("Déconnexion réussie !");
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
   }
 
   const destination = watch('destination');

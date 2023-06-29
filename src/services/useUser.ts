@@ -1,49 +1,55 @@
-import { loadingStart,  infoUpdateSuccess, infoUpdateFailure  } from "@store/features/user/userSlice";
-import { AppThunk, AppDispatch, RootState } from "@store/store";
 import { API_BASE_URL } from "@config";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import UserProps from "../types/UserProps";
 
-
-export const getUserInfo = (token: string): AppThunk => async (dispatch) => {
-    dispatch(loadingStart());
-    const user = await AsyncStorage.getItem('user');
-    if (user) {
-        console.log(user)
-        //dispatch(infoUpdateSuccess(JSON.parse(user)));
-    }else{
-        await axios.get( API_BASE_URL + 'userinfo')
-        .then((response) => {
-            console.log(response.data);
-            //dispatch(infoUpdateSuccess(JSON.parse(user)));
-        })
-        .catch((error) => {
-            console.log('Error: ' + error.message);
-        });
+export const createPoolerAccount = createAsyncThunk<
+  UserProps,
+  string
+>("user/createPoolerAccount", async (token: string) => {
+  try {
+    const response = await axios.put( API_BASE_URL + 'pollers/addPoller', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    if (response.data) {
+        AsyncStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
+    } else {
+      throw new Error(
+        'La réponse est vide ou ne contient pas de propriété "data".'
+      );
     }
-    
-};
+  } catch (error: any) {
+    throw new Error(
+      `Une erreur s'est produite : ${error.response.data.error_code}`
+    );
+  }
+});
 
-export const udapteUserInfo = (token: string, data: { firstname: string, lastname: string}): AppThunk => async (dispatch) => {
-    await axios.get( API_BASE_URL + 'userinfo')
-    .then((response) => {
-        //AsyncStorage.setItem('user', JSON.stringify(response.data));
-        console.log(response.data);
+export const getUserInfo = createAsyncThunk<
+  UserProps,
+  string
+>("user/getUserInfo", async (token: string) => {
+  try {
+    const response = await axios.get( API_BASE_URL + 'userinfo', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     })
-    .catch((error) => {
-        console.log('Error: ' + error.message);
-    });
-        
-};
-
-export const createPoolerAccount = (phoneNumber: string): AppThunk => async (dispatch) => {
-    await axios.put( API_BASE_URL + 'pollers/addPoller')
-    .then((response) => {
-       // AsyncStorage.setItem('user', JSON.stringify(response.data));
-        console.log(response.data);
-    })
-    .catch((error) => {
-        console.log('Error: ' + error.message);
-    });
-        
-};
+    if (response.data) {
+        AsyncStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
+    } else {
+      throw new Error(
+        'La réponse est vide ou ne contient pas de propriété "data".'
+      );
+    }
+  } catch (error: any) {
+    throw new Error(
+      `Une erreur s'est produite : ${error.response.data.error_code}`
+    );
+  }
+});
