@@ -14,7 +14,6 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import LoadingButton from "@components/buttons/LoadingButton";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import { sendOTP } from "@services/useAuth";
@@ -84,7 +83,6 @@ const LoginScreen = ({ route }: Props) => {
         }}
       />
 
-      {!authState.loading ? (
         <CustomButton
           bgColor={Colors.primaryColor}
           fgColor="#fff"
@@ -92,10 +90,9 @@ const LoginScreen = ({ route }: Props) => {
           onPress={handleSubmit(signin)}
           marginVertical={10}
           text="Send a verification code"
+          loading={authState.loading}
         />
-      ) : (
-        <LoadingButton />
-      )}
+
 
       <View
         style={{

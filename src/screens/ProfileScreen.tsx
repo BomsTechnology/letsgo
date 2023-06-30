@@ -13,7 +13,7 @@ import CustomInput from '@components/inputFields/CustomInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { ScrollView } from 'react-native-gesture-handler'
-import { getUserInfo, udapteUserInfo } from '@services/useUser';
+import { getUserInfo, updateUserInfo, createPoolerAccount } from '@services/useUser';
 
 const ProfileScreen = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
@@ -36,7 +36,14 @@ const ProfileScreen = () => {
   const lastname = watch("lastname")
 
   const editProfile = () => {
-    dispatch(getUserInfo(authState.token!.access_token!));
+    dispatch(createPoolerAccount(authState.token!.access_token!))
+    .unwrap()
+            .then((data) => {
+              console.log(data)
+            })
+            .catch((error) => {
+              console.log(error)
+            });;
   }; 
   
   return (
@@ -86,7 +93,7 @@ const ProfileScreen = () => {
         </View>
       </View>
       <ScrollView style={[styles.contentScroll]} showsVerticalScrollIndicator={false}>
-        <Text style={styles.semiBoldText}>Last Name</Text>
+        <Text style={styles.semiBoldText}>Last Name {JSON.stringify(userState.user)}</Text>
         <CustomInput
           placeholder="Enter your Last Name"
           name="lastname"
@@ -108,7 +115,7 @@ const ProfileScreen = () => {
             required: 'The First Name is required',
           }}
           />
-        <CustomPhoneNumberInput 
+        {/*<CustomPhoneNumberInput 
             setSelectedCountry={setSelectedCountry}
             placeholder="Enter your Phone number"
             name="phonenumber"
@@ -135,7 +142,7 @@ const ProfileScreen = () => {
           rules={{
             required: 'The Email is required',
           }}
-          />
+        />*/}
         <CustomButton 
             bgColor={Colors.primaryColor}
             fgColor='#fff'

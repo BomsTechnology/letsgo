@@ -1,27 +1,21 @@
 import { AuthStateTokenProps } from "@store/features/auth/authSlice";
 import { API_BASE_URL } from "@config";
 import axios from "axios";
-import {
-  getDeviceId,
-  getManufacturer,
-  getDeviceName,
-  getBundleId,
-  getModel,
-} from "react-native-device-info";
+import { setUserInfo } from "@store/features/user/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
+import * as Device  from 'expo-device';
 export const sendOTP = createAsyncThunk<string, string>(
   "auth/sendOTP",
   async (phoneNumber: string) => {
     let data = {
       phoneNumber: phoneNumber,
-      deviceManufacturer: "Itel",
-      deviceModel: "ItelA56",
-      bundleId: "aaaaaa",
-      deviceName: "ItelA56",
-      deviceId: "aakfkfkfnekfnekfnenfnfsn",
-      deviceOs: "IOS",
+      deviceManufacturer: Device.manufacturer,
+      deviceModel: Device.modelName,
+      bundleId: Device.osBuildId,
+      deviceName: Device.deviceName,
+      deviceId: `${Device.deviceName}-${Device.osBuildId}a`,
+      deviceOs: Device.osName?.toUpperCase(),
     };
     try {
       const response = await axios.post<{
@@ -50,7 +44,7 @@ export const verifyOTP = createAsyncThunk<
   let data = {
     verification_id: verificationId,
     verification_code: code,
-    device_id: "aakfkfkfnekfnekfnenfnfsn",
+    device_id: `${Device.deviceName}-${Device.osBuildId}a`,
   };
   try {
     const response = await axios.post<AuthStateTokenProps>(
@@ -58,7 +52,6 @@ export const verifyOTP = createAsyncThunk<
       data
     );
     if (response.data) {
-        
       await AsyncStorage.setItem("token", JSON.stringify(response.data));
       return response.data;
     } else {
@@ -68,7 +61,7 @@ export const verifyOTP = createAsyncThunk<
     }
   } catch (error: any) {
     throw new Error(
-      `Une erreur s'est produite : ${error.response.data.error_code}`
+      `Une erreur s'est produite : ${error.response.data.error}`
     );
   }
 });
@@ -98,10 +91,14 @@ export const logout = createAsyncThunk<void, string>(
 
 export const checkAuth = createAsyncThunk<AuthStateTokenProps, void>(
   "auth/checkAuth",
-  async () => {
+  async (_, thunkAPI) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      if (token) {
+      const user = await AsyncStorage.getItem("user");
+      console.log(user)
+      console.log(user)
+      if (token && user) {
+        thunkAPI.dispatch(setUserInfo(JSON.parse(user)));
         return JSON.parse(token) as AuthStateTokenProps;
       } else {
         await AsyncStorage.removeItem("token");

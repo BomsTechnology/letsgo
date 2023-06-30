@@ -40,6 +40,7 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
+  const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const checkIsAuth = async () => {
@@ -50,9 +51,10 @@ const AppNavigator = () => {
         setLoading(false);
     })
     .then((data) => {
+      showSuccess(`Bienvenue ${userState.user?.firstName}`);
     })
     .catch((error) => {
-    });
+    })
     
 };
   useEffect(() => {

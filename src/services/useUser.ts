@@ -24,12 +24,37 @@ export const createPoolerAccount = createAsyncThunk<
     }
   } catch (error: any) {
     throw new Error(
-      `Une erreur s'est produite : ${error.response.data.error_code}`
+      `Une erreur s'est produite : ${error.response.data.error}`
     );
   }
 });
 
 export const getUserInfo = createAsyncThunk<
+  UserProps,
+  string
+>("user/getUserInfo", async (token: string) => {
+  try {
+    const response = await axios.get( API_BASE_URL + 'userinfo', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    if (response.data) {
+        AsyncStorage.setItem('user', JSON.stringify(response.data));
+        return response.data;
+    } else {
+      throw new Error(
+        'La réponse est vide ou ne contient pas de propriété "data".'
+      );
+    }
+  } catch (error: any) {
+    throw new Error(
+      `Une erreur s'est produite : ${error.response.data.error_code}`
+    );
+  }
+});
+
+export const updateUserInfo = createAsyncThunk<
   UserProps,
   string
 >("user/getUserInfo", async (token: string) => {

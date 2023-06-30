@@ -19,7 +19,6 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
-import LoadingButton from "@components/buttons/LoadingButton";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import { sendOTP, verifyOTP } from "@services/useAuth";
@@ -163,17 +162,15 @@ const OTPScreen = ({ route }: Props) => {
         </Text>
       </TouchableOpacity>
 
-      {!authState.loading ? (
+
         <CustomButton
           bgColor={Colors.primaryColor}
           fgColor="#fff"
           isReady={isPinReady}
           onPress={verify}
           text="Verify it now"
+          loading={authState.loading}
         />
-      ) : (
-        <LoadingButton />
-      )}
     </Pressable>
   );
 };
