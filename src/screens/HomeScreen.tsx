@@ -29,7 +29,7 @@ const HomeScreen = () => {
   } = useForm();
 
   const signout = async () => {
-    await dispatch(logout(authState.token!.access_token!))
+    await dispatch(logout())
       .unwrap()
       .then((data) => {
         showSuccess("Déconnexion réussie !");

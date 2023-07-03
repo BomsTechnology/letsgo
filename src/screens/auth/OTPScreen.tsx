@@ -44,19 +44,26 @@ const OTPScreen = ({ route }: Props) => {
     )
       .unwrap()
       .then(async (data) => {
-        showSuccess("Connexion reussi :)");
         if (data.role?.includes("POLLER")) {
           dispatch(setIsFirstLogin(false));
-          await dispatch(getUserInfo(data.access_token!))
+          await dispatch(getUserInfo())
             .unwrap()
-            .then((data) => {})
-            .catch((error) => {});
+            .then((data) => {
+              showSuccess(`Bienvenue ${data.firstName == undefined ? data.principalPhone : data.firstName}`);
+            })
+            .catch((error) => {
+              showError(error.message);
+            });
         } else {
           dispatch(setIsFirstLogin(true));
-          await dispatch(createPoolerAccount(data.access_token!))
+          await dispatch(createPoolerAccount())
             .unwrap()
-            .then((data) => {})
-            .catch((error) => {});
+            .then((data) => {
+              showSuccess("Connexion reussi :)");
+            })
+            .catch((error) => {
+              showError(error.message);
+            });
         }
       })
       .catch((error) => {

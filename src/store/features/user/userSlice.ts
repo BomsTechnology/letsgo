@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import UserProps from '../../../types/UserProps';
-import { createPoolerAccount, getUserInfo  } from '@services/useUser';
+import { createPoolerAccount, getUserInfo, updateUserInfo  } from '@services/useUser';
 
 export interface userState {
     user: UserProps | null;
@@ -39,7 +39,18 @@ const userSlice = createSlice({
           })
           .addCase(createPoolerAccount.rejected, (state, action) => {
             state.loading = false;
-
+            state.error = action.error.message as string;
+          })
+          .addCase(updateUserInfo.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+          })
+          .addCase(updateUserInfo.fulfilled, (state, action: PayloadAction<UserProps>) => {
+            state.loading = false;
+            state.user = action.payload;
+          })
+          .addCase(updateUserInfo.rejected, (state, action) => {
+            state.loading = false;
             state.error = action.error.message as string;
           })
           .addCase(getUserInfo.pending, (state) => {

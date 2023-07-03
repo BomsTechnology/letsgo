@@ -1,6 +1,5 @@
 import { AuthStateTokenProps } from "@store/features/auth/authSlice";
-import { API_BASE_URL } from "@config";
-import axios from "axios";
+import  axiosClient, { API_BASE_URL } from "@config";
 import { setUserInfo } from "@store/features/user/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -14,14 +13,14 @@ export const sendOTP = createAsyncThunk<string, string>(
       deviceModel: Device.modelName,
       bundleId: Device.osBuildId,
       deviceName: Device.deviceName,
-      deviceId: `${Device.deviceName}-${Device.osBuildId}a`,
+      deviceId: `${Device.deviceName}-${Device.osBuildId}`,
       deviceOs: Device.osName?.toUpperCase(),
     };
     try {
-      const response = await axios.post<{
+      const response = await axiosClient.post<{
         status: string;
         verificationId: string;
-      }>(API_BASE_URL + "register/mobile/phone", data);
+      }>("mobile/register/phone", data);
       if (response.data) {
         return response.data.verificationId;
       } else {
@@ -31,7 +30,7 @@ export const sendOTP = createAsyncThunk<string, string>(
       }
     } catch (error: any) {
       throw new Error(
-        `Une erreur s'est produite : ${error.response.data.error_code}`
+        `Une erreur s'est produite : ${error.response.data.error}`
       );
     }
   }
@@ -44,11 +43,11 @@ export const verifyOTP = createAsyncThunk<
   let data = {
     verification_id: verificationId,
     verification_code: code,
-    device_id: `${Device.deviceName}-${Device.osBuildId}a`,
+    device_id: `${Device.deviceName}-${Device.osBuildId}`,
   };
   try {
-    const response = await axios.post<AuthStateTokenProps>(
-      API_BASE_URL + "auth/sms/code/verify",
+    const response = await axiosClient.post<AuthStateTokenProps>(
+       "auth/sms/code/verify",
       data
     );
     if (response.data) {
@@ -66,24 +65,20 @@ export const verifyOTP = createAsyncThunk<
   }
 });
 
-export const logout = createAsyncThunk<void, string>(
+export const logout = createAsyncThunk<void, void>(
   "auth/logout",
-  async (token: string) => {
+  async () => {
     try {
-      let response = await axios.get(API_BASE_URL + "logout", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.data) {
+     /* let response = await axiosClient.put( `auth/devices/${Device.deviceName}-${Device.osBuildId}/terminate`);
+      if (response.data) {*/
         AsyncStorage.removeItem("token");
         AsyncStorage.removeItem("user");
-      } else {
+     /* } else {
         throw new Error("Déconnexion impossible.");
-      }
+      }*/
     } catch (error: any) {
       throw new Error(
-        `Erreur lors de la déconnexion : ${error.response.data.error_code}`
+        `Erreur lors de la déconnexion : ${error.response.data.error}`
       );
     }
   }
@@ -95,8 +90,6 @@ export const checkAuth = createAsyncThunk<AuthStateTokenProps, void>(
     try {
       const token = await AsyncStorage.getItem("token");
       const user = await AsyncStorage.getItem("user");
-      console.log(user)
-      console.log(user)
       if (token && user) {
         thunkAPI.dispatch(setUserInfo(JSON.parse(user)));
         return JSON.parse(token) as AuthStateTokenProps;

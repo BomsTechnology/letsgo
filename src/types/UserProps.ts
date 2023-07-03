@@ -1,5 +1,5 @@
 export default interface UserProps {
-    "sub"?: string;
+    "userId"?: string;
     "type"?: string;
     "firstName"?: string;
     "lastName"?: string;
@@ -25,8 +25,8 @@ export default interface UserProps {
     "score"?: string;
     "webSite"?: string;
     "description"?: string;
-    "isBusinessActor"?: string;
-    "businessSector"?: string;
+    //"isBusinessActor"?: string;
+    //"businessSector"?: string;
     "updatedAt"?: string;
     "createdAt"?: string;
 }

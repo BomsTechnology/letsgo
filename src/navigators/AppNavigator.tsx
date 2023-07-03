@@ -51,7 +51,7 @@ const AppNavigator = () => {
         setLoading(false);
     })
     .then((data) => {
-      showSuccess(`Bienvenue ${userState.user?.firstName}`);
+      showSuccess(`Bienvenue`);
     })
     .catch((error) => {
     })
