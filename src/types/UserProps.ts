@@ -9,6 +9,7 @@ export default interface UserProps {
     "birthdate"?: string;
     "principalPhone"?: string;
     "principalEmail"?: string;
+    "role"?: string[];
     "contacts"?: [
         {
         "value"?: string;

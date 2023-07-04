@@ -1,111 +1,317 @@
-import React from 'react'
-import TabNavigator from './TabNavigator';
-import ProfileScreen from '../screens/ProfileScreen';
-import { DrawerItem, DrawerItemList, createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView , View,  Image, Text, TouchableOpacity,  StyleSheet} from 'react-native';
-import IconButton from '@components/buttons/IconButton';
-import Colors from '@constants/colors'
-import { Ionicons , FontAwesome5, Entypo } from '@expo/vector-icons';
-import { AppStackParamList } from '@navigators/AppNavigator';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
-import Rating from '@components/Rating';
-
+import React from "react";
+import TabNavigator from "./TabNavigator";
+import ProfileScreen from "../screens/ProfileScreen";
+import {
+  DrawerItem,
+  DrawerItemList,
+  createDrawerNavigator,
+} from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import IconButton from "@components/buttons/IconButton";
+import Colors from "@constants/colors";
+import { Ionicons, FontAwesome5, Entypo } from "@expo/vector-icons";
+import { AppStackParamList } from "@navigators/AppNavigator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+import Rating from "@components/Rating";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 interface UserRatingProps {
-  bgColor?: string; 
-  fgColor?: string; 
+  bgColor?: string;
+  fgColor?: string;
 }
-
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = ({ bgColor, fgColor}: UserRatingProps) => {
+const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
+  const userState = useAppSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
+  const menuIcon = (
+    <Ionicons name="chevron-back" size={25} color={Colors.onWhiteTone} />
+  );
 
-  const menuIcon =  (<Ionicons name="chevron-back" size={25} color={Colors.onWhiteTone} />);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => {
+        return (
+          <SafeAreaView
+            style={{ flex: 1, paddingTop: 10, paddingHorizontal: 10 }}
+          >
+            <IconButton
+              icon={menuIcon}
+              onPress={() => {
+                navigation.dispatch(DrawerActions.toggleDrawer());
+              }}
+            />
+            <View style={{ alignItems: "center" }}>
+              <Image
+                source={require("@assets/images/avatars/Avatar5.png")}
+                style={{
+                  height: 130,
+                  width: 130,
+                  borderRadius: 65,
+                }}
+              />
+              <View style={{ margin: 10 }}></View>
+              <Rating enablerating={false} rate={4} size={12} />
 
-  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-    return (
-      <Drawer.Navigator
-      drawerContent={
-        (props) => {
-           return(
-               <SafeAreaView>
-                  <View>
-                     <IconButton icon={menuIcon}  onPress={()=>{ navigation.dispatch(DrawerActions.toggleDrawer());}}/>
-                     <View style={{alignItems:'center'}}>
-                     <Image
-                      source={require('@assets/images/avatars/Avatar5.png')}
-                      style={{
-                        height: 130,
-                        width: 130,
-                        borderRadius: 65,
-                      }}/>
-                      <View style={{margin:10}}>
-                      </View>
-                      <Rating enablerating={false} rate={4}  size={12}/>
-                      
-                      <Text style={{fontWeight: "bold",fontSize: 19,marginTop:8, color: "#111",   marginBottom:8}}>Hi ALFRED Y. 👋</Text>
-                         <TouchableOpacity style={{height:40, width:95,  backgroundColor:Colors.primaryColor, borderRadius:10,marginBottom:10 }}><Text  style={{textAlign:'center', marginTop:10,  color:'#fff', fontWeight:'bold'}}>Pooler</Text></TouchableOpacity>
-                      </View>
-                  </View>
-                  <DrawerItemList {...props} />
-               </SafeAreaView>
-           )}}
-        screenOptions={{ 
-          drawerPosition: 'left'
-         }}
-      >
-        
-        <Drawer.Screen 
-          name="TabNavigator" 
-          component={TabNavigator}
-          options={{headerShown: false,
-                    drawerLabel:"Home",
-                    title: "Home",
-                    drawerInactiveTintColor:'black',
-                    drawerActiveTintColor:'black',
-                    drawerInactiveBackgroundColor:Colors.whiteTone2,
-                    drawerIcon: () => (
-                      <Ionicons name="chevron-forward" size={25} color={Colors.onWhiteTone}  style={{position:'absolute', right:10}}/>
-                    )
-        }}/>
-        <Drawer.Screen name="Profile"
-          component={ProfileScreen}                  
-          options={{headerShown: false,
-                    drawerLabel:"Profile",
-                    title: "Profile",
-                    drawerInactiveTintColor:'black',
-                    drawerActiveTintColor:'black',                   
-                    drawerIcon: () => (
-                      <Ionicons name="chevron-forward" size={25} color={Colors.onWhiteTone}  style={{position:'absolute', right:10}}/>
-                    )
+              <Text
+                style={{
+                  fontSize: 19,
+                  marginVertical: 8,
+                  color: "#111",
+                  fontFamily: 'Poppins_600SemiBold',
+                }}
+              >
+                Hi {userState.user?.firstName ? userState.user?.firstName.toUpperCase() : "TRAVELLER"}. 👋
+              </Text>
+              <View
+                style={{
+                  height: 40,
+                  width: 95,
+                  backgroundColor: Colors.primaryColor,
+                  borderRadius: 10,
+                  marginBottom: 10,
+                  alignItems: 'center',
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: Colors.whiteTone1,
+                    fontFamily: 'Poppins_600SemiBold',
                   }}
-          />
-                    
-      </Drawer.Navigator>
-    );
-}
+                >
+                  {userState.user?.role?.includes('POLLER') ? 'POOLER' : "USER"}
+                </Text>
+              </View>
+            </View>
+            <View style={{ flex: 1, paddingHorizontal: 5, paddingTop:15 }}>
+              <DrawerItemList {...props} />
+            </View>
+            <View style={{ 
+              height: 100,
+              paddingHorizontal:15,
+              justifyContent: 'center'
+             }}>
+              <DrawerItem
+                  label="Logout"
+                  style={{ 
+                    padding:0,
+                    paddingVertical:0,
+                    margin:0,
+                    marginVertical: 0
+                  }}
+                  labelStyle={{ 
+                    fontFamily: 'Poppins_400Regular',
+                    color:Colors.grayTone2
+                    }}
+                  icon={() => (
+                    <Ionicons
+                      name="log-out-outline"
+                      size={20}
+                      color={Colors.grayTone2}
+                      style={{ position: "absolute", left: 0 }}
+                    />
+                  )}
+                  onPress={() => null}
+                />
+            </View>
+            <View style={{ 
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+             }}>
+              <Text
+              style={{
+                textAlign: "center",
+                fontFamily: 'Poppins_300Light',
+                letterSpacing: 3,
+                color: Colors.grayTone2,
+              }}
+              >LETSGO POOLER</Text>
+            </View>
+          </SafeAreaView>
+        );
+      }}
+      screenOptions={{
+        drawerPosition: "left",
+        drawerStyle: {
+          borderBottomRightRadius: 50,
+          borderTopRightRadius: 50,
+          overflow: 'hidden',
+        },
+        drawerInactiveTintColor: Colors.grayTone2,
+        drawerActiveTintColor: Colors.grayTone2,
+        drawerInactiveBackgroundColor: Colors.whiteTone2,
+        drawerActiveBackgroundColor: Colors.whiteTone2,
+        //overlayColor: 'transparent',
+        drawerItemStyle: {
+          padding:0,
+          paddingVertical:0,
+          margin:0,
+          marginVertical: 0
+        },
+        drawerLabelStyle: {
+          lineHeight: 15,
+          fontFamily: 'Poppins_400Regular'
+        },
+      }}
+    >
+      <Drawer.Screen
+        name="TabNavigator"
+        component={TabNavigator}
+        options={{
+          headerShown: false,
+          drawerLabel: "Home",
+          drawerIcon: () => (
+            <Ionicons
+              name="home-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Profile",
+          drawerIcon: () => (
+            <Ionicons
+              name="person-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Security"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Security Information",
+          drawerIcon: () => (
+            <Ionicons
+              name="shield-checkmark-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Notification"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Notification",
+          drawerIcon: () => (
+            <Ionicons
+              name="notifications-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Language"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Language",
+          drawerIcon: () => (
+            <Ionicons
+              name="language-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Keywords"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Keywords",
+          drawerIcon: () => (
+            <Ionicons
+              name="at-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Transaction"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "Transaction History",
+          drawerIcon: () => (
+            <Ionicons
+              name="cash-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="More"
+        component={ProfileScreen}
+        options={{
+          headerShown: false,
+          drawerLabel: "More",
+          drawerIcon: () => (
+            <Ionicons
+              name="add-outline"
+              size={20}
+              color={Colors.grayTone2}
+              style={{ position: "absolute", left: 10 }}
+            />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+};
 
-export default DrawerNavigator
+export default DrawerNavigator;
 
 const styles = StyleSheet.create({
-      container:{
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'space-around',
-        alignItems:'center',
-        width:200,
-        marginTop:5,
-        borderRadius:6,
-        height:42,
-        marginBottom:15
-    },
-    shadowProp: {
-      shadowColor: 'rgba(0, 0, 0, 0.3)',
-      shadowOffset: {width: -2, height: 4},
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 20,
-    },
-})
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: 200,
+    marginTop: 5,
+    borderRadius: 6,
+    height: 42,
+    marginBottom: 15,
+  },
+  shadowProp: {
+    shadowColor: "rgba(0, 0, 0, 0.3)",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 20,
+  },
+});
