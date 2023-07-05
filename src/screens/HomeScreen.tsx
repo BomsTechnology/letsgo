@@ -11,8 +11,6 @@ import IconButton from "@components/buttons/IconButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
-import { logout } from "@services/useAuth";
-import { showError, showSuccess } from "@functions/helperFunctions";
 
 const HomeScreen = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
@@ -28,16 +26,7 @@ const HomeScreen = () => {
     //formState: {errors},
   } = useForm();
 
-  const signout = async () => {
-    await dispatch(logout())
-      .unwrap()
-      .then((data) => {
-        showSuccess("Déconnexion réussie !");
-      })
-      .catch((error) => {
-        showError(error.message);
-      });
-  };
+  
 
   const destination = watch("destination");
   const money = watch("money");
@@ -78,16 +67,6 @@ const HomeScreen = () => {
         <IconButton icon={locateIcon} onPress={onPress} />
       </View>
 
-      <CustomButton
-        bgColor={Colors.primaryColor}
-        fgColor="#fff"
-        isReady={true}
-        onPress={signout}
-        marginVertical={0}
-        fontSize={12}
-        text="logout"
-        loading={authState.loading}
-      />
 
       <View style={[styles.bottomBox, styles.shadowProp]}>
         <Text style={styles.title}>Hi Traveller</Text>

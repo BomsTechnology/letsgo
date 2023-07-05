@@ -34,6 +34,10 @@ export type AppStackParamList = {
   OTP: { phoneNumber: string };
   FavoriteDestination: undefined;
   Draft: undefined;
+  InviteFriend: undefined;
+  ManageDevice: undefined;
+  Chat: undefined;
+  Faq: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -51,7 +55,7 @@ const AppNavigator = () => {
         setLoading(false);
     })
     .then((data) => {
-      showSuccess(`Bienvenue`);
+      showSuccess(`Hello Traveller`);
     })
     .catch((error) => {
     })

@@ -3,7 +3,6 @@ import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import SimpleHeader from "@components/SimpleHeader";
 import Colors from "@constants/colors";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import CustomButton from "@components/buttons/CustomButton";
 import { useForm } from "react-hook-form";
 import CustomInput from "@components/inputFields/CustomInput";
@@ -24,7 +23,6 @@ import CustomDropdownInput, {
 const ProfileScreen = () => {
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
   const [asError, setAsError] = useState(false);
   const [birthdate, setBirthdate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState("");
@@ -203,7 +201,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.whiteTone3,
-    paddingTop: 40,
+    paddingTop: 20,
   },
   image: {
     width: 120,

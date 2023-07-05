@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Colors from '@constants/colors'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SimpleHeader from '@components/SimpleHeader'
@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Ionicons,  } from '@expo/vector-icons';
 import TripMyListTopTabNavigator from '@navigators/TripMyListTopTabNavigator'
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
-import { toogleShowInput } from '@store/features/search/myTripSearchSlice'
+import { toogleShowFilter, toogleShowInput } from '@store/features/search/myTripSearchSlice'
 
 const TripListScreen = () => {
     const mytripSearchState = useAppSelector((state: RootState) => state.myTripSearch);

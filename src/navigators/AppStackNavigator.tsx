@@ -14,18 +14,13 @@ import CardPayModeScreen from '@screens/payment/CardPayModeScreen';
 import CashPayModeScreen from '@screens/payment/CashPayModeScreen';
 import TicketListScreen from '@screens/ticket/TicketListScreen';
 import TicketDetailScreen from '@screens/ticket/TicketDetailScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DrawerNavigator from '@navigators/DrawerNavigator';
 import TripPublishScreen from '@screens/trip/TripPublishScreen';
 import DraftScreen from '@screens/trip/DrafScreen';
-import LoginScreen from '@screens/auth/LoginScreen';
-import OnboardingScreen from '@screens/OnboardingScreen';
-import FavoriteDestinationScreen from '@screens/auth/FavoriteDestinationScreen';
-
-
-
-
-const Stack = createNativeStackNavigator();
+import FaqScreen from '@screens/FaqScreen';
+import ManageDeviceScreen from '@screens/ManageDeviceScreen';
+import ChatScreen from '@screens/ChatScreen';
+import InviteFriendScreen from '@screens/InviteFriendScreen';
 
 const StackNavigator = (stack: any) => {
   return (
@@ -48,6 +43,10 @@ const StackNavigator = (stack: any) => {
       <stack.Screen name="TicketDetail" component={TicketDetailScreen} options={{ headerShown: false }} />
       <stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
       <stack.Screen name="Draft" component={DraftScreen} options={{ headerShown: false }} />
+      <stack.Screen name="Faq" component={FaqScreen} options={{ headerShown: false }} />
+      <stack.Screen name="ManageDevice" component={ManageDeviceScreen} options={{ headerShown: false }} />
+      <stack.Screen name="Chat" component={ChatScreen} options={{ headerShown: false }} />
+      <stack.Screen name="InviteFriend" component={InviteFriendScreen} options={{ headerShown: false }} />
   </>
   );
 };

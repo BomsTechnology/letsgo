@@ -13,7 +13,6 @@ import { Ionicons } from '@expo/vector-icons';
 const DrafScreen = () => {
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(toogleShowFilter(false));
         dispatch(toogleShowInput(true));
     }, []);
     const icon = (<Ionicons name="pencil" size={18} color={Colors.whiteTone1} /> );

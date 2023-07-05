@@ -10,26 +10,42 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import IconButton from "@components/buttons/IconButton";
 import Colors from "@constants/colors";
-import { Ionicons, FontAwesome5, Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import Rating from "@components/Rating";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
-interface UserRatingProps {
-  bgColor?: string;
-  fgColor?: string;
-}
+import { logout } from "@services/useAuth";
+import { showError, showSuccess } from "@functions/helperFunctions";
+import MoreOptionsScreen from '@screens/MoreOptionsScreen';
+import LanguageScreen from '@screens/LanguageScreen';
+import NotificationScreen from '@screens/NotificationScreen';
+import SecurityInformationScreen from '@screens/SecurityInformationScreen';
+import KeyWordScreen from '@screens/KeyWordScreen';
+import TransactionHistoryScreen from '@screens/TransactionHistoryScreen';
+
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
+const DrawerNavigator = () => {
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const menuIcon = (
     <Ionicons name="chevron-back" size={25} color={Colors.onWhiteTone} />
   );
+
+  const signout = async () => {
+    await dispatch(logout())
+      .unwrap()
+      .then((data) => {
+        showSuccess("Déconnexion réussie !");
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
@@ -118,7 +134,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
                       style={{ position: "absolute", left: 0 }}
                     />
                   )}
-                  onPress={() => null}
+                  onPress={() => signout}
                 />
             </View>
             <View style={{ 
@@ -195,7 +211,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="Security"
-        component={ProfileScreen}
+        component={SecurityInformationScreen}
         options={{
           headerShown: false,
           drawerLabel: "Security Information",
@@ -211,7 +227,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="Notification"
-        component={ProfileScreen}
+        component={NotificationScreen}
         options={{
           headerShown: false,
           drawerLabel: "Notification",
@@ -227,7 +243,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="Language"
-        component={ProfileScreen}
+        component={LanguageScreen}
         options={{
           headerShown: false,
           drawerLabel: "Language",
@@ -243,7 +259,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="Keywords"
-        component={ProfileScreen}
+        component={KeyWordScreen}
         options={{
           headerShown: false,
           drawerLabel: "Keywords",
@@ -259,7 +275,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="Transaction"
-        component={ProfileScreen}
+        component={TransactionHistoryScreen}
         options={{
           headerShown: false,
           drawerLabel: "Transaction History",
@@ -275,7 +291,7 @@ const DrawerNavigator = ({ bgColor, fgColor }: UserRatingProps) => {
       />
       <Drawer.Screen
         name="More"
-        component={ProfileScreen}
+        component={MoreOptionsScreen}
         options={{
           headerShown: false,
           drawerLabel: "More",

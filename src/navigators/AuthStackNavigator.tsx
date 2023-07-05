@@ -2,7 +2,6 @@ import React from 'react';
 import LoginScreen from '@screens/auth/LoginScreen';
 import OnboardingScreen from '@screens/OnboardingScreen';
 import OTPScreen from '@screens/auth/OTPScreen';
-import { TypedNavigator } from '@react-navigation/core';
 
 const AuthStackNavigator = (stack: any) => {
   return (
