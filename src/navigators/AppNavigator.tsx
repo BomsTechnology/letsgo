@@ -8,7 +8,7 @@ import AppStackNavigator from "@navigators/AppStackNavigator";
 import AuthStackNavigator from "@navigators/AuthStackNavigator";
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import AppFirstOpenStackNavigator from "./AppFirstOpenStackNavigator";
-import { checkAuth } from '@services/useAuth';
+import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
 
 export type AppStackParamList = {
@@ -38,6 +38,9 @@ export type AppStackParamList = {
   ManageDevice: undefined;
   Chat: undefined;
   Faq: undefined;
+  TwoWayCheck: undefined;
+  VerifyIdentity: undefined;
+  ChangeCredential: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -50,20 +53,18 @@ const AppNavigator = () => {
   const checkIsAuth = async () => {
     setLoading(true);
     await dispatch(checkAuth())
-    .unwrap()
-    .finally(() => {
+      .unwrap()
+      .finally(() => {
         setLoading(false);
-    })
-    .then((data) => {
-      showSuccess(`Hello Traveller`);
-    })
-    .catch((error) => {
-    })
-    
-};
+      })
+      .then((data) => {
+        showSuccess(`Hello Traveller`);
+      })
+      .catch((error) => {});
+  };
   useEffect(() => {
-        checkIsAuth();
-    }, []);
+    checkIsAuth();
+  }, []);
 
   if (loading) {
     return (

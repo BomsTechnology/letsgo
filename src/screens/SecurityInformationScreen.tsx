@@ -5,8 +5,13 @@ import SimpleHeader from "@components/SimpleHeader";
 import Colors from "@constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "@components/buttons/CustomButton";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStackParamList } from "@navigators/AppNavigator";
 
 const SecurityInformationScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppStackParamList>>();
   return (
     <SafeAreaView style={styles.container}>
       <SimpleHeader text="Security Information" />
@@ -17,7 +22,7 @@ const SecurityInformationScreen = () => {
           source={require("@assets/images/ico_security.png")}
           style={styles.image}
         />
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('TwoWayCheck')}>
           <Text style={styles.text}>Two-way Check</Text>
           <View style={styles.item}>
             <Text style={styles.minText}>Off</Text>
@@ -33,15 +38,15 @@ const SecurityInformationScreen = () => {
           bgColor={Colors.primaryColor}
           fgColor="#fff"
           isReady={true}
-          onPress={()=>{}}
           marginVertical={30}
-          text="change password"
+          onPress={() => navigation.navigate('ChangeCredential')}
+          text="change credentials"
         />
         <CustomButton
           bgColor={Colors.primaryShade1}
           fgColor="#fff"
           isReady={true}
-          onPress={()=>{}}
+          onPress={() => navigation.navigate('VerifyIdentity')}
           text="verify identity"
         />
       </View>

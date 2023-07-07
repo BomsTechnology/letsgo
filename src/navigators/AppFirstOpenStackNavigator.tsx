@@ -22,6 +22,9 @@ import FaqScreen from "@screens/FaqScreen";
 import ManageDeviceScreen from "@screens/ManageDeviceScreen";
 import ChatScreen from "@screens/ChatScreen";
 import InviteFriendScreen from "@screens/InviteFriendScreen";
+import ChangeCredentialScreen from "@screens/ChangeCredentialScreen";
+import TwoWayCheckScreen from "@screens/TwoWayCheckScreen";
+import VerifyIdentityScreen from "@screens/VerifyIdentityScreen";
 
 const AppFirstOpenStackNavigator = (stack: any) => {
   return (
@@ -139,6 +142,21 @@ const AppFirstOpenStackNavigator = (stack: any) => {
       <stack.Screen
         name="InviteFriend"
         component={InviteFriendScreen}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
+        name="ChangeCredential"
+        component={ChangeCredentialScreen}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
+        name="TwoWayCheck"
+        component={TwoWayCheckScreen}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
+        name="VerifyIdentity"
+        component={VerifyIdentityScreen}
         options={{ headerShown: false }}
       />
     </>
