@@ -45,7 +45,7 @@ const TicketDetailScreen = () => {
                    }, 
                     ]}
                 >qr code scan by planner only to validate ticket</Text>
-              <QRCode value='bondico' logo={require('@assets/images/logo.png')} size={150}  logoBackgroundColor='#fff' />
+              <QRCode value='bondico' logo={require('@assets/images/ico_logo.png')} size={150}  logoBackgroundColor='#fff' />
             </View>
             <View
               style={[styles.secondBLock, styles.shadowProp]}

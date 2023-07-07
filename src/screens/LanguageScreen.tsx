@@ -38,7 +38,7 @@ export default LanguageScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone2,
+    backgroundColor: Colors.whiteTone1,
     padding: 20,
   },
   image: {

@@ -20,7 +20,7 @@ export default interface UserProps {
         },
     ],
     "addressFormatted"?: string;
-    "keywords"?: string;
+    "keywords": string[];
     "userPreferences"?: string;
     "userPaymentModes"?: string;
     "score"?: string;
