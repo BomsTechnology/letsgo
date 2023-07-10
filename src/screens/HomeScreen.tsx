@@ -1,5 +1,11 @@
 import React, { useCallback, useContext, useState } from "react";
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Colors from "@constants/colors";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import CustomButton from "@components/buttons/CustomButton";
@@ -11,10 +17,14 @@ import IconButton from "@components/buttons/IconButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
+import SearchModal from "@components/modal/SearchModal";
 
 const HomeScreen = () => {
-  const authState = useAppSelector((state: RootState) => state.auth);
+  const localisationState = useAppSelector(
+    (state: RootState) => state.localization
+  );
   const dispatch = useAppDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const { height, width } = useWindowDimensions();
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
@@ -26,13 +36,8 @@ const HomeScreen = () => {
     //formState: {errors},
   } = useForm();
 
-  
-
-  const destination = watch("destination");
   const money = watch("money");
-  const destinationIcon = (
-    <Ionicons name="location-outline" size={18} color={Colors.secondaryColor} />
-  );
+
   const moneyIcon = (
     <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} />
   );
@@ -42,94 +47,115 @@ const HomeScreen = () => {
   );
   const search = () => {
     navigation.navigate("ResultSearch", {
-      destination: destination,
+      destination: localisationState.destination!.properties.name,
       price: money,
     });
   };
   const onPress = () => {};
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        {
-          height: height,
-        },
-      ]}
-    >
-      <View style={[styles.headerBtnBox]}>
-        <IconButton
-          icon={menuIcon}
-          bgColor={Colors.primaryColor}
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-        />
-        <IconButton icon={locateIcon} onPress={onPress} />
-      </View>
+    <>
+      <SearchModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+      <SafeAreaView
+        style={[
+          styles.container,
+          {
+            height: height,
+          },
+        ]}
+      >
+        <View style={[styles.headerBtnBox]}>
+          <IconButton
+            icon={menuIcon}
+            bgColor={Colors.primaryColor}
+            onPress={() => {
+              navigation.dispatch(DrawerActions.toggleDrawer());
+            }}
+          />
+          <IconButton icon={locateIcon} onPress={onPress} />
+        </View>
 
-
-      <View style={[styles.bottomBox, styles.shadowProp]}>
-        <Text style={styles.title}>Hi Traveller</Text>
-        <Text style={[styles.description]}>Where are you going today ?</Text>
-        <CustomInput
-          placeholder="Enter the address"
-          name="destination"
-          control={control}
-          secureTextEntry={false}
-          prefixType="icon"
-          bgColor={Colors.whiteTone3}
-          prefix={destinationIcon}
-          shadow={false}
-          marginVertical={0}
-          fontSize={13}
-          rules={{
-            required: "The address is required",
-          }}
-        />
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: 10,
-            marginTop: 5,
-          }}
-        >
-          <View style={{ width: "60%" }}>
-            <CustomInput
-              placeholder="Your budget"
-              name="money"
-              control={control}
-              secureTextEntry={false}
-              prefixType="icon"
-              sufixType="text"
-              prefix={moneyIcon}
-              bgColor={Colors.whiteTone3}
-              shadow={false}
-              keyboardType="numeric"
-              marginVertical={0}
-              fontSize={13}
-              sufix="X A F"
-              rules={{
-                required: "The price is required",
+        <View style={[styles.bottomBox, styles.shadowProp]}>
+          <Text style={styles.title}>Hi Traveller</Text>
+          <Text style={[styles.description]}>Where are you going today ?</Text>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              gap: 10,
+              paddingHorizontal: 10,
+              paddingVertical: 12,
+              backgroundColor: Colors.whiteTone3,
+              borderRadius: 5,
+            }}
+          >
+            <Ionicons
+              name="location-outline"
+              size={18}
+              color={Colors.secondaryColor}
+            />
+            <Text
+              style={{
+                color: Colors.grayTone2,
+                fontFamily: "Poppins_300Light",
+                fontSize: 13,
+                flex: 1,
               }}
-            />
-          </View>
-          <View style={{ width: "36%" }}>
-            <CustomButton
-              bgColor={Colors.primaryColor}
-              fgColor="#fff"
-              isReady={destination && money}
-              onPress={handleSubmit(search)}
-              marginVertical={0}
-              fontSize={12}
-              text="Search"
-            />
+            >
+              {localisationState.destination != null
+                ? localisationState.destination.properties.name
+                : "Type your destination"}
+            </Text>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 10,
+              marginTop: 5,
+            }}
+          >
+            <View style={{ width: "60%" }}>
+              <CustomInput
+                placeholder="Your budget"
+                name="money"
+                control={control}
+                secureTextEntry={false}
+                prefixType="icon"
+                sufixType="text"
+                prefix={moneyIcon}
+                bgColor={Colors.whiteTone3}
+                shadow={false}
+                keyboardType="numeric"
+                marginVertical={0}
+                fontSize={13}
+                sufix="X A F"
+                rules={{
+                  required: "The price is required",
+                }}
+              />
+            </View>
+            <View style={{ width: "36%" }}>
+              <CustomButton
+                bgColor={Colors.primaryColor}
+                fgColor="#fff"
+                isReady={localisationState.destination && money}
+                onPress={handleSubmit(search)}
+                marginVertical={0}
+                fontSize={12}
+                text="Search"
+              />
+            </View>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 };
 

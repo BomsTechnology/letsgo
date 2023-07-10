@@ -10,6 +10,7 @@ import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import AppFirstOpenStackNavigator from "./AppFirstOpenStackNavigator";
 import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
+import Colors from "@constants/colors";
 
 export type AppStackParamList = {
   Home: undefined;
@@ -69,7 +70,7 @@ const AppNavigator = () => {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} />
+        <ActivityIndicator size={"large"} color={Colors.primaryColor}/>
       </View>
     );
   }

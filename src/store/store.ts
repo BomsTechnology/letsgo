@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import myTripSearchReducer from './features/search/myTripSearchSlice';
+import localizationReducer from './features/search/localizationSlice';
 import userReducer from './features/user/userSlice';
 
 
@@ -9,7 +10,8 @@ export const store = configureStore({
   reducer: {
       auth: authReducer,
       myTripSearch: myTripSearchReducer,
-      user: userReducer
+      user: userReducer,
+      localization: localizationReducer
   },
 });
 
