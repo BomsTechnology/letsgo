@@ -52,7 +52,7 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
     }
     typingTimeoutRef.current = setTimeout(async () => {
       await search();
-    }, 1000);
+    }, 500);
   };
 
   const search = async () => {
@@ -86,8 +86,9 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
   const handleBlur = () => {
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
+      //setResults([]);
     }
-    setResults([]);
+    
   };
 
   const clearSearch = async (type: string) => {

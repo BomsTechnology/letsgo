@@ -18,6 +18,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import SearchModal from "@components/modal/SearchModal";
+import Map from "@components/Map";
 
 const HomeScreen = () => {
   const localisationState = useAppSelector(
@@ -44,6 +45,9 @@ const HomeScreen = () => {
   const menuIcon = <Ionicons name="menu" size={25} color={Colors.whiteTone1} />;
   const locateIcon = (
     <Ionicons name="ios-locate" size={25} color={Colors.onWhiteTone} />
+  );
+  const searchIcon = (
+    <Ionicons name="search" size={25} color={Colors.onWhiteTone} />
   );
   const search = () => {
     navigation.navigate("ResultSearch", {
@@ -75,82 +79,91 @@ const HomeScreen = () => {
             }}
           />
           <IconButton icon={locateIcon} onPress={onPress} />
+          <IconButton icon={searchIcon} onPress={() => setModalVisible(true)} />
         </View>
 
-        <View style={[styles.bottomBox, styles.shadowProp]}>
-          <Text style={styles.title}>Hi Traveller</Text>
-          <Text style={[styles.description]}>Where are you going today ?</Text>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: 10,
-              paddingHorizontal: 10,
-              paddingVertical: 12,
-              backgroundColor: Colors.whiteTone3,
-              borderRadius: 5,
-            }}
-          >
-            <Ionicons
-              name="location-outline"
-              size={18}
-              color={Colors.secondaryColor}
-            />
-            <Text
+        <Map />
+
+        <View style={{ 
+          width: '100%',
+          paddingHorizontal: 15,
+          alignItems: 'center'
+         }}>
+          <View style={[styles.bottomBox, styles.shadowProp]}>
+            <Text style={styles.title}>Hi Traveller</Text>
+            <Text style={[styles.description]}>Where are you going today ?</Text>
+            <TouchableOpacity
+              onPress={() => setModalVisible(true)}
               style={{
-                color: Colors.grayTone2,
-                fontFamily: "Poppins_300Light",
-                fontSize: 13,
-                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 12,
+                backgroundColor: Colors.whiteTone3,
+                borderRadius: 5,
               }}
             >
-              {localisationState.destination != null
-                ? localisationState.destination.properties.name
-                : "Type your destination"}
-            </Text>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-              marginTop: 5,
-            }}
-          >
-            <View style={{ width: "60%" }}>
-              <CustomInput
-                placeholder="Your budget"
-                name="money"
-                control={control}
-                secureTextEntry={false}
-                prefixType="icon"
-                sufixType="text"
-                prefix={moneyIcon}
-                bgColor={Colors.whiteTone3}
-                shadow={false}
-                keyboardType="numeric"
-                marginVertical={0}
-                fontSize={13}
-                sufix="X A F"
-                rules={{
-                  required: "The price is required",
+              <Ionicons
+                name="location-outline"
+                size={18}
+                color={Colors.secondaryColor}
+              />
+              <Text
+                style={{
+                  color: Colors.grayTone2,
+                  fontFamily: "Poppins_300Light",
+                  fontSize: 13,
+                  flex: 1,
                 }}
-              />
-            </View>
-            <View style={{ width: "36%" }}>
-              <CustomButton
-                bgColor={Colors.primaryColor}
-                fgColor="#fff"
-                isReady={localisationState.destination && money}
-                onPress={handleSubmit(search)}
-                marginVertical={0}
-                fontSize={12}
-                text="Search"
-              />
+              >
+                {localisationState.destination != null
+                  ? localisationState.destination.properties.name
+                  : "Type your destination"}
+              </Text>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+                marginTop: 5,
+              }}
+            >
+              <View style={{ width: "60%" }}>
+                <CustomInput
+                  placeholder="Your budget"
+                  name="money"
+                  control={control}
+                  secureTextEntry={false}
+                  prefixType="icon"
+                  sufixType="text"
+                  prefix={moneyIcon}
+                  bgColor={Colors.whiteTone3}
+                  shadow={false}
+                  keyboardType="numeric"
+                  marginVertical={0}
+                  fontSize={13}
+                  sufix="X A F"
+                  rules={{
+                    required: "The price is required",
+                  }}
+                />
+              </View>
+              <View style={{ width: "36%" }}>
+                <CustomButton
+                  bgColor={Colors.primaryColor}
+                  fgColor="#fff"
+                  isReady={localisationState.destination && money}
+                  onPress={handleSubmit(search)}
+                  marginVertical={0}
+                  fontSize={12}
+                  text="Search"
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -165,7 +178,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 15,
     backgroundColor: Colors.whiteTone1,
     position: "relative",
   },
@@ -173,6 +185,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 60,
     left: 20,
+    zIndex: 99
   },
   bottomBox: {
     position: "absolute",
@@ -180,6 +193,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     backgroundColor: Colors.whiteTone2,
+    zIndex: 99
   },
   shadowProp: {
     shadowColor: "#171717",
