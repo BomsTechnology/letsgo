@@ -12,6 +12,7 @@ import Colors from "@constants/colors";
 import { TextInput, TouchableOpacity } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { Divider } from "@constants/ComponentStyled";
+import { useForm, FieldValues } from "react-hook-form";
 import {
   searchPlace,
   setDeparture,
@@ -22,6 +23,10 @@ import { showError } from "@functions/helperFunctions";
 import { ActivityIndicator } from "react-native";
 import { PlaceProps } from "../../types/PlaceProps";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
+import SearchPlaceItem from "@components/SearchPlaceItem";
+import DatePicker from "@components/inputFields/DatePicker";
+import CustomInput from "@components/inputFields/CustomInput";
+import CustomButton from "@components/buttons/CustomButton";
 
 interface SearchModalProps {
   modalVisible: boolean;
@@ -29,7 +34,20 @@ interface SearchModalProps {
 }
 
 const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
+  const {
+    control,
+    handleSubmit,
+    watch,
+    //formState: {errors},
+  } = useForm();
+  const moneyIcon = (
+    <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} />
+  );
   const dispatch = useAppDispatch();
+  const localisationState = useAppSelector(
+    (state: RootState) => state.localization
+  );
+  const [departureDate, setDepartureDate] = React.useState(new Date());
   const [departureValue, setDepartureValue] = React.useState("");
   const [destinationValue, setDestanationValue] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -52,7 +70,7 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
     }
     typingTimeoutRef.current = setTimeout(async () => {
       await search();
-    }, 500);
+    }, 1000);
   };
 
   const search = async () => {
@@ -88,7 +106,6 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
       clearTimeout(typingTimeoutRef.current);
       //setResults([]);
     }
-    
   };
 
   const clearSearch = async (type: string) => {
@@ -106,7 +123,7 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
     }
   };
 
-  const selectPlace = async (item: PlaceProps) => {
+  const selectPlace = async (item: PlaceProps): Promise<void> => {
     switch (currentSearch) {
       case "departure":
         setDepartureValue(item.properties.name);
@@ -116,32 +133,9 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
         setDestanationValue(item.properties.name);
         await dispatch(setDestination(item));
     }
-    if (departureValue != "" && destinationValue != "") {
-      setModalVisible(false);
-    }
     setResults([]);
   };
 
-  const resultItemRender = ({ item }: { item: PlaceProps }) => {
-    let text = item.properties.state || item.properties.country || "";
-    if (text !== "") text += ", ";
-    return (
-      <TouchableOpacity
-        style={[styles.itemContainer]}
-        onPress={() => selectPlace(item)}
-      >
-        <Ionicons name="time-outline" size={20} color={Colors.grayTone4} />
-        <View style={{ flex: 1 }}>
-          <Text style={[styles.itemTextBold]}>{item.properties.name}</Text>
-          <Text style={[styles.itemTextLight]}>
-            {text}
-            {item.properties.country}
-          </Text>
-          <Divider style={{ marginTop: 10 }} />
-        </View>
-      </TouchableOpacity>
-    );
-  };
   return (
     <Modal
       animationType="slide"
@@ -205,7 +199,84 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
               )}
             </View>
           </View>
-          {isLoading ? (
+          <View
+            style={{
+              width: "100%",
+              marginTop: 10,
+              paddingHorizontal: 5,
+            }}
+          >
+            <DatePicker
+              date={departureDate}
+              setDate={setDepartureDate}
+              bgColor={Colors.whiteTone1}
+            />
+            <View
+              style={{
+                flexDirection: "row",
+                width: "100%",
+                justifyContent: "space-between",
+                marginTop: 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "48%",
+                  marginRight: 5,
+                }}
+              >
+                <CustomInput
+                  placeholder="Number of Seat"
+                  name="money"
+                  control={control}
+                  secureTextEntry={false}
+                  prefixType="icon"
+                  prefix={moneyIcon}
+                  bgColor={Colors.whiteTone2}
+                  keyboardType="numeric"
+                  marginVertical={0}
+                  fontSize={13}
+                  rules={{
+                    required: "The price is required",
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  width: "48%",
+                }}
+              >
+                <CustomInput
+                  placeholder="Your budget"
+                  name="money"
+                  control={control}
+                  secureTextEntry={false}
+                  sufixType="icon"
+                  bgColor={Colors.whiteTone2}
+                  keyboardType="numeric"
+                  marginVertical={0}
+                  fontSize={13}
+                  sufix={moneyIcon}
+                  rules={{
+                    required: "The price is required",
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+
+          {departureValue == "" && destinationValue == "" ? (
+            <View style={[styles.centerContainer]}>
+              <Ionicons
+                name="happy-outline"
+                size={50}
+                color={Colors.primaryColor}
+              />
+              <Text style={[styles.textBold, { color: Colors.primaryColor }]}>
+                Start Search
+              </Text>
+            </View>
+          ) : isLoading ? (
             <View style={[styles.centerContainer]}>
               <ActivityIndicator size={"large"} color={Colors.primaryColor} />
             </View>
@@ -213,40 +284,48 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
             <FlatList
               data={results}
               showsHorizontalScrollIndicator={false}
-              renderItem={resultItemRender}
+              renderItem={({ item }: { item: PlaceProps }) => (
+                <SearchPlaceItem
+                  onPress={() => selectPlace(item)}
+                  item={item}
+                />
+              )}
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-              style={{ flex: 1, marginTop: 20, paddingHorizontal: 10 }}
+              style={{ flex: 1, marginTop: 20, paddingHorizontal: 10, paddingBottom: 80 }}
             />
-          ) : (
+          ) : (!localisationState.destination ||
+              !localisationState.departure) &&
+            results.length === 0 ? (
             <View style={[styles.centerContainer]}>
-              {departureValue != "" && destinationValue != "" ? (
-                <>
-                  <FontAwesome5
-                    name="sad-cry"
-                    size={50}
-                    color={Colors.grayTone2}
-                  />
-                  <Text style={[styles.textBold, { color: Colors.grayTone2 }]}>
-                    No Result
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Ionicons
-                    name="happy-outline"
-                    size={50}
-                    color={Colors.primaryColor}
-                  />
-                  <Text
-                    style={[styles.textBold, { color: Colors.primaryColor }]}
-                  >
-                    Start Search
-                  </Text>
-                </>
-              )}
+              <FontAwesome5 name="sad-cry" size={50} color={Colors.grayTone2} />
+              <Text style={[styles.textBold, { color: Colors.grayTone2 }]}>
+                No Result
+              </Text>
             </View>
-          )}
+          ) : localisationState.destination && localisationState.departure ? (
+            <View style={[styles.centerContainer]}>
+              <Ionicons
+                name="happy-outline"
+                size={50}
+                color={Colors.accentGreen}
+              />
+              <Text style={[styles.textBold, { color: Colors.accentGreen }]}>
+                Submit Search
+              </Text>
+            </View>
+          ) : null}
+          <View key="fixed" style={[styles.seatBox]}>
+
+       <CustomButton
+         bgColor={Colors.secondaryColor}
+         radius={50}
+         fgColor='#fff'
+         isReady={true}
+         onPress={()=>{}}
+         text="Search"
+       /> 
+ </View>
         </View>
       </View>
     </Modal>
@@ -271,7 +350,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     width: "100%",
-    height: "95%",
+    height: "92%",
     paddingTop: 10,
     paddingHorizontal: 10,
     backgroundColor: Colors.whiteTone2,
@@ -317,19 +396,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textTransform: "uppercase",
   },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  itemTextBold: {
-    fontFamily: "Poppins_600SemiBold",
-    fontSize: 16,
-    color: Colors.grayTone1,
-  },
-  itemTextLight: {
-    color: Colors.grayTone2,
-    fontFamily: "Poppins_300Light",
-    fontSize: 13,
-  },
+  seatBox: {
+    width: width,
+    padding: 10,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    bottom: 0,
+    left:0,
+    right: 0,
+  }
 });
