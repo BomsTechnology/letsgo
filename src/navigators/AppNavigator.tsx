@@ -11,6 +11,9 @@ import AppFirstOpenStackNavigator from "./AppFirstOpenStackNavigator";
 import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import Colors from "@constants/colors";
+import { setCurrLocation } from "@services/useLocalization";
+import * as Location from "expo-location";
+
 
 export type AppStackParamList = {
   Home: undefined;
@@ -48,21 +51,49 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
-  const userState = useAppSelector((state: RootState) => state.user);
+  
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const checkIsAuth = async () => {
     setLoading(true);
     await dispatch(checkAuth())
       .unwrap()
-      .finally(() => {
+      .finally(async () => {
         setLoading(false);
       })
-      .then((data) => {
+      .then(async (data) => {
+        getPermissions();
         showSuccess(`Hello Traveller`);
       })
       .catch((error) => {});
   };
+
+  const getPermissions = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      showError("Please grant location permission");
+      return;
+    }
+
+    const location = await Location.getCurrentPositionAsync({});
+    await dispatch(setCurrLocation({
+      type: "CurrentLocation",
+      properties: {
+        name: "Position actuelle"
+      },
+      geometry: {
+        "coordinates": [
+          location.coords.latitude,
+          location.coords.longitude
+        ],
+        "type": "Point"
+      }
+    })).then((data) => {
+      
+    });
+  }
+
+
   useEffect(() => {
     checkIsAuth();
   }, []);

@@ -27,6 +27,7 @@ import SearchPlaceItem from "@components/SearchPlaceItem";
 import DatePicker from "@components/inputFields/DatePicker";
 import CustomInput from "@components/inputFields/CustomInput";
 import CustomButton from "@components/buttons/CustomButton";
+import { makeRouting } from "@services/useLocalization";
 
 interface SearchModalProps {
   modalVisible: boolean;
@@ -55,9 +56,9 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
   const [currentSearch, setCurrentSearch] = React.useState("departure");
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const onChangeText = async (value: string, type: string) => {
-    if (typingTimeoutRef.current) {
+   /* if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
-    }
+    }*/
     switch (type) {
       case "departure":
         setDepartureValue(value);
@@ -68,9 +69,9 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
         setCurrentSearch(type);
         break;
     }
-    typingTimeoutRef.current = setTimeout(async () => {
+    /*typingTimeoutRef.current = setTimeout(async () => {*/
       await search();
-    }, 1000);
+    /*}, 1000);*/
   };
 
   const search = async () => {
@@ -136,18 +137,52 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
     setResults([]);
   };
 
+  const getRouting = async () => {
+    await dispatch(
+      makeRouting({
+        stops: [
+          {
+            lat: localisationState.departure?.geometry.coordinates[1]!,
+            lon: localisationState.departure?.geometry.coordinates[0]!,
+          },
+          {
+            lat: localisationState.destination?.geometry.coordinates[1]!,
+            lon: localisationState.destination?.geometry.coordinates[0]!,
+          },
+        ],
+        isPathRequest: true,
+        responseType: "GEOJSON",
+        includeInstructions: true,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
+  };
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
+        if(localisationState.destination && localisationState.departure){
+          getRouting();
+        }
         setModalVisible(!modalVisible);
       }}
     >
       <View style={[styles.container]}>
         <Pressable
-          onPress={() => setModalVisible(false)}
+          onPress={() => {
+            if(localisationState.destination && localisationState.departure){
+              getRouting();
+            }
+            setModalVisible(false)
+          }}
           style={{
             flex: 1,
             width: "100%",

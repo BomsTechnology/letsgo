@@ -30,6 +30,11 @@ import SearchPlaceItem from "@components/SearchPlaceItem";
 import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native";
 import Constants from "expo-constants";
+import RoutingProps from "../types/RoutingProps";
+import { makeRouting } from "@services/useLocalization";
+import { setCurrLocation } from "@services/useLocalization";
+import * as Location from "expo-location";
+
 const HomeScreen = () => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
@@ -37,6 +42,7 @@ const HomeScreen = () => {
   const bottomBoxRef = useRef<View>(null);
   const dispatch = useAppDispatch();
   const [destinationValue, setDestanationValue] = useState("");
+  const [routing, setRouting] = useState<RoutingProps | undefined>(undefined);
   const [searchHeight, setSearchHeight] = useState(0);
   const [results, setResults] = useState<PlaceProps[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -67,22 +73,22 @@ const HomeScreen = () => {
 
   const onChangeText = async (value: string) => {
     setDestanationValue(value);
-    if (typingTimeoutRef.current) {
+    /* if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
-    }
+    }*/
 
-    typingTimeoutRef.current = setTimeout(async () => {
-      setIsLoading(true);
-      await searchPlace(destinationValue)
-        .then((data) => {
-          setResults(data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          showError(JSON.stringify(error));
-        });
-    }, 1000);
+    //typingTimeoutRef.current = setTimeout(async () => {
+    setIsLoading(true);
+    await searchPlace(destinationValue)
+      .then((data) => {
+        setResults(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        showError(JSON.stringify(error));
+      });
+    //}, 1000);
     dispatch(setDestination(null));
   };
 
@@ -94,9 +100,75 @@ const HomeScreen = () => {
   };
 
   const selectPlace = async (item: PlaceProps): Promise<void> => {
-    setDestanationValue(item.properties.name);
     setResults([]);
-    dispatch(setDestination(item));
+    setDestanationValue(item.properties.name);
+    await dispatch(setDestination(item)).unwrap().then((data) => {
+      getRouting(data!)
+    });
+  };
+
+  const getRouting = async (destination: PlaceProps) => {
+    let stops = [
+      {
+        lon: 0,
+        lat: 0,
+      },
+      {
+        lon: destination.geometry.coordinates[1],
+        lat: destination.geometry.coordinates[0],
+      },
+    ];
+
+    if (
+      !localisationState.currentLocation?.geometry.coordinates[0]! ||
+      !localisationState.currentLocation?.geometry.coordinates[1]
+    ) {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        showError("Please grant location permission");
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      await dispatch(
+        setCurrLocation({
+          type: "CurrentLocation",
+          properties: {
+            name: "Position actuelle",
+          },
+          geometry: {
+            coordinates: [location.coords.latitude, location.coords.longitude],
+            type: "Point",
+          },
+        })
+      ).then((data) => {
+        stops[0] = {
+          lon: location.coords.longitude,
+          lat: location.coords.latitude,
+        }
+      });
+    }else{
+      stops[0] = {
+        lon: localisationState.currentLocation?.geometry.coordinates[1],
+        lat: localisationState.currentLocation?.geometry.coordinates[0],
+      }
+    }
+
+    await dispatch(
+      makeRouting({
+        stops: stops,
+        isPathRequest: true,
+        responseType: "GEOJSON",
+        includeInstructions: true,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+        console.log(JSON.stringify(data));
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
   };
 
   const search = () => {
@@ -155,7 +227,7 @@ const HomeScreen = () => {
           <IconButton icon={searchIcon} onPress={() => setModalVisible(true)} />
         </View>
 
-        <Map />
+        <Map routing={routing} />
 
         <View style={[styles.containerBoxSearch]}>
           {isLoading ? (

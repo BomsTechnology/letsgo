@@ -4,6 +4,7 @@ import { setUserInfo } from "@store/features/user/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as Device  from 'expo-device';
+import axios from "axios";
 export const sendOTP = createAsyncThunk<string, string>(
   "auth/sendOTP",
   async (phoneNumber: string) => {
@@ -17,7 +18,7 @@ export const sendOTP = createAsyncThunk<string, string>(
       deviceOs: Device.osName?.toUpperCase(),
     };
     try {
-      const response = await axiosClient.post<{
+      const response =  await axiosClient.post<{
         status: string;
         verificationId: string;
       }>("mobile/register/phone", data);

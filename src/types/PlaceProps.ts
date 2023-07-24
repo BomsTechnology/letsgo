@@ -5,9 +5,9 @@ export interface PlaceProps {
     type: string;
   };
   properties: {
-    country: string;
+    country?: string;
     name: string;
-    postcode: string;
+    postcode?: string;
     street?: string;
     housenumber?: string;
     state?: string;
