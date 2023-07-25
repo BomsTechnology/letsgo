@@ -123,28 +123,12 @@ const HomeScreen = () => {
       !localisationState.currentLocation?.geometry.coordinates[0]! ||
       !localisationState.currentLocation?.geometry.coordinates[1]
     ) {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        showError("Please grant location permission");
-        return;
-      }
-
-      const location = await Location.getCurrentPositionAsync({});
       await dispatch(
-        setCurrLocation({
-          type: "CurrentLocation",
-          properties: {
-            name: "Position actuelle",
-          },
-          geometry: {
-            coordinates: [location.coords.latitude, location.coords.longitude],
-            type: "Point",
-          },
-        })
-      ).then((data) => {
+        setCurrLocation()
+      ).unwrap().then((data) => {
         stops[0] = {
-          lon: location.coords.longitude,
-          lat: location.coords.latitude,
+          lon: data.geometry.coordinates[1]!,
+          lat: data.geometry.coordinates[0]!,
         }
       });
     }else{
@@ -153,6 +137,7 @@ const HomeScreen = () => {
         lat: localisationState.currentLocation?.geometry.coordinates[0],
       }
     }
+
 
     await dispatch(
       makeRouting({
@@ -167,7 +152,7 @@ const HomeScreen = () => {
         console.log(JSON.stringify(data));
       })
       .catch((error) => {
-        showError(error.message);
+        showError('Routage impossible');
       });
   };
 

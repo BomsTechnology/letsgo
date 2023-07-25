@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import MapView, {
   LatLng,
   Marker,
@@ -10,7 +10,7 @@ import MapView, {
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import Colors from "@constants/colors";
 import RoutingProps from "../types/RoutingProps";
-import { makeRouting } from "@services/useLocalization";
+import { makeRouting, setCurrLocation } from "@services/useLocalization";
 import { showError } from "@functions/helperFunctions";
 
 interface RegionProps {
@@ -35,6 +35,7 @@ const Map = ({ routing }: MapProps) => {
     (state: RootState) => state.localization
   );
   const dispatch = useAppDispatch();
+  const mapViewRef = useRef<MapView>(null);
   const [initialRegion, setInitialRegion] = React.useState<RegionProps>({
     latitude: 3.8602350654752446,
     longitude: 11.496420340855604,
@@ -75,13 +76,26 @@ const Map = ({ routing }: MapProps) => {
     }
   };
 
+  const onMapReady = async () => {
+    
+  }
+
   useEffect(() => {
-    setInitialRegion({
-      latitude: localisationState.currentLocation?.geometry.coordinates[0]!,
-      longitude: localisationState.currentLocation?.geometry.coordinates[1]!,
-      latitudeDelta: 0.04807001831917738,
-      longitudeDelta: 0.033830983340740204,
+    dispatch(setCurrLocation()).unwrap().then((data) => {
+      setInitialRegion({
+        latitude: data.geometry.coordinates[0]!,
+        longitude: data.geometry.coordinates[1]!,
+        latitudeDelta: 0.04807001831917738,
+        longitudeDelta: 0.033830983340740204,
+      });
+      setDepartureCoord({
+        latitude: data.geometry.coordinates[0]!,
+        longitude: data.geometry.coordinates[1]!,
+      });
+    }).catch((error) => {
+      
     });
+    
     setPois([]);
   }, []);
 
@@ -97,10 +111,10 @@ const Map = ({ routing }: MapProps) => {
       setPolylineCoords(polyline);
 
       setInitialRegion({
-        latitude: (localisationState.routing.bbox[3] + localisationState.routing.bbox[1]) / 2,
-        longitude: (localisationState.routing.bbox[2] + localisationState.routing.bbox[0]) / 2,
-        latitudeDelta: (localisationState.routing.bbox[3] - localisationState.routing.bbox[1]),
-        longitudeDelta: (localisationState.routing.bbox[2] - localisationState.routing.bbox[0]),
+        latitude: (localisationState.routing.bbox[3] + localisationState.routing.bbox[2]) / 2,
+        longitude: (localisationState.routing.bbox[1] + localisationState.routing.bbox[0]) / 2,
+        latitudeDelta: (localisationState.routing.bbox[1] - localisationState.routing.bbox[0]),
+        longitudeDelta: (localisationState.routing.bbox[3] - localisationState.routing.bbox[2]),
       });
       setDepartureCoord(polyline[0]);
     }
@@ -139,8 +153,10 @@ const Map = ({ routing }: MapProps) => {
         initialRegion={initialRegion}
         onRegionChangeComplete={onRegionChangeComplete}
         style={styles.map}
+        ref={mapViewRef}
+        onMapReady={onMapReady}
       >
-        {departureCoord ? (
+        {departureCoord && (
           <Marker
             pinColor={Colors.secondaryColor}
             draggable={true}
@@ -149,17 +165,7 @@ const Map = ({ routing }: MapProps) => {
             coordinate={departureCoord}
             onDragEnd={(e) => onDragEnd(e.nativeEvent.coordinate)}
           />
-        ) : (
-          <Marker
-            draggable={true}
-            pinColor={Colors.secondaryColor}
-            coordinate={{
-              latitude: 3.8602350654752446,
-              longitude: 11.496420340855604,
-            }}
-            onDragEnd={(e) => onDragEnd(e.nativeEvent.coordinate)}
-          />
-        )}
+        ) }
         {showPois()}
         {/* 
           <UrlTile
