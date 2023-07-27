@@ -30,7 +30,7 @@ interface MapProps {
   routing?: RoutingProps | undefined;
 }
 
-const Map = ({ routing }: MapProps) => {
+const Map = () => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
@@ -160,8 +160,8 @@ const Map = ({ routing }: MapProps) => {
           <Marker
             pinColor={Colors.secondaryColor}
             draggable={true}
-            title={polylineCoords.length > 0 ? "Point de départ" :"Ma position"}
-            description={polylineCoords.length > 0 ? "Description Point de départ" :"Description Ma Position"}
+            title={localisationState.departure?.properties.name}
+            description={localisationState.departure?.properties.country}
             coordinate={departureCoord}
             onDragEnd={(e) => onDragEnd(e.nativeEvent.coordinate)}
           />
@@ -182,8 +182,8 @@ const Map = ({ routing }: MapProps) => {
           {polylineCoords.length > 0 && (
           <Marker
             pinColor={Colors.primaryColor}
-            title={"Point d'arrivée"}
-            description={"Description Point d'arrivée"}
+            title={localisationState.destination?.properties.name}
+            description={localisationState.destination?.properties.country}
             coordinate={polylineCoords[polylineCoords.length - 1]}
           />
         )}

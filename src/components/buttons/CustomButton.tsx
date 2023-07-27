@@ -46,6 +46,7 @@ const CustomButton = (props: CustomButtonProps) => {
         >
           {props.icon && props.icon}
           <Text
+          numberOfLines={1}
             style={[
               styles.text,
               {
