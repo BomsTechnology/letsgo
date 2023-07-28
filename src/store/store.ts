@@ -13,6 +13,11 @@ export const store = configureStore({
       user: userReducer,
       localization: localizationReducer
   },
+ /* middleware(getDefaultMiddleware) {
+    return getDefaultMiddleware({
+      serializableCheck: false
+    });
+  },*/
 });
 
 export type AppDispatch = typeof store.dispatch;

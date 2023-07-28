@@ -22,11 +22,13 @@ import { AppStackParamList } from "@navigators/AppNavigator";
 import SearchModal from "@components/modal/SearchModal";
 import Map from "@components/Map";
 import HomeBottomBox from "@components/HomeBottomBox";
+import RoutingProps from "../types/RoutingProps";
 
 const HomeScreen = () => {
   const { height, width } = useWindowDimensions();
   const [showBox, setShowBox] = React.useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [routing, setRouting] = React.useState<RoutingProps | null>(null);
   const menuIcon = <Ionicons name="menu" size={25} color={Colors.whiteTone1} />;
   const searchIcon = <Ionicons name="search" size={25} color={Colors.onWhiteTone} />;
       const locateIcon = (
@@ -35,6 +37,7 @@ const HomeScreen = () => {
       const navigation =
         useNavigation<NativeStackNavigationProp<AppStackParamList>>();
         const onPress = () => {};
+
   return (
     <>
       <SearchModal
@@ -61,9 +64,9 @@ const HomeScreen = () => {
           <IconButton icon={searchIcon} onPress={() => setShowBox(true)} />
         </View>
 
-        <Map  />
+        <Map setRouting={setRouting} routing={routing} />
 
-        <HomeBottomBox boxVisble={showBox} setBoxVisble={setShowBox}  />
+        <HomeBottomBox setRouting={setRouting} boxVisble={showBox} setBoxVisble={setShowBox}  />
 
         
       </SafeAreaView>

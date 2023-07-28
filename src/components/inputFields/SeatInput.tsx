@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import Colors from "@constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 
-const SeatInput = () => {
-    const [nb, setNb] = useState(1);
+interface SeatInputProps {
+  nb: number;
+  setNb: Function;
+}
+
+const SeatInput = ({ nb, setNb }: SeatInputProps) => {
     const add = () => {
         setNb(nb + 1);
     }
@@ -15,9 +19,8 @@ const SeatInput = () => {
   return (
     <View
       style={{
-        width: "32%",
+        width: "100%",
         borderRadius: 5,
-        height: "100%",
         backgroundColor: Colors.whiteTone3,
         flexDirection: "row",
         borderWidth: 1,
@@ -30,7 +33,7 @@ const SeatInput = () => {
       <Ionicons name="people-outline" size={18} color={Colors.grayTone1} />
       </View>
       <View
-        style={{ flexGrow: 1, justifyContent: "center", alignItems: "center" }}
+        style={{ flexGrow: 1, justifyContent: "center", alignItems: "center", height: 48,}}
       >
         <Text
           style={{

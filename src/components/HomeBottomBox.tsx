@@ -33,23 +33,26 @@ import Constants from "expo-constants";
 import SeatInput from "./inputFields/SeatInput";
 
 interface HomeBottomBoxProps {
-    boxVisble: boolean;
-    setBoxVisble: Function;
+  boxVisble: boolean;
+  setBoxVisble: Function;
+  setRouting: Function;
 }
 
-const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
+const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxProps) => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
   const bottomBoxRef = useRef<View>(null);
   const dispatch = useAppDispatch();
-  const [departureValue, setDepartureValue] = React.useState("Position Actuelle");
+  const [departureValue, setDepartureValue] =
+    React.useState("Position Actuelle");
   const [destinationValue, setDestanationValue] = React.useState("");
-  const [currentSearch, setCurrentSearch] = React.useState("departure");
+  const [currentSearch, setCurrentSearch] = React.useState("destination");
   const [searchHeight, setSearchHeight] = useState(0);
   const [results, setResults] = useState<PlaceProps[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
+  const [nb, setNb] = useState(1);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { height, width } = useWindowDimensions();
@@ -67,15 +70,13 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
     /* if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }*/
-    switch (type) {
-      case "departure":
-        setDepartureValue(value);
-        setCurrentSearch(type);
-        break;
-      case "destination":
-        setDestanationValue(value);
-        setCurrentSearch(type);
-        break;
+    if (type === "departure") {
+      setCurrentSearch(type);
+      setDepartureValue(value);
+    }
+    if (type === "destination") {
+      setCurrentSearch(type);
+      setDestanationValue(value);
     }
     setShowSearch(true);
     /*typingTimeoutRef.current = setTimeout(async () => {*/
@@ -90,74 +91,51 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
     }
   };
 
-  const selectPlace = async (item: PlaceProps): Promise<void> => {
-    switch (currentSearch) {
-      case "departure":
-        setDepartureValue(item.properties.name);
-        await dispatch(setDeparture(item));
-        break;
-      case "destination":
-        setDestanationValue(item.properties.name);
-        await dispatch(setDestination(item));
+  const selectPlace = async (item: PlaceProps) => {
+    if (currentSearch === "departure") {
+      await dispatch(setDeparture(item))
+        .unwrap()
+        .then(async (data) => {
+          setDepartureValue(data!.properties.name);
+        });
+    }
+    if (currentSearch === "destination") {
+      await dispatch(setDestination(item))
+        .unwrap()
+        .then(async (data) => {
+          setDestanationValue(data!.properties.name);
+        });
     }
     setResults([]);
     setShowSearch(false);
-    if(localisationState.departure && localisationState.destination){
-      await getRouting();
-    }
   };
 
-  const getRouting = async () => {
-    await dispatch(
-      makeRouting({
-        stops: [
-          {
-            lat: localisationState.departure?.geometry.coordinates[1]!,
-            lon: localisationState.departure?.geometry.coordinates[0]!,
-          },
-          {
-            lat: localisationState.destination?.geometry.coordinates[1]!,
-            lon: localisationState.destination?.geometry.coordinates[0]!,
-          },
-        ],
-        isPathRequest: true,
-        responseType: "GEOJSON",
-        includeInstructions: true,
-      })
-    )
-      .unwrap()
-      .then((data) => {})
-      .catch((error) => {
-        showError(error.message);
-      });
-  };
+  
 
   const search = async () => {
     setIsLoading(true);
-    switch (currentSearch) {
-      case "departure":
-        await searchPlace(departureValue)
-          .then((data) => {
-            data.unshift(localisationState.currentLocation!)
-            setResults(data);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            setIsLoading(false);
-            showError(JSON.stringify(error));
-          });
-        break;
-      case "destination":
-        await searchPlace(destinationValue)
-          .then((data) => {
-            setResults(data);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            setIsLoading(false);
-            showError(JSON.stringify(error));
-          });
-        break;
+    if (currentSearch === "departure") {
+      await searchPlace(departureValue)
+        .then((data) => {
+          data.unshift(localisationState.currentLocation!);
+          setResults(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          showError(JSON.stringify(error));
+        });
+    }
+    if (currentSearch === "destination") {
+      await searchPlace(destinationValue)
+        .then((data) => {
+          setResults(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          showError(JSON.stringify(error));
+        });
     }
   };
 
@@ -184,12 +162,13 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
         setSearchHeight(height - (Constants.statusBarHeight + 272));
       }
     );
-
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
   }, []);
+
+  
 
   const clearSearch = async (type: string) => {
     setIsLoading(false);
@@ -205,6 +184,46 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
         break;
     }
   };
+
+  const getRouting = async () => {
+  if (localisationState.departure && localisationState.destination) {
+    console.log([
+      {
+        lat: localisationState.departure?.geometry.coordinates[1]!,
+        lon: localisationState.departure?.geometry.coordinates[0]!,
+      },
+      {
+        lat: localisationState.destination?.geometry.coordinates[1]!,
+        lon: localisationState.destination?.geometry.coordinates[0]!,
+      },
+    ]);
+    await makeRouting({
+      stops: [
+        {
+          lat: localisationState.departure?.geometry.coordinates[1]!,
+          lon: localisationState.departure?.geometry.coordinates[0]!,
+        },
+        {
+          lat: localisationState.destination?.geometry.coordinates[1]!,
+          lon: localisationState.destination?.geometry.coordinates[0]!,
+        },
+      ],
+      isPathRequest: true,
+      responseType: "GEOJSON",
+      includeInstructions: true,
+    })
+      .then((data) => {
+        setRouting(data);
+      })
+      .catch((error) => {
+        showError(error);
+      });
+  }
+}
+
+useEffect(() => {
+  getRouting();
+}, [localisationState]);
   return (
     <View style={[styles.containerBoxSearch]}>
       {showSearch && (
@@ -217,10 +236,14 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
       )}
       {!showSearch && (
         <TouchableOpacity
-          style={[styles.shadowProp, styles.closeBtn, {
-            backgroundColor: Colors.primaryColor,
-            top: 0
-          }]}
+          style={[
+            styles.shadowProp,
+            styles.closeBtn,
+            {
+              backgroundColor: Colors.primaryColor,
+              top: 0,
+            },
+          ]}
           onPress={() => setBoxVisble(false)}
         >
           <Ionicons name="close" size={25} color={Colors.secondaryColor} />
@@ -303,7 +326,7 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
                   style={styles.input}
                   onBlur={handleBlur}
                   onChangeText={(text) => onChangeText(text, "departure")}
-                  value={departureValue}
+                  value={localisationState.departure ? localisationState.departure!.properties.name : departureValue}
                 />
               </View>
               {departureValue != "" && (
@@ -325,10 +348,10 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
                   style={styles.input}
                   onChangeText={(text) => onChangeText(text, "destination")}
                   onBlur={handleBlur}
-                  value={destinationValue}
+                  value={localisationState.destination ? localisationState.destination!.properties.name : destinationValue}
                 />
               </View>
-              {destinationValue != "" && (
+              {destinationValue != ""  && (
                 <TouchableOpacity onPress={() => clearSearch("destination")}>
                   <Ionicons name="close" size={18} color={Colors.grayTone2} />
                 </TouchableOpacity>
@@ -344,8 +367,9 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
               justifyContent: "space-between",
             }}
           >
-            <SeatInput />
-
+            <View style={{ width: "32%" }}>
+            <SeatInput nb={nb} setNb={setNb} />
+            </View>
             <View style={{ width: "32%" }}>
               <CustomInput
                 placeholder="Budget"
@@ -374,7 +398,7 @@ const HomeBottomBox = ({boxVisble, setBoxVisble }: HomeBottomBoxProps) => {
               <CustomButton
                 bgColor={Colors.primaryColor}
                 fgColor="#fff"
-                isReady={false}
+                isReady={localisationState.departure != null && localisationState.destination != null && money}
                 onPress={gosearch}
                 text="recherche"
                 marginVertical={0}

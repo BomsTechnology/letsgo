@@ -20,6 +20,11 @@ export interface SegmentProps {
       }[];
 }
 
+export interface RouteProps {
+    coordinates: (number[])[];
+    type: string;
+}
+
 export default interface RoutingProps {
   type: string;
   features: [

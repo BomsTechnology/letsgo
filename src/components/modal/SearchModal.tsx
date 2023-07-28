@@ -138,7 +138,7 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
   };
 
   const getRouting = async () => {
-    await dispatch(
+    /*await dispatch(
       makeRouting({
         stops: [
           {
@@ -160,7 +160,7 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
       })
       .catch((error) => {
         showError(error.message);
-      });
+      });*/
   };
 
   return (

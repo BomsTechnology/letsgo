@@ -11,7 +11,8 @@ import AppFirstOpenStackNavigator from "./AppFirstOpenStackNavigator";
 import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import Colors from "@constants/colors";
-
+import { setCurrLocation } from "@services/useLocalization";
+import { setDeparture } from "@services/useSearchPlace";
 
 export type AppStackParamList = {
   Home: undefined;
@@ -49,22 +50,29 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
-  
+
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const checkIsAuth = async () => {
     setLoading(true);
     await dispatch(checkAuth())
       .unwrap()
-      .finally(async () => {
-        setLoading(false);
-      })
       .then(async (data) => {
+        await dispatch(setCurrLocation())
+          .unwrap()
+          .then(async (data) => {
+            await dispatch(setDeparture(data));
+            setLoading(false);
+          })
+          .catch((error) => {
+            setLoading(false);
+          });
         showSuccess(`Hello Traveller`);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setLoading(false);
+      });
   };
-
 
   useEffect(() => {
     checkIsAuth();
@@ -73,7 +81,7 @@ const AppNavigator = () => {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} color={Colors.primaryColor}/>
+        <ActivityIndicator size={"large"} color={Colors.primaryColor} />
       </View>
     );
   }

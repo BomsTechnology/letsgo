@@ -10,8 +10,13 @@ import MapView, {
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import Colors from "@constants/colors";
 import RoutingProps from "../types/RoutingProps";
-import { makeRouting, setCurrLocation } from "@services/useLocalization";
+import {
+  makeRouting,
+  reverseGeocode,
+  setCurrLocation,
+} from "@services/useLocalization";
 import { showError } from "@functions/helperFunctions";
+import { setDeparture, setDestination } from "@services/useSearchPlace";
 
 interface RegionProps {
   latitude: number;
@@ -27,15 +32,17 @@ interface PoiProps {
 }
 
 interface MapProps {
-  routing?: RoutingProps | undefined;
+  routing: RoutingProps | null;
+  setRouting: Function;
 }
 
-const Map = () => {
+const Map = ({ routing, setRouting }: MapProps) => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
   const dispatch = useAppDispatch();
   const mapViewRef = useRef<MapView>(null);
+  const [isDragDepart, setIsDragDepart] = React.useState(false);
   const [initialRegion, setInitialRegion] = React.useState<RegionProps>({
     latitude: 3.8602350654752446,
     longitude: 11.496420340855604,
@@ -43,6 +50,9 @@ const Map = () => {
     longitudeDelta: 0.043830983340740204,
   });
   const [departureCoord, setDepartureCoord] = React.useState<
+    LatLng | undefined
+  >();
+  const [destinationCoord, setDestinationCoord] = React.useState<
     LatLng | undefined
   >();
   const [pois, setPois] = React.useState<PoiProps[]>([]);
@@ -53,7 +63,7 @@ const Map = () => {
   };
 
   const onRegionChangeComplete = (region: RegionProps) => {
-   // console.log(region);
+    // console.log(region);
   };
 
   const showPois = () => {
@@ -69,40 +79,90 @@ const Map = () => {
     });
   };
 
-  const onDragEnd = async (coord: LatLng) => {
-    setDepartureCoord(coord);
-    if(polylineCoords.length > 0){
-     await  getRouting(coord);
-    }
+  const onDragEndDeparture = async (coord: LatLng) => {
+    await reverseGeocode(coord)
+      .then(async (data) => {
+        await dispatch(
+          setDeparture({
+            type: "DepartureLocation",
+            properties: {
+              name: data[0].name!,
+              country: data[0].country!,
+              postcode: data[0].postalCode!,
+              street: data[0].street!,
+              housenumber: data[0].streetNumber!,
+              state: data[0].city!,
+              countrycode: data[0].isoCountryCode!,
+            },
+            geometry: {
+              coordinates: [coord.longitude, coord.latitude],
+              type: "Point",
+            },
+          })
+        ).unwrap()
+          .then(async (data) => {
+            
+          });
+      })
+      .catch((error) => {
+        showError(error);
+      });
   };
 
-  const onMapReady = async () => {
-    
-  }
+  const onDragEndDestination = async (coord: LatLng) => {
+    await reverseGeocode(coord)
+      .then(async (data) => {
+        await dispatch(
+          setDestination({
+            type: "DestinationLocation",
+            properties: {
+              name: data[0].name!,
+              country: data[0].country!,
+              postcode: data[0].postalCode!,
+              street: data[0].street!,
+              housenumber: data[0].streetNumber!,
+              state: data[0].city!,
+              countrycode: data[0].isoCountryCode!,
+            },
+            geometry: {
+              coordinates: [coord.longitude, coord.latitude],
+              type: "Point",
+            },
+          })
+        ).unwrap()
+          .then(async (data) => {
+            
+        });
+      })
+      .catch((error) => {
+        showError(error);
+      });
+  };
+
+  const onMapReady = async () => {};
 
   useEffect(() => {
-    dispatch(setCurrLocation()).unwrap().then((data) => {
-      setInitialRegion({
-        latitude: data.geometry.coordinates[0]!,
-        longitude: data.geometry.coordinates[1]!,
-        latitudeDelta: 0.04807001831917738,
-        longitudeDelta: 0.033830983340740204,
-      });
-      setDepartureCoord({
-        latitude: data.geometry.coordinates[0]!,
-        longitude: data.geometry.coordinates[1]!,
-      });
-    }).catch((error) => {
-      
+    setInitialRegion({
+      latitude: localisationState.currentLocation?.geometry.coordinates[0]!,
+      longitude: localisationState.currentLocation?.geometry.coordinates[1]!,
+      latitudeDelta: 0.04807001831917738,
+      longitudeDelta: 0.033830983340740204,
     });
-    
+    setDepartureCoord({
+      latitude: localisationState.currentLocation?.geometry.coordinates[0]!,
+      longitude: localisationState.currentLocation?.geometry.coordinates[1]!,
+    });
     setPois([]);
   }, []);
 
   useEffect(() => {
+    makeRoute();
+  }, [routing]);
+
+  const makeRoute = async () => {
     let polyline: LatLng[] = [];
-    if (localisationState.routing && localisationState.routing.features) {
-      localisationState.routing.features[0].geometry.coordinates.map((coord) => {
+    if (routing) {
+      routing.features[0].geometry.coordinates.map((coord) => {
         polyline.push({
           latitude: coord[1],
           longitude: coord[0],
@@ -111,39 +171,14 @@ const Map = () => {
       setPolylineCoords(polyline);
 
       setInitialRegion({
-        latitude: (localisationState.routing.bbox[3] + localisationState.routing.bbox[2]) / 2,
-        longitude: (localisationState.routing.bbox[1] + localisationState.routing.bbox[0]) / 2,
-        latitudeDelta: (localisationState.routing.bbox[1] - localisationState.routing.bbox[0]),
-        longitudeDelta: (localisationState.routing.bbox[3] - localisationState.routing.bbox[2]),
+        latitude: polyline[0].latitude,
+        longitude: polyline[0].longitude,
+        latitudeDelta: 0.08807001831917738,
+        longitudeDelta: 0.043830983340740204,
       });
       setDepartureCoord(polyline[0]);
+      setDestinationCoord(polylineCoords[polylineCoords.length - 1]);
     }
-  }, [localisationState.routing]);
-
-  const getRouting = async (departure: LatLng) => {
-    await dispatch(
-      makeRouting({
-        stops: [
-          {
-            lat: departure.latitude,
-            lon: departure.longitude,
-          },
-          {
-            lat: localisationState.destination?.geometry.coordinates[1]!,
-            lon: localisationState.destination?.geometry.coordinates[0]!,
-          },
-        ],
-        isPathRequest: true,
-        responseType: "GEOJSON",
-        includeInstructions: true,
-      })
-    )
-      .unwrap()
-      .then((data) => {
-      })
-      .catch((error) => {
-        showError(error.message);
-      });
   };
 
   return (
@@ -163,9 +198,9 @@ const Map = () => {
             title={localisationState.departure?.properties.name}
             description={localisationState.departure?.properties.country}
             coordinate={departureCoord}
-            onDragEnd={(e) => onDragEnd(e.nativeEvent.coordinate)}
+            onDragEnd={(e) => onDragEndDeparture(e.nativeEvent.coordinate)}
           />
-        ) }
+        )}
         {showPois()}
         {/* 
           <UrlTile
@@ -173,18 +208,20 @@ const Map = () => {
             maximumZ={19}
         />*/}
         {polylineCoords.length > 0 && (
-            <Polyline
-              coordinates={polylineCoords}
-              strokeColor={Colors.accentOrange}
-              strokeWidth={6}
-            />
-          )}
-          {polylineCoords.length > 0 && (
+          <Polyline
+            coordinates={polylineCoords}
+            strokeColor={Colors.accentOrange}
+            strokeWidth={6}
+          />
+        )}
+        {destinationCoord && (
           <Marker
             pinColor={Colors.primaryColor}
+            draggable={true}
             title={localisationState.destination?.properties.name}
             description={localisationState.destination?.properties.country}
-            coordinate={polylineCoords[polylineCoords.length - 1]}
+            coordinate={destinationCoord}
+            onDragEnd={(e) => onDragEndDestination(e.nativeEvent.coordinate)}
           />
         )}
       </MapView>
