@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SimpleHeader from "@components/SimpleHeader";
 import Colors from "@constants/colors";
@@ -10,6 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { Switch } from "react-native";
+import { RootState, useAppDispatch, useAppSelector,  } from "@store/store";
+import { setThemeMode } from "@services/useSetting";
 
 interface optionsProps {
   id: string;
@@ -19,13 +21,20 @@ interface optionsProps {
 }
 
 const MoreOptionsScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
+  const dispatch = useAppDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toogleIsDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    dispatch(setThemeMode(settingState.setting))
   };
+
+  useEffect(() => {
+    
+  }, []);
 
   const options: optionsProps[] = [
     {
@@ -35,7 +44,7 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="chatbubbles-outline"
           size={25}
-          color={Colors.grayTone1}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
         />
       ),
       onPress: () => navigation.navigate("Chat"),
@@ -47,7 +56,7 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="help-circle-outline"
           size={25}
-          color={Colors.grayTone1}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
         />
       ),
       onPress: () => navigation.navigate("Faq"),
@@ -59,7 +68,7 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="phone-portrait-outline"
           size={25}
-          color={Colors.grayTone1}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
         />
       ),
       onPress: () => navigation.navigate("ManageDevice"),
@@ -71,7 +80,7 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="person-add-outline"
           size={25}
-          color={Colors.grayTone1}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
         />
       ),
       onPress: () => navigation.navigate("InviteFriend"),
@@ -82,7 +91,7 @@ const MoreOptionsScreen = () => {
     return (
       <TouchableOpacity style={styles.faqItem} onPress={item.onPress}>
         {item.icon}
-        <Text style={styles.faqText}>{item.label}</Text>
+        <Text style={settingState.setting.isDarkMode ? styles.faqText_DARK : styles.faqText}>{item.label}</Text>
         <Ionicons
           name="chevron-forward"
           size={30}
@@ -92,28 +101,28 @@ const MoreOptionsScreen = () => {
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <SimpleHeader text="More Options" />
       <TouchableOpacity style={styles.faqItem} onPress={toogleIsDarkMode}>
       <MaterialCommunityIcons
           name="theme-light-dark"
           size={25}
-          color={Colors.grayTone1}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
         />
-      <Text style={styles.faqText}>Theme</Text>
+      <Text style={settingState.setting.isDarkMode ? styles.faqText_DARK : styles.faqText}>Theme</Text>
         <View style={styles.faqItem}>
           <Text style={styles.minText}>
-            {!isDarkMode ? "White Mode" : "Dark Mode"}
+            {!settingState.setting.isDarkMode ? "White Mode" : "Dark Mode"}
           </Text>
           <Switch
             trackColor={{
               false: Colors.grayTone3,
               true: Colors.primaryShade1,
             }}
-            thumbColor={isDarkMode ? Colors.primaryColor : Colors.grayTone2}
+            thumbColor={settingState.setting.isDarkMode ? Colors.primaryColor : Colors.grayTone2}
             ios_backgroundColor={Colors.grayTone3}
             onValueChange={toogleIsDarkMode}
-            value={isDarkMode}
+            value={settingState.setting.isDarkMode}
           />
         </View>
       </TouchableOpacity>
@@ -137,10 +146,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteTone2,
     padding: 20,
   },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
+    padding: 20,
+  },
   faqText: {
     flex: 1,
     textAlign: "left",
     color: Colors.grayTone1,
+    marginLeft: 5,
+    fontFamily: "Poppins_400Regular",
+    fontSize: 18,
+  },
+  faqText_DARK: {
+    flex: 1,
+    textAlign: "left",
+    color: Colors.onPrimaryColor,
     marginLeft: 5,
     fontFamily: "Poppins_400Regular",
     fontSize: 18,

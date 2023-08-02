@@ -21,12 +21,41 @@ export const setCurrLocation = createAsyncThunk<PlaceProps, undefined>(
             type: "CurrentLocation",
             properties: {
               name: "Position Actuelle",
-              country: data[0].country!,
-              postcode: data[0].postalCode!,
-              street: data[0].street!,
-              housenumber: data[0].streetNumber!,
-              state: data[0].city!,
-              countrycode: data[0].isoCountryCode!,
+              country: data[0] && data[0].country!,
+              postcode: data[0] && data[0].postalCode!,
+              street: data[0] && data[0].street!,
+              housenumber: data[0] && data[0].streetNumber!,
+              state: data[0] && data[0].city!,
+              countrycode: data[0] && data[0].isoCountryCode!,
+            },
+            geometry: {
+              coordinates: [
+                location.coords.latitude,
+                location.coords.longitude,
+              ],
+              type: "Point",
+            },
+          };
+        })
+        .catch((error) => {
+          showError(error);
+        });
+    }).catch(async (location: Location.LocationObject) => {
+      await reverseGeocode({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      })
+        .then(async (data) => {
+          place = {
+            type: "LastKnowLocation",
+            properties: {
+              name: "Point de depart",
+              country: data[0] && data[0].country!,
+              postcode: data[0] && data[0].postalCode!,
+              street: data[0] && data[0].street!,
+              housenumber: data[0] && data[0].streetNumber!,
+              state: data[0] && data[0].city!,
+              countrycode: data[0] && data[0].isoCountryCode!,
             },
             geometry: {
               coordinates: [
@@ -49,7 +78,7 @@ export const makeRouting = async (
   data: ParamRouting
 ): Promise<RoutingProps> => {
   return new Promise(async (resolve, reject) => {
-    const url = `http://192.168.1.133:8888/routing/car/?lang=fr'`;
+    const url = `http://172.16.0.147:8888/routing/car/?lang=fr'`;
     try {
       const response = await axios.post<RoutingProps>(url, data);
       if (response.data) {
@@ -58,7 +87,7 @@ export const makeRouting = async (
         reject(`Routage impossible`);
       }
     } catch (error) {
-      reject(`Routage impossible ${error}`);
+      reject(`Routage impossible`);
     }
   });
 };
@@ -68,7 +97,8 @@ export const getPermissions = async (): Promise<Location.LocationObject> => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       showError("Please grant location permission");
-      reject();
+      let lastposition = await getLastKnownPosition();
+      reject(lastposition);
     }
 
     const location = await Location.getCurrentPositionAsync({});
@@ -96,6 +126,17 @@ export const reverseGeocode = async (
     try {
       const reverseGeocodedAdress = await Location.reverseGeocodeAsync(coords);
       resolve(reverseGeocodedAdress);
+    } catch (error) {
+      reject(`Une Erreur est survenue`);
+    }
+  });
+};
+
+export const getLastKnownPosition = async (): Promise<Location.LocationObject> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const location = await Location.getLastKnownPositionAsync({});
+      resolve(location!);
     } catch (error) {
       reject(`Une Erreur est survenue`);
     }

@@ -1,6 +1,7 @@
 import { StyleSheet, GestureResponderEvent, View, Pressable } from 'react-native';
 import React from 'react';
 import Colors from '@constants/colors';
+import { RootState, useAppSelector,  } from "@store/store";
 
 interface IconButtonProps {
   icon: JSX.Element;
@@ -12,13 +13,15 @@ interface IconButtonProps {
 }
 
 const IconButton = ({icon, bgColor, shadow, isReady, onPress, padding }: IconButtonProps) => {
-  
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   return (
     <View style={styles.container}>
         <Pressable disabled={(isReady != null) ? isReady : false} onPress={onPress} style={[
          (shadow != null && shadow == false) ? null : styles.shadowProp, 
           {padding: padding != null ? padding : 6},
-          {backgroundColor: bgColor ? bgColor : Colors.whiteTone2},
+          {backgroundColor: bgColor ? bgColor : settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.whiteTone2},
           ]}>
           {icon}
         </Pressable>

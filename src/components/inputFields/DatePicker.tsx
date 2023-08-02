@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Colors from '@constants/colors';
 import {Ionicons, FontAwesome5} from '@expo/vector-icons';
 import DateTimePicker , { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { RootState,  useAppSelector,  } from "@store/store";
 
 interface DatePickerProps {
     date: Date;
@@ -16,7 +17,9 @@ interface DatePickerProps {
 
 
 const DatePicker = (props: DatePickerProps) => {
-    
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
     const [show, setShow] = useState(false);
     const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
         const currentDate = selectedDate! || Date;
@@ -30,13 +33,13 @@ const DatePicker = (props: DatePickerProps) => {
     <TouchableOpacity onPress={() => setShow(!show)} style={[
         styles.container,
         props.shadow != null && props.shadow ? styles.shadowProp : props.shadow != null && !props.shadow ? undefined : styles.shadowProp,
-        props.error ? styles.container_ERROR : props.date  ? styles.container_GOOD : styles.container_NORMAL,
+        props.error ? styles.container_ERROR : props.date  ? styles.container_GOOD :  settingState.setting.isDarkMode ? styles.container_DARK : styles.container_NORMAL,
         {
           backgroundColor: props.bgColor ? props.bgColor : undefined,
           marginVertical: props.marginVertical ? props.marginVertical : undefined
         }
       ]}>
-      <Text style={[styles.text]}>{`${props.date.getDate()}.${props.date.getMonth()}.${props.date.getFullYear()}`}</Text>
+      <Text style={[settingState.setting.isDarkMode ? styles.text_DARK : styles.text]}>{`${props.date.getDate()}.${props.date.getMonth()}.${props.date.getFullYear()}`}</Text>
       <Ionicons name="calendar" size={20} color={Colors.grayTone3} />
     </TouchableOpacity>
     {show &&
@@ -73,11 +76,13 @@ const styles = StyleSheet.create({
       shadowProp: {
         shadowColor: '#171717',
         elevation: 4,
-        backgroundColor: Colors.whiteTone1,
         borderRadius: 10
       },
       container_NORMAL: {
         borderColor: Colors.whiteTone1,
+      },
+      container_DARK: {
+        borderColor: Colors.darkTone4,
       },
       container_GOOD: {
         borderColor: Colors.primaryColor,
@@ -86,7 +91,12 @@ const styles = StyleSheet.create({
         borderColor: 'red',
       },
       text: {
-        color: Colors.grayTone1,
+        color: Colors.onWhiteTone,
+        fontFamily: 'Poppins_300Light',
+        fontSize: 13,
+      },
+      text_DARK: {
+        color: Colors.onPrimaryColor,
         fontFamily: 'Poppins_300Light',
         fontSize: 13,
       },

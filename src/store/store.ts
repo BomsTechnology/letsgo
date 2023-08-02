@@ -3,6 +3,7 @@ import authReducer from './features/auth/authSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import myTripSearchReducer from './features/search/myTripSearchSlice';
 import localizationReducer from './features/search/localizationSlice';
+import settingReducer from './features/setting/settingSlice';
 import userReducer from './features/user/userSlice';
 
 
@@ -11,7 +12,8 @@ export const store = configureStore({
       auth: authReducer,
       myTripSearch: myTripSearchReducer,
       user: userReducer,
-      localization: localizationReducer
+      localization: localizationReducer,
+      setting: settingReducer,
   },
  /* middleware(getDefaultMiddleware) {
     return getDefaultMiddleware({

@@ -5,8 +5,11 @@ import SimpleHeader from "@components/SimpleHeader";
 import Colors from "@constants/colors";
 import { Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
+import { RootState, useAppSelector,  } from "@store/store";
 const NotificationScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const [enabledGeneralNotif, setEnabledGeneralNotif] = React.useState(true);
   const [enabledEscortService, setEnabledEscortService] = React.useState(false);
   const [enabledDriverSubscription, setEnabledDriverSubscription] =
@@ -39,7 +42,7 @@ const NotificationScreen = () => {
     setEnabledNewServiceAvailable((previousState) => !previousState);
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <SimpleHeader text="Notifications" />
 
       <View style={{ alignItems: "center" }}>
@@ -50,7 +53,7 @@ const NotificationScreen = () => {
         />
         <ScrollView style={{ marginTop: 20, width: "100%" }}>
           <TouchableOpacity onPress={toggleGeneralNotif} style={styles.item}>
-            <Text style={styles.text}>General Notifications</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>General Notifications</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -63,7 +66,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleEscortService} style={styles.item}>
-            <Text style={styles.text}>Escort Service</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>Escort Service</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -76,7 +79,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleDriverSubscription} style={styles.item}>
-            <Text style={styles.text}>Driver Subscription</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>Driver Subscription</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -89,7 +92,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleSpecialOffer} style={styles.item}>
-            <Text style={styles.text}>Special Offers</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>Special Offers</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -102,7 +105,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleAppUpdate} style={styles.item}>
-            <Text style={styles.text}>App Updates</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>App Updates</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -115,7 +118,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleTipAvailable} style={styles.item}>
-            <Text style={styles.text}>New Tips Available</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>New Tips Available</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -128,7 +131,7 @@ const NotificationScreen = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleNewServiceAvailable} style={styles.item}>
-            <Text style={styles.text}>New Service Available</Text>
+            <Text style={settingState.setting.isDarkMode ? styles.text_DARK : styles.text}>New Service Available</Text>
             <Switch
               trackColor={{
                 false: Colors.grayTone3,
@@ -154,13 +157,25 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteTone2,
     padding: 20,
   },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
+    padding: 20,
+  },
   image: {
     height: 150,
   },
   text: {
     flex: 1,
     textAlign: "left",
-    color: Colors.grayTone1,
+    color: Colors.onWhiteTone,
+    fontFamily: "Poppins_400Regular",
+    fontSize: 18,
+  },
+  text_DARK: {
+    flex: 1,
+    textAlign: "left",
+    color: Colors.onPrimaryColor,
     fontFamily: "Poppins_400Regular",
     fontSize: 18,
   },

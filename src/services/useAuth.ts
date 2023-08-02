@@ -5,6 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as Device  from 'expo-device';
 import axios from "axios";
+import SettingProps from "../types/SettingProps";
+import { setSetting } from "@store/features/setting/settingSlice";
+
 export const sendOTP = createAsyncThunk<string, string>(
   "auth/sendOTP",
   async (phoneNumber: string) => {
@@ -85,13 +88,14 @@ export const logout = createAsyncThunk<void, void>(
   }
 );
 
-export const checkAuth = createAsyncThunk<AuthStateTokenProps, void>(
+export const checkAuth = createAsyncThunk<AuthStateTokenProps, SettingProps>(
   "auth/checkAuth",
-  async (_, thunkAPI) => {
+  async (setting, thunkAPI) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const user = await AsyncStorage.getItem("user");
       if (token && user) {
+        thunkAPI.dispatch(setSetting(setting));
         thunkAPI.dispatch(setUserInfo(JSON.parse(user)));
         return JSON.parse(token) as AuthStateTokenProps;
       } else {

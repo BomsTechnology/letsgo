@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     container: {
         shadowColor: '#171717',
         elevation: 4,
-        backgroundColor: Colors.whiteTone1,
+        backgroundColor: Colors.whiteTone2,
         borderRadius: 10,
         padding:10,
         width: "100%",

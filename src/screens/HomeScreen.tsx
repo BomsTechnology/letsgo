@@ -1,20 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   useWindowDimensions,
-  Keyboard,
-  Dimensions,
-  LayoutChangeEvent,
 } from "react-native";
 import Colors from "@constants/colors";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import CustomButton from "@components/buttons/CustomButton";
+import { RootState, useAppSelector,  } from "@store/store";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import CustomInput from "@components/inputFields/CustomInput";
-import { useForm, FieldValues } from "react-hook-form";
 import { SafeAreaView } from "react-native-safe-area-context";
 import IconButton from "@components/buttons/IconButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -25,14 +20,17 @@ import HomeBottomBox from "@components/HomeBottomBox";
 import RoutingProps from "../types/RoutingProps";
 
 const HomeScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const { height, width } = useWindowDimensions();
   const [showBox, setShowBox] = React.useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [routing, setRouting] = React.useState<RoutingProps | null>(null);
   const menuIcon = <Ionicons name="menu" size={25} color={Colors.whiteTone1} />;
-  const searchIcon = <Ionicons name="search" size={25} color={Colors.onWhiteTone} />;
+  const searchIcon = <Ionicons name="search" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />;
       const locateIcon = (
-        <Ionicons name="ios-locate" size={25} color={Colors.onWhiteTone} />
+        <Ionicons name="ios-locate" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />
       );
       const navigation =
         useNavigation<NativeStackNavigationProp<AppStackParamList>>();

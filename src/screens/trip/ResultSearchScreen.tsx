@@ -37,18 +37,16 @@ const ResultSearchScreen = ({route}: Props) => {
     React.useState("Position Actuelle");
   const [destinationValue, setDestanationValue] = React.useState("");
   const [currentSearch, setCurrentSearch] = React.useState("destination");
-  const [searchHeight, setSearchHeight] = useState(0);
   const [results, setResults] = useState<PlaceProps[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
-  const [nb, setNb] = useState(1);
+  const [nb, setNb] = useState(route.params.nbSeat);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { height, width } = useWindowDimensions();
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
-  const { control, handleSubmit, watch } = useForm();
+  const { control, handleSubmit, watch, setValue, } = useForm();
 
   const money = watch("money");
   const moneyIcon = (
@@ -128,36 +126,9 @@ const ResultSearchScreen = ({route}: Props) => {
     }
   };
 
-  const gosearch = () => {
-    navigation.navigate("ResultSearch", {
-      destination: localisationState.destination!.properties.name,
-      price: money,
-    });
-  };
-
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (e) => {
-        setSearchHeight(
-          height - (e.endCoordinates.height + Constants.statusBarHeight + 272)
-        );
-      }
-    );
-
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      (e) => {
-        setSearchHeight(height - (Constants.statusBarHeight + 272));
-      }
-    );
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
+    setValue("money", route.params.price);
   }, []);
-
-  
 
   const clearSearch = async (type: string) => {
     setIsLoading(false);
@@ -174,16 +145,13 @@ const ResultSearchScreen = ({route}: Props) => {
     }
   };
 
-
-
-
   const next = () =>  {
     navigation.navigate('TripInfo', {
       from: 'search'
     });
   }
 
-    const goToPlan = () =>  { navigation.push('TripPlan') }
+  const goToPlan = () =>  { navigation.push('TripPlan') }
 
   return (
     <SafeAreaView style={styles.container}>

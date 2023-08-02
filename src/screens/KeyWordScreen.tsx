@@ -11,6 +11,9 @@ import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { addKeyword, removeKeyword } from "@store/features/user/userSlice";
 
 const KeyWordScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const toggleKeyword = (keyword: string, action: string) => {
@@ -28,7 +31,7 @@ const KeyWordScreen = () => {
           styles.keyWordItem,
           {
             backgroundColor:
-              action === "remove" ? Colors.primaryColor : Colors.grayTone3,
+              action === "remove" ? Colors.primaryColor : settingState.setting.isDarkMode ? Colors.grayTone1 : Colors.grayTone3,
           },
         ]}
         onPress={() => toggleKeyword(label, action)}
@@ -42,19 +45,19 @@ const KeyWordScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <SimpleHeader text="Keywords" />
       <Image
         resizeMode="contain"
         source={require("@assets/images/ico_keyword.png")}
         style={styles.image}
       />
-      <Text style={[styles.minText]}>
+      <Text style={[settingState.setting.isDarkMode ? styles.minText_DARK : styles.minText]}>
         Keywords provide personalized, engaging content, enhancing user
         satisfaction and driving app engagement.
       </Text>
       <ScrollView style={{ width: "100%" }}>
-        <Text style={styles.title}>My Keywords</Text>
+        <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>My Keywords</Text>
         <View style={styles.keyWordContainer}>
           {userState.user?.keywords &&
             userState.user?.keywords!.map((item, index) => (
@@ -62,7 +65,7 @@ const KeyWordScreen = () => {
             ))}
         </View>
         <Divider style={{ marginTop: 20, marginBottom: 10 }} />
-        <Text style={styles.title}>More Keywords</Text>
+        <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>More Keywords</Text>
         <View style={styles.keyWordContainer}>
           {keywords.map((item, index) => {
             if (
@@ -83,7 +86,13 @@ export default KeyWordScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
+    padding: 20,
+    alignItems: "center",
+  },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
     padding: 20,
     alignItems: "center",
   },
@@ -96,11 +105,24 @@ const styles = StyleSheet.create({
     color: Colors.grayTone2,
     width: "100%",
   },
+  minText_DARK: {
+    fontFamily: "Poppins_400Regular",
+    color: Colors.grayTone4,
+    width: "100%",
+  },
   title: {
     width: "100%",
     fontFamily: "Poppins_700Bold",
     marginTop: 20,
     fontSize: 20,
+    color: Colors.onWhiteTone,
+  },
+  title_DARK: {
+    width: "100%",
+    fontFamily: "Poppins_700Bold",
+    marginTop: 20,
+    fontSize: 20,
+    color: Colors.onPrimaryColor,
   },
   keyWordItem: {
     flexDirection: "row",

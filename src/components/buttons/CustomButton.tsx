@@ -7,7 +7,7 @@ import {
 import React from "react";
 import Colors from "@constants/colors";
 import LoadingButton from "./LoadingButton";
-
+import { RootState,  useAppSelector,  } from "@store/store";
 interface CustomButtonProps {
   text: string;
   bgColor: string;
@@ -23,6 +23,9 @@ interface CustomButtonProps {
 }
 
 const CustomButton = (props: CustomButtonProps) => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   return (
     <>
       {props.loading == true ? (
@@ -36,7 +39,7 @@ const CustomButton = (props: CustomButtonProps) => {
             {
               backgroundColor: props.isReady
                 ? props.bgColor
-                : Colors.whiteTone3,
+                : settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.whiteTone3,
               marginVertical: props.marginVertical
                 ? props.marginVertical
                 : undefined,
@@ -50,7 +53,7 @@ const CustomButton = (props: CustomButtonProps) => {
             style={[
               styles.text,
               {
-                color: props.isReady ? props.fgColor : Colors.grayTone3,
+                color: props.isReady ? props.fgColor : settingState.setting.isDarkMode ? Colors.grayTone2 : Colors.grayTone3,
                 fontSize: props.fontSize ? props.fontSize : undefined,
               },
             ]}

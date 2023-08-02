@@ -2,15 +2,18 @@ import React from 'react'
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@screens/HomeScreen';
-import PlanScreen from '@screens/PlanScreen';
 import AlertScreen from '@screens/alert/AlertScreen';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@constants/colors';
 import TripListScreen from '@screens/trip/mytrip/TripListScreen';
+import { RootState, useAppSelector,  } from "@store/store";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
     return (
       <Tab.Navigator screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -28,11 +31,11 @@ const TabNavigator = () => {
 
           return <Ionicons name={iconName} size={18} color={color} style={{ alignSelf: 'center', marginTop:0 }} />;
         },
-        tabBarActiveTintColor: Colors.onPrimaryColor,
-        tabBarInactiveTintColor: Colors.onWhiteTone,
+        tabBarActiveTintColor:  Colors.onPrimaryColor,
+        tabBarInactiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone,
         tabBarLabelStyle: { fontSize: 13, fontFamily: 'Poppins_500Medium', alignSelf: 'center' },
         tabBarStyle: { backgroundColor: 'transparent', position:'absolute', bottom:0, elevation: 0, borderTopWidth:0, paddingHorizontal: 10, marginBottom: 15 },
-        tabBarInactiveBackgroundColor: Colors.whiteTone2,
+        tabBarInactiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
         tabBarActiveBackgroundColor: Colors.secondaryColor,
         headerTransparent: true,
         tabBarItemStyle: {

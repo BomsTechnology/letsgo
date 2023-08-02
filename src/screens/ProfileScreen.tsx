@@ -21,6 +21,9 @@ import CustomDropdownInput, {
 } from "@components/inputFields/CustomDropdownInput";
 
 const ProfileScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const [asError, setAsError] = useState(false);
@@ -83,7 +86,7 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <View style={{ paddingHorizontal: 20 }}>
         <SimpleHeader text="Profile" />
         <View
@@ -108,73 +111,59 @@ const ProfileScreen = () => {
             }}
           >
             <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 5,
-                backgroundColor: Colors.whiteTone1,
-                elevation: 2,
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
+               style={settingState.setting.isDarkMode ? styles.actionBtn_DARK : styles.actionBtn}
             >
               <Ionicons name="pencil" size={16} color={Colors.primaryColor} />
-              <Text>Edit avatar</Text>
+              <Text style={{ 
+                color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone
+               }}>Edit avatar</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 5,
-                backgroundColor: Colors.whiteTone1,
-                elevation: 2,
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
+              style={settingState.setting.isDarkMode ? styles.actionBtn_DARK : styles.actionBtn}
             >
               <Ionicons name="trash" size={16} color={Colors.errorInputColor} />
-              <Text>Delete Picture</Text>
+              <Text style={{ 
+                color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone
+               }}>Delete Picture</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <ScrollView
-        style={[styles.contentScroll]}
+        style={[settingState.setting.isDarkMode ? styles.contentScroll_DARK : styles.contentScroll]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.semiBoldText}>Last Name</Text>
+        <Text style={settingState.setting.isDarkMode ? styles.semiBoldText_DARK : styles.semiBoldText}>Last Name</Text>
         <CustomInput
           placeholder="Enter your Last Name"
           name="lastname"
           control={control}
           secureTextEntry={false}
-          bgColor="#fff"
+          bgColor={settingState.setting.isDarkMode ? Colors.darkTone2 : Colors.whiteTone2}
           rules={{
             required: "The Last Name is required",
           }}
         />
-        <Text style={[styles.semiBoldText, { marginTop: 10 }]}>First Name</Text>
+        <Text style={[settingState.setting.isDarkMode ? styles.semiBoldText_DARK : styles.semiBoldText, { marginTop: 10 }]}>First Name</Text>
         <CustomInput
           placeholder="Enter your First Name"
           name="firstname"
           control={control}
           secureTextEntry={false}
-          bgColor="#fff"
+          bgColor={settingState.setting.isDarkMode ? Colors.darkTone2 : Colors.whiteTone2}
           rules={{
             required: "The First Name is required",
           }}
         />
 
-        <Text style={[styles.semiBoldText, { marginTop: 10 }]}>Birth Date</Text>
+        <Text style={[settingState.setting.isDarkMode ? styles.semiBoldText_DARK : styles.semiBoldText, { marginTop: 10 }]}>Birth Date</Text>
         <DatePicker
           date={birthdate}
           setDate={setBirthdate}
-          bgColor={Colors.whiteTone1}
+          bgColor={settingState.setting.isDarkMode ? Colors.darkTone2 : Colors.whiteTone1}
         />
 
-        <Text style={[styles.semiBoldText, { marginTop: 10 }]}>Gender</Text>
+        <Text style={[settingState.setting.isDarkMode ? styles.semiBoldText_DARK : styles.semiBoldText, { marginTop: 10 }]}>Gender</Text>
         <CustomDropdownInput
           placeholder="Select your gender"
           data={genderData}
@@ -203,6 +192,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteTone3,
     paddingTop: 20,
   },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
+    paddingTop: 20,
+  },
   image: {
     width: 120,
     height: 120,
@@ -219,15 +213,53 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: Colors.whiteTone1,
   },
+  contentScroll_DARK: {
+    flex: 1,
+    paddingHorizontal: 30,
+    paddingTop: 20,
+    position: "relative",
+    marginTop: 10,
+    backgroundColor: Colors.darkTone1,
+  },
   semiBoldText: {
     fontSize: 14,
     fontFamily: "Poppins_500Medium",
-    color: Colors.grayTone1,
+    color: Colors.onWhiteTone,
+  },
+  semiBoldText_DARK: {
+    fontSize: 14,
+    fontFamily: "Poppins_500Medium",
+    color: Colors.onPrimaryColor,
   },
   lightText: {
     fontSize: 12,
     fontFamily: "Poppins_300Light",
     color: Colors.grayTone2,
   },
+  lightText_DARK: {
+    fontSize: 12,
+    fontFamily: "Poppins_300Light",
+    color: Colors.grayTone2,
+  },
+  actionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: Colors.whiteTone1,
+    elevation: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  actionBtn_DARK: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    backgroundColor: Colors.darkTone2,
+    elevation: 2,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  }
 });
 export default ProfileScreen;

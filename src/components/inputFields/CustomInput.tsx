@@ -2,7 +2,7 @@ import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-nati
 import React from 'react';
 import {Control, Controller} from 'react-hook-form';
 import Colors from '@constants/colors';
-
+import { RootState,  useAppSelector,  } from "@store/store";
 
 interface CustomInputProps {
     control: Control;
@@ -23,6 +23,9 @@ interface CustomInputProps {
   }
 
 const CustomInput = (props: CustomInputProps) => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   return (
     <Controller
       name={props.name}
@@ -64,9 +67,10 @@ const CustomInput = (props: CustomInputProps) => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                placeholderTextColor={Colors.grayTone2}
                 placeholder={props.placeholder}
                 style={[
-                  styles.input,
+                  settingState.setting.isDarkMode ? styles.input_DARK : styles.input,
                   {fontSize: props.fontSize ? props.fontSize : undefined,}
                 ]}
                 secureTextEntry={props.secureTextEntry}
@@ -136,6 +140,13 @@ const styles = StyleSheet.create({
       flex:1,
       height: 50,
       color: Colors.grayTone1,
+      fontFamily: 'Poppins_300Light',
+      fontSize: 16,
+    },
+    input_DARK: {
+      flex:1,
+      height: 50,
+      color: Colors.onPrimaryColor,
       fontFamily: 'Poppins_300Light',
       fontSize: 16,
     },

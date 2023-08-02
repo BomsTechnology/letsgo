@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SimpleHeader from "@components/SimpleHeader";
 import Colors from "@constants/colors";
 import { FlatList } from "react-native-gesture-handler";
+import { RootState, useAppSelector,  } from "@store/store";
 
 interface historyItemProps {
   id: string;
@@ -14,6 +15,9 @@ interface historyItemProps {
 }
 
 const TransactionHistoryScreen = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const transactions = [
     {
       id: "1",
@@ -40,20 +44,10 @@ const TransactionHistoryScreen = () => {
   const historyItem = ({ item }: { item: historyItemProps }) => {
     return (
       <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+        style={styles.historyItem}
       >
         <Text
-          style={{
-            textAlign: "left",
-            fontFamily: "Poppins_400Regular",
-            color: Colors.grayTone2,
-            fontSize: 15,
-            maxWidth: "50%",
-          }}
+          style={ settingState.setting.isDarkMode ? styles.historyItemDate_DARK : styles.historyItemDate}
         >
           {item.date}
         </Text>
@@ -65,22 +59,12 @@ const TransactionHistoryScreen = () => {
           }}
         >
           <Text
-            style={{
-              textAlign: "right",
-              fontFamily: "Poppins_500Medium",
-              color: Colors.secondaryColor,
-              fontSize: 20,
-            }}
+            style={styles.historyItemPrice}
           >
             {item.amount}
           </Text>
           <Text
-            style={{
-              textAlign: "right",
-              fontFamily: "Poppins_500Medium",
-              color: Colors.grayTone2,
-              fontSize: 15,
-            }}
+            style={settingState.setting.isDarkMode ? styles.historyItemInfo_DARK : styles.historyItemInfo}
           >
             {item.planner}, {item.driver}
           </Text>
@@ -90,24 +74,16 @@ const TransactionHistoryScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <SimpleHeader text="Transaction History" />
       <View style={{ alignItems: "center" }}>
         <View
-          style={{
-            height: 60,
-            borderRadius: 15,
-            width: 150,
-            elevation: 10,
-            backgroundColor: Colors.whiteTone2,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={settingState.setting.isDarkMode ? styles.totalPrice_DARK : styles.totalPrice }
         >
           <Text
             style={{
               fontFamily: "Poppins_700Bold",
-              color: Colors.grayTone1,
+              color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1,
               fontSize: 20,
             }}
           >
@@ -117,7 +93,7 @@ const TransactionHistoryScreen = () => {
         <Text
           style={{
             fontFamily: "Poppins_500Medium",
-            color: Colors.grayTone1,
+            color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1,
             fontSize: 16,
             marginTop: 20,
           }}
@@ -127,7 +103,7 @@ const TransactionHistoryScreen = () => {
         <Text
           style={{
             fontFamily: "Poppins_500Medium",
-            color: Colors.grayTone2,
+            color: settingState.setting.isDarkMode ? Colors.grayTone4 : Colors.grayTone2,
             fontSize: 16,
           }}
         >
@@ -137,7 +113,7 @@ const TransactionHistoryScreen = () => {
         <Text
           style={{
             fontFamily: "Poppins_600SemiBold",
-            color: Colors.grayTone1,
+            color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1,
             fontSize: 16,
             marginTop: 40,
             width: "100%",
@@ -164,7 +140,67 @@ export default TransactionHistoryScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
     padding: 20,
   },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
+    padding: 20,
+  },
+  historyItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  historyItemDate: {
+    textAlign: "left",
+    fontFamily: "Poppins_400Regular",
+    color: Colors.grayTone2,
+    fontSize: 15,
+    maxWidth: "50%",
+  },
+  historyItemDate_DARK: {
+    textAlign: "left",
+    fontFamily: "Poppins_400Regular",
+    color: Colors.grayTone3,
+    fontSize: 15,
+    maxWidth: "50%",
+  },
+  historyItemPrice: {
+    textAlign: "right",
+    fontFamily: "Poppins_500Medium",
+    color: Colors.secondaryColor,
+    fontSize: 20,
+  },
+  historyItemInfo: {
+    textAlign: "right",
+    fontFamily: "Poppins_500Medium",
+    color: Colors.grayTone2,
+    fontSize: 15,
+  },
+  historyItemInfo_DARK: {
+    textAlign: "right",
+    fontFamily: "Poppins_500Medium",
+    color: Colors.grayTone3,
+    fontSize: 15,
+  },
+  totalPrice: {
+    height: 60,
+    borderRadius: 15,
+    width: 150,
+    elevation: 10,
+    backgroundColor: Colors.whiteTone1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  totalPrice_DARK: {
+    height: 60,
+    borderRadius: 15,
+    width: 150,
+    elevation: 10,
+    backgroundColor: Colors.darkTone4,
+    alignItems: "center",
+    justifyContent: "center",
+  }
 });

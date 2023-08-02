@@ -11,12 +11,14 @@ import AppFirstOpenStackNavigator from "./AppFirstOpenStackNavigator";
 import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import Colors from "@constants/colors";
-import { setCurrLocation } from "@services/useLocalization";
+import { getLastKnownPosition, setCurrLocation } from "@services/useLocalization";
 import { setDeparture } from "@services/useSearchPlace";
+import { getLocalSetting } from "@services/useSetting";
+import SettingProps from "../types/SettingProps";
 
 export type AppStackParamList = {
   Home: undefined;
-  ResultSearch: { destination: string; price: number };
+  ResultSearch: { nbSeat: number; price: number };
   TripInfo: { from: string };
   TripPlan: undefined;
   TripPublish: undefined;
@@ -50,12 +52,14 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 const AppNavigator = () => {
   const authState = useAppSelector((state: RootState) => state.auth);
-
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
+  const [setting, setSetting] = useState<SettingProps | null>(null);
   const checkIsAuth = async () => {
     setLoading(true);
-    await dispatch(checkAuth())
+    const setg = await getLocalSetting();
+    setSetting(setg)
+    await dispatch(checkAuth(setg))
       .unwrap()
       .then(async (data) => {
         await dispatch(setCurrLocation())
@@ -64,7 +68,7 @@ const AppNavigator = () => {
             await dispatch(setDeparture(data));
             setLoading(false);
           })
-          .catch((error) => {
+          .catch(async (error) => {
             setLoading(false);
           });
         showSuccess(`Hello Traveller`);
@@ -80,8 +84,8 @@ const AppNavigator = () => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size={"large"} color={Colors.primaryColor} />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: setting && setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2 }}>
+        <ActivityIndicator size={"large"} color={setting && setting.isDarkMode ? Colors.secondaryColor : Colors.primaryColor} />
       </View>
     );
   }

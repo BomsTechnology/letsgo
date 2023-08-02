@@ -4,6 +4,7 @@ import IconButton from './buttons/IconButton';
 import Colors from '@constants/colors';
 import {Ionicons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
+import { RootState, useAppDispatch, useAppSelector,  } from "@store/store";
 
 interface SimpleHeaderProps {
     text: string;
@@ -16,15 +17,20 @@ interface SimpleHeaderProps {
 
 
 const SimpleHeader = ({text, LeftbuttonAction, LeftbuttonIcon, showLeftButton, RightbuttonIcon, RightbuttonAction}: SimpleHeaderProps) => {
+    const settingState = useAppSelector(
+        (state: RootState) => state.setting
+      );
     const { goBack } = useNavigation();
-    const leftIcon = LeftbuttonIcon ? LeftbuttonIcon : (<Ionicons name="chevron-back" size={25} color={Colors.grayTone1} /> );
+    const leftIcon = LeftbuttonIcon ? LeftbuttonIcon : (<Ionicons name="chevron-back" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1} /> );
     const leftOnPress = LeftbuttonAction ? LeftbuttonAction : goBack;
     const rightOnPress = RightbuttonAction ? RightbuttonAction : null;
 
   return (
     <View style={styles.container}>
         {showLeftButton == undefined || (showLeftButton != undefined && showLeftButton == true) ? <IconButton icon={leftIcon} onPress={leftOnPress}/> : undefined}
-        <Text style={styles.text}>{text}</Text>
+        <Text style={[styles.text, {
+            color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1
+        }]}>{text}</Text>
         { RightbuttonIcon != undefined  ? <IconButton icon={RightbuttonIcon} onPress={rightOnPress!}/> : undefined}
     </View>
   );

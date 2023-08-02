@@ -5,6 +5,7 @@ import MapView, {
   Marker,
   MarkerDragStartEndEvent,
   Polyline,
+  Region,
   UrlTile,
 } from "react-native-maps";
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
@@ -18,12 +19,7 @@ import {
 import { showError } from "@functions/helperFunctions";
 import { setDeparture, setDestination } from "@services/useSearchPlace";
 
-interface RegionProps {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+
 
 interface PoiProps {
   title: string;
@@ -43,12 +39,9 @@ const Map = ({ routing, setRouting }: MapProps) => {
   const dispatch = useAppDispatch();
   const mapViewRef = useRef<MapView>(null);
   const [isDragDepart, setIsDragDepart] = React.useState(false);
-  const [initialRegion, setInitialRegion] = React.useState<RegionProps>({
-    latitude: 3.8602350654752446,
-    longitude: 11.496420340855604,
-    latitudeDelta: 0.08807001831917738,
-    longitudeDelta: 0.043830983340740204,
-  });
+  const [mapRegion, setMapRegion] = React.useState<
+  Region | undefined
+>();
   const [departureCoord, setDepartureCoord] = React.useState<
     LatLng | undefined
   >();
@@ -58,11 +51,11 @@ const Map = ({ routing, setRouting }: MapProps) => {
   const [pois, setPois] = React.useState<PoiProps[]>([]);
   const [polylineCoords, setPolylineCoords] = React.useState<LatLng[]>([]);
 
-  const onRegionChange = (region: RegionProps) => {
+  const onRegionChange = (region: Region) => {
     //console.log(region);
   };
 
-  const onRegionChangeComplete = (region: RegionProps) => {
+  const onRegionChangeComplete = (region: Region) => {
     // console.log(region);
   };
 
@@ -86,13 +79,13 @@ const Map = ({ routing, setRouting }: MapProps) => {
           setDeparture({
             type: "DepartureLocation",
             properties: {
-              name: data[0].name!,
-              country: data[0].country!,
-              postcode: data[0].postalCode!,
-              street: data[0].street!,
-              housenumber: data[0].streetNumber!,
-              state: data[0].city!,
-              countrycode: data[0].isoCountryCode!,
+              name: data[0] ? data[0].name! : "Point de départ",
+              country: data[0] && data[0].country!,
+              postcode: data[0] && data[0].postalCode!,
+              street: data[0] && data[0].street!,
+              housenumber: data[0] && data[0].streetNumber!,
+              state: data[0] && data[0].city!,
+              countrycode: data[0] && data[0].isoCountryCode!,
             },
             geometry: {
               coordinates: [coord.longitude, coord.latitude],
@@ -105,7 +98,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
           });
       })
       .catch((error) => {
-        showError(error);
+        showError(`${error}`);
       });
   };
 
@@ -116,13 +109,13 @@ const Map = ({ routing, setRouting }: MapProps) => {
           setDestination({
             type: "DestinationLocation",
             properties: {
-              name: data[0].name!,
-              country: data[0].country!,
-              postcode: data[0].postalCode!,
-              street: data[0].street!,
-              housenumber: data[0].streetNumber!,
-              state: data[0].city!,
-              countrycode: data[0].isoCountryCode!,
+              name: data[0] ? data[0].name! : "Point d'arrivée",
+              country: data[0] && data[0].country!,
+              postcode: data[0] && data[0].postalCode!,
+              street: data[0] && data[0].street!,
+              housenumber: data[0] && data[0].streetNumber!,
+              state: data[0] && data[0].city!,
+              countrycode: data[0] && data[0].isoCountryCode!,
             },
             geometry: {
               coordinates: [coord.longitude, coord.latitude],
@@ -135,22 +128,20 @@ const Map = ({ routing, setRouting }: MapProps) => {
         });
       })
       .catch((error) => {
-        showError(error);
+        showError(`${error}`);
       });
   };
 
-  const onMapReady = async () => {};
-
   useEffect(() => {
-    setInitialRegion({
-      latitude: localisationState.currentLocation?.geometry.coordinates[0]!,
-      longitude: localisationState.currentLocation?.geometry.coordinates[1]!,
-      latitudeDelta: 0.04807001831917738,
-      longitudeDelta: 0.033830983340740204,
+    setMapRegion({
+      latitude: localisationState.departure?.geometry.coordinates[0]!,
+      longitude: localisationState.departure?.geometry.coordinates[1]!,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
     });
     setDepartureCoord({
-      latitude: localisationState.currentLocation?.geometry.coordinates[0]!,
-      longitude: localisationState.currentLocation?.geometry.coordinates[1]!,
+      latitude: localisationState.departure?.geometry.coordinates[0]!,
+      longitude: localisationState.departure?.geometry.coordinates[1]!,
     });
     setPois([]);
   }, []);
@@ -169,27 +160,32 @@ const Map = ({ routing, setRouting }: MapProps) => {
         });
       });
       setPolylineCoords(polyline);
-
-      setInitialRegion({
-        latitude: polyline[0].latitude,
-        longitude: polyline[0].longitude,
-        latitudeDelta: 0.08807001831917738,
-        longitudeDelta: 0.043830983340740204,
+      setMapRegion({
+        latitude: localisationState.departure?.geometry.coordinates[1]!,
+        longitude: localisationState.departure?.geometry.coordinates[0]!,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       });
-      setDepartureCoord(polyline[0]);
-      setDestinationCoord(polylineCoords[polylineCoords.length - 1]);
+      setDepartureCoord({
+        latitude: localisationState.departure?.geometry.coordinates[1]!,
+        longitude: localisationState.departure?.geometry.coordinates[0]!,
+      });
+      setDestinationCoord({
+        latitude: localisationState.destination?.geometry.coordinates[1]!,
+        longitude: localisationState.destination?.geometry.coordinates[0]!,
+      });
     }
   };
 
   return (
     <View style={styles.container}>
-      <MapView
+      {mapRegion && <MapView
         onRegionChange={onRegionChange}
-        initialRegion={initialRegion}
+        region={mapRegion}
         onRegionChangeComplete={onRegionChangeComplete}
         style={styles.map}
         ref={mapViewRef}
-        onMapReady={onMapReady}
+       // onTouchEnd={}
       >
         {departureCoord && (
           <Marker
@@ -224,7 +220,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
             onDragEnd={(e) => onDragEndDestination(e.nativeEvent.coordinate)}
           />
         )}
-      </MapView>
+      </MapView>}
     </View>
   );
 };

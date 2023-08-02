@@ -42,6 +42,9 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const bottomBoxRef = useRef<View>(null);
   const dispatch = useAppDispatch();
   const [departureValue, setDepartureValue] =
@@ -141,7 +144,7 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
 
   const gosearch = () => {
     navigation.navigate("ResultSearch", {
-      destination: localisationState.destination!.properties.name,
+      nbSeat: nb,
       price: money,
     });
   };
@@ -187,16 +190,6 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
 
   const getRouting = async () => {
   if (localisationState.departure && localisationState.destination) {
-    console.log([
-      {
-        lat: localisationState.departure?.geometry.coordinates[1]!,
-        lon: localisationState.departure?.geometry.coordinates[0]!,
-      },
-      {
-        lat: localisationState.destination?.geometry.coordinates[1]!,
-        lon: localisationState.destination?.geometry.coordinates[0]!,
-      },
-    ]);
     await makeRouting({
       stops: [
         {
@@ -303,9 +296,9 @@ useEffect(() => {
         </View>
       ) : null}
       {boxVisble && (
-        <View ref={bottomBoxRef} style={[styles.bottomBox, styles.shadowProp]}>
-          <Text style={styles.title}>Hi Traveller</Text>
-          <Text style={[styles.description]}>Where are you going today ?</Text>
+        <View ref={bottomBoxRef} style={[settingState.setting.isDarkMode ? styles.bottomBox_DARK : styles.bottomBox, styles.shadowProp]}>
+          <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>Hi Traveller</Text>
+          <Text style={[settingState.setting.isDarkMode ? styles.description_DARK : styles.description]}>Where are you going today ?</Text>
           <View
             style={{
               flexDirection: "row",
@@ -313,7 +306,7 @@ useEffect(() => {
               alignItems: "center",
             }}
           >
-            <View style={[styles.inputContainer, { width: "49%" }]}>
+            <View style={[settingState.setting.isDarkMode ? styles.inputContainer_DARK : styles.inputContainer, { width: "49%" }]}>
               <Ionicons
                 name="ios-locate"
                 size={18}
@@ -323,7 +316,7 @@ useEffect(() => {
                 <TextInput
                   placeholder="Departure"
                   placeholderTextColor={Colors.grayTone2}
-                  style={styles.input}
+                  style={settingState.setting.isDarkMode ? styles.input_DARK : styles.input}
                   onBlur={handleBlur}
                   onChangeText={(text) => onChangeText(text, "departure")}
                   value={localisationState.departure ? localisationState.departure!.properties.name : departureValue}
@@ -335,7 +328,7 @@ useEffect(() => {
                 </TouchableOpacity>
               )}
             </View>
-            <View style={[styles.inputContainer, { width: "49%" }]}>
+            <View style={[settingState.setting.isDarkMode ? styles.inputContainer_DARK : styles.inputContainer, { width: "49%" }]}>
               <Ionicons
                 name="location-outline"
                 size={18}
@@ -345,7 +338,7 @@ useEffect(() => {
                 <TextInput
                   placeholder="Destination"
                   placeholderTextColor={Colors.grayTone2}
-                  style={styles.input}
+                  style={settingState.setting.isDarkMode ? styles.input_DARK : styles.input}
                   onChangeText={(text) => onChangeText(text, "destination")}
                   onBlur={handleBlur}
                   value={localisationState.destination ? localisationState.destination!.properties.name : destinationValue}
@@ -378,7 +371,7 @@ useEffect(() => {
                 secureTextEntry={false}
                 sufixType="text"
                 prefix={moneyIcon}
-                bgColor={Colors.whiteTone3}
+                bgColor={settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.whiteTone3}
                 shadow={false}
                 keyboardType="numeric"
                 marginVertical={0}
@@ -428,10 +421,27 @@ const styles = StyleSheet.create({
     gap: 10,
     backgroundColor: Colors.whiteTone3,
   },
+  inputContainer_DARK: {
+    width: "100%",
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    gap: 10,
+    backgroundColor: Colors.darkTone4,
+  },
   input: {
     flex: 1,
     height: 40,
     color: Colors.grayTone1,
+    fontFamily: "Poppins_300Light",
+    fontSize: 13,
+  },
+  input_DARK: {
+    flex: 1,
+    height: 40,
+    color: Colors.onPrimaryColor,
     fontFamily: "Poppins_300Light",
     fontSize: 13,
   },
@@ -441,10 +451,23 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Colors.onWhiteTone,
   },
+  title_DARK: {
+    fontFamily: "Poppins_800ExtraBold",
+    fontSize: 18,
+    textAlign: "left",
+    color: Colors.onPrimaryColor,
+  },
   description: {
     fontFamily: "Poppins_300Light",
     textAlign: "left",
     color: Colors.grayTone1,
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  description_DARK: {
+    fontFamily: "Poppins_300Light",
+    textAlign: "left",
+    color: Colors.onPrimaryColor,
     fontSize: 14,
     marginBottom: 10,
   },
@@ -454,13 +477,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.whiteTone2,
     position: "relative",
   },
+  bottomBox_DARK: {
+    width: "100%",
+    padding: 20,
+    backgroundColor: Colors.darkTone1,
+    position: "relative",
+  },
   shadowProp: {
     shadowColor: "#171717",
     elevation: 4,
-    backgroundColor: Colors.whiteTone2,
     borderRadius: 10,
   },
-
   containerBoxSearch: {
     width: "100%",
     paddingHorizontal: 15,
@@ -477,6 +504,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "100%",
     backgroundColor: Colors.whiteTone2,
+  },
+  searchBox_DARK: {
+    marginVertical: 10,
+    borderRadius: 10,
+    width: "100%",
+    backgroundColor: Colors.darkTone1,
   },
   centerContainer: {
     flex: 1,

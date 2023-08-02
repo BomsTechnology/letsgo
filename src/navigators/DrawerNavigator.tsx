@@ -30,10 +30,13 @@ import TransactionHistoryScreen from '@screens/TransactionHistoryScreen';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
+  const settingState = useAppSelector(
+    (state: RootState) => state.setting
+  );
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const menuIcon = (
-    <Ionicons name="chevron-back" size={25} color={Colors.onWhiteTone} />
+    <Ionicons name="chevron-back" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />
   );
 
   const signout = async () => {
@@ -54,7 +57,7 @@ const DrawerNavigator = () => {
       drawerContent={(props) => {
         return (
           <SafeAreaView
-            style={{ flex: 1, paddingTop: 10, paddingHorizontal: 10 }}
+            style={{ flex: 1, paddingTop: 10, paddingHorizontal: 10, backgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2, }}
           >
             <IconButton
               icon={menuIcon}
@@ -78,7 +81,7 @@ const DrawerNavigator = () => {
                 style={{
                   fontSize: 19,
                   marginVertical: 8,
-                  color: "#111",
+                  color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone,
                   fontFamily: 'Poppins_600SemiBold',
                 }}
               >
@@ -124,13 +127,13 @@ const DrawerNavigator = () => {
                   }}
                   labelStyle={{ 
                     fontFamily: 'Poppins_400Regular',
-                    color:Colors.grayTone2
+                    color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2
                     }}
                   icon={() => (
                     <Ionicons
                       name="log-out-outline"
                       size={20}
-                      color={Colors.grayTone2}
+                      color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
                       style={{ position: "absolute", left: 0 }}
                     />
                   )}
@@ -160,10 +163,10 @@ const DrawerNavigator = () => {
           borderTopRightRadius: 50,
           overflow: 'hidden',
         },
-        drawerInactiveTintColor: Colors.grayTone2,
-        drawerActiveTintColor: Colors.grayTone2,
-        drawerInactiveBackgroundColor: Colors.whiteTone2,
-        drawerActiveBackgroundColor: Colors.whiteTone2,
+        drawerInactiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2,
+        drawerActiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2,
+        drawerInactiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
+        drawerActiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
         //overlayColor: 'transparent',
         drawerItemStyle: {
           padding:0,
@@ -187,7 +190,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="home-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -203,7 +206,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="person-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -219,7 +222,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="shield-checkmark-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -235,7 +238,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="notifications-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -251,7 +254,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="language-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -267,7 +270,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="at-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -283,7 +286,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="cash-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -299,7 +302,7 @@ const DrawerNavigator = () => {
             <Ionicons
               name="add-outline"
               size={20}
-              color={Colors.grayTone2}
+              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}
             />
           ),
