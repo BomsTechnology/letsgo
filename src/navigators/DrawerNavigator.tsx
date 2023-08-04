@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TabNavigator from "./TabNavigator";
 import ProfileScreen from "../screens/ProfileScreen";
 import {
@@ -25,7 +25,7 @@ import NotificationScreen from '@screens/NotificationScreen';
 import SecurityInformationScreen from '@screens/SecurityInformationScreen';
 import KeyWordScreen from '@screens/KeyWordScreen';
 import TransactionHistoryScreen from '@screens/TransactionHistoryScreen';
-
+import i18n from '../locales/i18n';
 
 const Drawer = createDrawerNavigator();
 
@@ -85,7 +85,10 @@ const DrawerNavigator = () => {
                   fontFamily: 'Poppins_600SemiBold',
                 }}
               >
-                Hi {userState.user?.firstName ? userState.user?.firstName.toUpperCase() : "TRAVELLER"}. 👋
+                { userState.user?.firstName ? 
+                i18n.t('welcome-message', {count: 1, name: userState.user?.firstName}).toUpperCase(): 
+                  i18n.t('welcome-message', {count: 0}).toUpperCase()
+                } 👋
               </Text>
               <View
                 style={{
@@ -118,7 +121,7 @@ const DrawerNavigator = () => {
               justifyContent: 'center'
              }}>
               <DrawerItem
-                  label="Logout"
+                  label={i18n.t('logout')}
                   style={{ 
                     padding:0,
                     paddingVertical:0,
@@ -185,7 +188,7 @@ const DrawerNavigator = () => {
         component={TabNavigator}
         options={{
           headerShown: false,
-          drawerLabel: "Home",
+          drawerLabel: `${i18n.t('home')}`,
           drawerIcon: () => (
             <Ionicons
               name="home-outline"
@@ -201,7 +204,7 @@ const DrawerNavigator = () => {
         component={ProfileScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Profile",
+          drawerLabel: `${i18n.t('profile')}`,
           drawerIcon: () => (
             <Ionicons
               name="person-outline"
@@ -217,7 +220,7 @@ const DrawerNavigator = () => {
         component={SecurityInformationScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Security Information",
+          drawerLabel:  `${i18n.t('security-information')}`,
           drawerIcon: () => (
             <Ionicons
               name="shield-checkmark-outline"
@@ -233,7 +236,7 @@ const DrawerNavigator = () => {
         component={NotificationScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Notification",
+          drawerLabel: `${i18n.t('notification', {count: 1})}`,
           drawerIcon: () => (
             <Ionicons
               name="notifications-outline"
@@ -249,7 +252,7 @@ const DrawerNavigator = () => {
         component={LanguageScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Language",
+          drawerLabel: `${i18n.t('language', {count: 1})}`,
           drawerIcon: () => (
             <Ionicons
               name="language-outline"
@@ -265,7 +268,7 @@ const DrawerNavigator = () => {
         component={KeyWordScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Keywords",
+          drawerLabel: `${i18n.t('keywords')}`,
           drawerIcon: () => (
             <Ionicons
               name="at-outline"
@@ -281,7 +284,7 @@ const DrawerNavigator = () => {
         component={TransactionHistoryScreen}
         options={{
           headerShown: false,
-          drawerLabel: "Transaction History",
+          drawerLabel: `${i18n.t('transaction-history')}`,
           drawerIcon: () => (
             <Ionicons
               name="cash-outline"
@@ -297,7 +300,7 @@ const DrawerNavigator = () => {
         component={MoreOptionsScreen}
         options={{
           headerShown: false,
-          drawerLabel: "More",
+          drawerLabel: `${i18n.t('more')}`,
           drawerIcon: () => (
             <Ionicons
               name="add-outline"

@@ -15,6 +15,7 @@ import { getLastKnownPosition, setCurrLocation } from "@services/useLocalization
 import { setDeparture } from "@services/useSearchPlace";
 import { getLocalSetting } from "@services/useSetting";
 import SettingProps from "../types/SettingProps";
+import i18n from '../locales/i18n'
 
 export type AppStackParamList = {
   Home: undefined;
@@ -58,7 +59,8 @@ const AppNavigator = () => {
   const checkIsAuth = async () => {
     setLoading(true);
     const setg = await getLocalSetting();
-    setSetting(setg)
+    i18n.locale = setg.language;
+    setSetting(setg);
     await dispatch(checkAuth(setg))
       .unwrap()
       .then(async (data) => {

@@ -31,7 +31,7 @@ export const getLocalSetting = async (): Promise<SettingProps> => {
   if(!setting){
     let newSetting = {
         isDarkMode: false,
-        language: "fr",
+        language: "en",
       }
     await AsyncStorage.setItem("setting", JSON.stringify(newSetting))
     return newSetting;

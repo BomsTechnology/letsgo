@@ -1,23 +1,29 @@
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SimpleHeader from '@components/SimpleHeader'
 import Colors from '@constants/colors'
 import { RadioButton } from 'react-native-paper';
 const { width, height } = Dimensions.get('window');
-import { RootState, useAppSelector,  } from "@store/store";
+import { RootState, useAppSelector, useAppDispatch } from "@store/store";
+import i18n from '../locales/i18n';
+import { setLanguage } from '@services/useSetting';
 const LanguageScreen = () => {
   const settingState = useAppSelector(
     (state: RootState) => state.setting
   );
-  const [value, setValue] = useState('fr');
+  const dispatch = useAppDispatch();
+
 
   const handleValueChange = (newValue: string) => {
-    setValue(newValue);
+    i18n.locale = newValue;
+    dispatch(setLanguage({ setting: settingState.setting, lang: newValue}));
   };
+
+
   return (
     <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
-      <SimpleHeader text="Language" />
+      <SimpleHeader text={i18n.t('language', {count: 1})} />
 
       <View style={{ alignItems: "center", width: '100%' }}>
         <Image
@@ -27,10 +33,10 @@ const LanguageScreen = () => {
         />
         <Text
           style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}
-        >Languages</Text>
-        <RadioButton.Group   onValueChange={handleValueChange} value={value}>
-           <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label="French (FR)" value="fr" />
-           <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label="English (US)" value="en" />
+        >{i18n.t('language', {count: 2})}</Text>
+        <RadioButton.Group   onValueChange={handleValueChange} value={settingState.setting.language}>
+           <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label={`${i18n.t('french')} (FR)`} value="fr" />
+           <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label={`${i18n.t('english')} (US)`} value="en" />
         </RadioButton.Group>
       </View>
     </SafeAreaView>

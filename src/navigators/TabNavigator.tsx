@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '@constants/colors';
 import TripListScreen from '@screens/trip/mytrip/TripListScreen';
 import { RootState, useAppSelector,  } from "@store/store";
+import i18n from '../locales/i18n';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +55,7 @@ const TabNavigator = () => {
                 name="Home" 
                 component={HomeScreen} 
                 options={{ 
+                  tabBarLabel: `${i18n.t('home')}`, 
                   headerShown: false,
                 }} 
               />
@@ -61,7 +63,7 @@ const TabNavigator = () => {
                 name="Trip" 
                 component={TripListScreen} 
                 options={{ 
-                  tabBarLabel: 'Trips', 
+                  tabBarLabel: `${i18n.t('trip', {count: 2})}`, 
                   headerShown:false, 
                 }}
               />
@@ -69,7 +71,7 @@ const TabNavigator = () => {
                 name="Alert" 
                 component={AlertScreen} 
                 options={{ 
-                  tabBarLabel: 'Alerts', 
+                  tabBarLabel: `${i18n.t('alert', {count: 2})}`, 
                   headerShown:false 
                 }}
               />

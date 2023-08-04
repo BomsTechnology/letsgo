@@ -31,6 +31,7 @@ import CustomButton from "./buttons/CustomButton";
 import CustomInput from "./inputFields/CustomInput";
 import Constants from "expo-constants";
 import SeatInput from "./inputFields/SeatInput";
+import i18n from "../locales/i18n";
 
 interface HomeBottomBoxProps {
   boxVisble: boolean;
@@ -38,17 +39,21 @@ interface HomeBottomBoxProps {
   setRouting: Function;
 }
 
-const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxProps) => {
+const HomeBottomBox = ({
+  boxVisble,
+  setBoxVisble,
+  setRouting,
+}: HomeBottomBoxProps) => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
-  const settingState = useAppSelector(
-    (state: RootState) => state.setting
-  );
+  const settingState = useAppSelector((state: RootState) => state.setting);
+  const userState = useAppSelector((state: RootState) => state.user);
   const bottomBoxRef = useRef<View>(null);
   const dispatch = useAppDispatch();
-  const [departureValue, setDepartureValue] =
-    React.useState("Position Actuelle");
+  const [departureValue, setDepartureValue] = React.useState(
+    `${i18n.t("current-position")}`
+  );
   const [destinationValue, setDestanationValue] = React.useState("");
   const [currentSearch, setCurrentSearch] = React.useState("destination");
   const [searchHeight, setSearchHeight] = useState(0);
@@ -113,8 +118,6 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
     setShowSearch(false);
   };
 
-  
-
   const search = async () => {
     setIsLoading(true);
     if (currentSearch === "departure") {
@@ -171,8 +174,6 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
     };
   }, []);
 
-  
-
   const clearSearch = async (type: string) => {
     setIsLoading(false);
     setResults([]);
@@ -189,34 +190,34 @@ const HomeBottomBox = ({ boxVisble, setBoxVisble, setRouting }: HomeBottomBoxPro
   };
 
   const getRouting = async () => {
-  if (localisationState.departure && localisationState.destination) {
-    await makeRouting({
-      stops: [
-        {
-          lat: localisationState.departure?.geometry.coordinates[1]!,
-          lon: localisationState.departure?.geometry.coordinates[0]!,
-        },
-        {
-          lat: localisationState.destination?.geometry.coordinates[1]!,
-          lon: localisationState.destination?.geometry.coordinates[0]!,
-        },
-      ],
-      isPathRequest: true,
-      responseType: "GEOJSON",
-      includeInstructions: true,
-    })
-      .then((data) => {
-        setRouting(data);
+    if (localisationState.departure && localisationState.destination) {
+      await makeRouting({
+        stops: [
+          {
+            lat: localisationState.departure?.geometry.coordinates[1]!,
+            lon: localisationState.departure?.geometry.coordinates[0]!,
+          },
+          {
+            lat: localisationState.destination?.geometry.coordinates[1]!,
+            lon: localisationState.destination?.geometry.coordinates[0]!,
+          },
+        ],
+        isPathRequest: true,
+        responseType: "GEOJSON",
+        includeInstructions: true,
       })
-      .catch((error) => {
-        showError(error);
-      });
-  }
-}
+        .then((data) => {
+          setRouting(data);
+        })
+        .catch((error) => {
+          showError(error);
+        });
+    }
+  };
 
-useEffect(() => {
-  getRouting();
-}, [localisationState]);
+  useEffect(() => {
+    getRouting();
+  }, [localisationState]);
   return (
     <View style={[styles.containerBoxSearch]}>
       {showSearch && (
@@ -247,12 +248,21 @@ useEffect(() => {
         <View
           style={[
             styles.shadowProp,
-            styles.searchBox,
+            settingState.setting.isDarkMode
+              ? styles.searchBox_DARK
+              : styles.searchBox,
             styles.centerContainer,
             { height: searchHeight },
           ]}
         >
-          <ActivityIndicator size={"large"} color={Colors.primaryColor} />
+          <ActivityIndicator
+            size={"large"}
+            color={
+              settingState.setting.isDarkMode
+                ? Colors.secondaryColor
+                : Colors.primaryColor
+            }
+          />
         </View>
       ) : !localisationState.destination &&
         results.length === 0 &&
@@ -260,13 +270,32 @@ useEffect(() => {
         <View
           style={[
             styles.shadowProp,
-            styles.searchBox,
+            settingState.setting.isDarkMode
+              ? styles.searchBox_DARK
+              : styles.searchBox,
             styles.centerContainer,
             { height: searchHeight },
           ]}
         >
-          <FontAwesome5 name="sad-cry" size={50} color={Colors.grayTone2} />
-          <Text style={[styles.textBold, { color: Colors.grayTone2 }]}>
+          <FontAwesome5
+            name="sad-cry"
+            size={50}
+            color={
+              settingState.setting.isDarkMode
+                ? Colors.onPrimaryColor
+                : Colors.grayTone2
+            }
+          />
+          <Text
+            style={[
+              styles.textBold,
+              {
+                color: settingState.setting.isDarkMode
+                  ? Colors.onPrimaryColor
+                  : Colors.grayTone2,
+              },
+            ]}
+          >
             No Result
           </Text>
         </View>
@@ -274,7 +303,9 @@ useEffect(() => {
         <View
           style={[
             styles.shadowProp,
-            styles.searchBox,
+            settingState.setting.isDarkMode
+              ? styles.searchBox_DARK
+              : styles.searchBox,
             { height: searchHeight },
           ]}
         >
@@ -296,9 +327,37 @@ useEffect(() => {
         </View>
       ) : null}
       {boxVisble && (
-        <View ref={bottomBoxRef} style={[settingState.setting.isDarkMode ? styles.bottomBox_DARK : styles.bottomBox, styles.shadowProp]}>
-          <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>Hi Traveller</Text>
-          <Text style={[settingState.setting.isDarkMode ? styles.description_DARK : styles.description]}>Where are you going today ?</Text>
+        <View
+          ref={bottomBoxRef}
+          style={[
+            settingState.setting.isDarkMode
+              ? styles.bottomBox_DARK
+              : styles.bottomBox,
+            styles.shadowProp,
+          ]}
+        >
+          <Text
+            style={
+              settingState.setting.isDarkMode ? styles.title_DARK : styles.title
+            }
+          >
+            {userState.user?.firstName
+              ? i18n
+                  .t("welcome-message", {
+                    count: 1,
+                    name: userState.user?.firstName,
+                  })
+              : i18n.t("welcome-message", { count: 0 })}
+          </Text>
+          <Text
+            style={[
+              settingState.setting.isDarkMode
+                ? styles.description_DARK
+                : styles.description,
+            ]}
+          >
+            {i18n.t("sub-welcome-message")}
+          </Text>
           <View
             style={{
               flexDirection: "row",
@@ -306,7 +365,14 @@ useEffect(() => {
               alignItems: "center",
             }}
           >
-            <View style={[settingState.setting.isDarkMode ? styles.inputContainer_DARK : styles.inputContainer, { width: "49%" }]}>
+            <View
+              style={[
+                settingState.setting.isDarkMode
+                  ? styles.inputContainer_DARK
+                  : styles.inputContainer,
+                { width: "49%" },
+              ]}
+            >
               <Ionicons
                 name="ios-locate"
                 size={18}
@@ -314,12 +380,20 @@ useEffect(() => {
               />
               <View style={[styles.innerInputContainer]}>
                 <TextInput
-                  placeholder="Departure"
+                  placeholder={i18n.t("departure")}
                   placeholderTextColor={Colors.grayTone2}
-                  style={settingState.setting.isDarkMode ? styles.input_DARK : styles.input}
+                  style={
+                    settingState.setting.isDarkMode
+                      ? styles.input_DARK
+                      : styles.input
+                  }
                   onBlur={handleBlur}
                   onChangeText={(text) => onChangeText(text, "departure")}
-                  value={localisationState.departure ? localisationState.departure!.properties.name : departureValue}
+                  value={
+                    localisationState.departure
+                      ? localisationState.departure!.properties.name
+                      : departureValue
+                  }
                 />
               </View>
               {departureValue != "" && (
@@ -328,7 +402,14 @@ useEffect(() => {
                 </TouchableOpacity>
               )}
             </View>
-            <View style={[settingState.setting.isDarkMode ? styles.inputContainer_DARK : styles.inputContainer, { width: "49%" }]}>
+            <View
+              style={[
+                settingState.setting.isDarkMode
+                  ? styles.inputContainer_DARK
+                  : styles.inputContainer,
+                { width: "49%" },
+              ]}
+            >
               <Ionicons
                 name="location-outline"
                 size={18}
@@ -336,15 +417,23 @@ useEffect(() => {
               />
               <View style={[styles.innerInputContainer]}>
                 <TextInput
-                  placeholder="Destination"
+                  placeholder={i18n.t("arrival")}
                   placeholderTextColor={Colors.grayTone2}
-                  style={settingState.setting.isDarkMode ? styles.input_DARK : styles.input}
+                  style={
+                    settingState.setting.isDarkMode
+                      ? styles.input_DARK
+                      : styles.input
+                  }
                   onChangeText={(text) => onChangeText(text, "destination")}
                   onBlur={handleBlur}
-                  value={localisationState.destination ? localisationState.destination!.properties.name : destinationValue}
+                  value={
+                    localisationState.destination
+                      ? localisationState.destination!.properties.name
+                      : destinationValue
+                  }
                 />
               </View>
-              {destinationValue != ""  && (
+              {destinationValue != "" && (
                 <TouchableOpacity onPress={() => clearSearch("destination")}>
                   <Ionicons name="close" size={18} color={Colors.grayTone2} />
                 </TouchableOpacity>
@@ -361,17 +450,21 @@ useEffect(() => {
             }}
           >
             <View style={{ width: "32%" }}>
-            <SeatInput nb={nb} setNb={setNb} />
+              <SeatInput nb={nb} setNb={setNb} />
             </View>
             <View style={{ width: "32%" }}>
               <CustomInput
-                placeholder="Budget"
+                placeholder={i18n.t("budget")}
                 name="money"
                 control={control}
                 secureTextEntry={false}
                 sufixType="text"
                 prefix={moneyIcon}
-                bgColor={settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.whiteTone3}
+                bgColor={
+                  settingState.setting.isDarkMode
+                    ? Colors.darkTone4
+                    : Colors.whiteTone3
+                }
                 shadow={false}
                 keyboardType="numeric"
                 marginVertical={0}
@@ -391,9 +484,13 @@ useEffect(() => {
               <CustomButton
                 bgColor={Colors.primaryColor}
                 fgColor="#fff"
-                isReady={localisationState.departure != null && localisationState.destination != null && money}
+                isReady={
+                  localisationState.departure != null &&
+                  localisationState.destination != null &&
+                  money
+                }
                 onPress={gosearch}
-                text="recherche"
+                text={i18n.t("search")}
                 marginVertical={0}
                 fontSize={13}
               />

@@ -137,50 +137,18 @@ const SearchModal = ({ modalVisible, setModalVisible }: SearchModalProps) => {
     setResults([]);
   };
 
-  const getRouting = async () => {
-    /*await dispatch(
-      makeRouting({
-        stops: [
-          {
-            lat: localisationState.departure?.geometry.coordinates[1]!,
-            lon: localisationState.departure?.geometry.coordinates[0]!,
-          },
-          {
-            lat: localisationState.destination?.geometry.coordinates[1]!,
-            lon: localisationState.destination?.geometry.coordinates[0]!,
-          },
-        ],
-        isPathRequest: true,
-        responseType: "GEOJSON",
-        includeInstructions: true,
-      })
-    )
-      .unwrap()
-      .then((data) => {
-      })
-      .catch((error) => {
-        showError(error.message);
-      });*/
-  };
-
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        if(localisationState.destination && localisationState.departure){
-          getRouting();
-        }
         setModalVisible(!modalVisible);
       }}
     >
       <View style={[styles.container]}>
         <Pressable
           onPress={() => {
-            if(localisationState.destination && localisationState.departure){
-              getRouting();
-            }
             setModalVisible(false)
           }}
           style={{

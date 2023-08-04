@@ -9,8 +9,10 @@ import CustomButton from "@components/buttons/CustomButton";
 import { Ionicons } from "@expo/vector-icons";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import * as Clipboard from 'expo-clipboard';
+import { RootState, useAppSelector } from "@store/store";
 
 const InviteFriendScreen = () => {
+  const settingState = useAppSelector((state: RootState) => state.setting);
   const handleShare = async () => {
     try {
       let res = await Share.share({
@@ -37,9 +39,9 @@ const InviteFriendScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
       <SimpleHeader text="Invite Friends" />
-      <Text style={styles.title}>Scan QR Code</Text>
+      <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>Scan QR Code</Text>
       <View
         style={{
           flex: 1,
@@ -48,10 +50,12 @@ const InviteFriendScreen = () => {
         }}
       >
         <QRCode
+          backgroundColor={settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.onPrimaryColor}
           value="https://letsgo.yowyob.com/share?=app"
           logo={require("@assets/images/ico_logo.png")}
           size={250}
-          logoBackgroundColor="#fff"
+          color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone}
+          logoBackgroundColor={Colors.onPrimaryColor}
         />
       </View>
       <Divider
@@ -59,7 +63,7 @@ const InviteFriendScreen = () => {
           marginTop: 20,
         }}
       />
-      <Text style={styles.title}>OR Share Link</Text>
+      <Text style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}>OR Share Link</Text>
       <View
         style={{
           width: "100%",
@@ -74,7 +78,7 @@ const InviteFriendScreen = () => {
           style={{
             flex: 1,
             borderWidth: 2,
-            backgroundColor: Colors.whiteTone3,
+            backgroundColor: settingState.setting.isDarkMode ? Colors.darkTone4 : Colors.whiteTone3,
             paddingHorizontal: 10,
             paddingVertical: 10,
             borderRadius: 10,
@@ -85,18 +89,18 @@ const InviteFriendScreen = () => {
           <Text
             style={{
               fontFamily: "Poppins_400Regular",
-              color: Colors.grayTone1,
+              color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1,
             }}
           >
             https://letsgo.yowyob.com/share?=app
           </Text>
         </View>
         <TouchableOpacity onPress={handleCopy} style={{ alignItems: "center" }}>
-          <Ionicons name="copy" size={25} color={Colors.grayTone1} />
+          <Ionicons name="copy" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone1} />
           <Text
             style={{
               fontFamily: "Poppins_400Regular",
-              color: Colors.grayTone2,
+              color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2,
               fontSize: 10,
             }}
           >
@@ -106,7 +110,7 @@ const InviteFriendScreen = () => {
       </View>
       <CustomButton
         bgColor={Colors.primaryColor}
-        fgColor="#fff"
+        fgColor={Colors.onPrimaryColor}
         isReady={true}
         onPress={handleShare}
         text="Share link"
@@ -120,7 +124,12 @@ export default InviteFriendScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.whiteTone1,
+    backgroundColor: Colors.whiteTone2,
+    padding: 20,
+  },
+  container_DARK: {
+    flex: 1,
+    backgroundColor: Colors.darkTone1,
     padding: 20,
   },
   title: {
@@ -128,5 +137,13 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     marginTop: 20,
     fontSize: 20,
+    color: Colors.onWhiteTone
+  },
+  title_DARK: {
+    width: "100%",
+    fontFamily: "Poppins_700Bold",
+    marginTop: 20,
+    fontSize: 20,
+    color: Colors.onPrimaryColor
   },
 });
