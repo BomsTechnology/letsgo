@@ -44,12 +44,13 @@ const OTPScreen = ({ route }: Props) => {
     )
       .unwrap()
       .then(async (data) => {
+        console.log(data)
         if (data.role?.includes("POLLER")) {
           dispatch(setIsFirstLogin(false));
           await dispatch(getUserInfo())
             .unwrap()
-            .then((data) => {
-              showSuccess(`Bienvenue ${data.firstName == undefined ? data.principalPhone : data.firstName}`);
+            .then((user) => {
+              showSuccess(`Bienvenue ${user.firstName == undefined ? user.principalPhone : user.firstName}`);
             })
             .catch((error) => {
               showError(error.message);

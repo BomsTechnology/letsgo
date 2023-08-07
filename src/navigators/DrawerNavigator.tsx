@@ -40,6 +40,7 @@ const DrawerNavigator = () => {
   );
 
   const signout = async () => {
+    console.log('logout');
     await dispatch(logout())
       .unwrap()
       .then((data) => {
@@ -140,7 +141,7 @@ const DrawerNavigator = () => {
                       style={{ position: "absolute", left: 0 }}
                     />
                   )}
-                  onPress={() => signout}
+                  onPress={() => signout()}
                 />
             </View>
             <View style={{ 

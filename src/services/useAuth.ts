@@ -25,6 +25,7 @@ export const sendOTP = createAsyncThunk<string, string>(
         status: string;
         verificationId: string;
       }>("mobile/register/phone", data);
+   
       if (response.data) {
         return response.data.verificationId;
       } else {

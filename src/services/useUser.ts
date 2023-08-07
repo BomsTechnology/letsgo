@@ -21,7 +21,7 @@ export const createPoolerAccount = createAsyncThunk<UserProps, void>(
       }
     } catch (error: any) {
       throw new Error(
-        `Une erreur s'est produite : ${error.response.data.error}`
+        `Une erreur s'est produite : ${error.response.data.error} create pooler account`
       );
     }
   }
@@ -42,7 +42,7 @@ export const getUserInfo = createAsyncThunk<UserProps, void>(
       }
     } catch (error: any) {
       throw new Error(
-        `Une erreur s'est produite : ${error.response.data.error}`
+        `Une erreur s'est produite : ${error.response.data.error} get user info`
       );
     }
   }

@@ -64,6 +64,12 @@ const AppNavigator = () => {
     await dispatch(checkAuth(setg))
       .unwrap()
       .then(async (data) => {
+        showSuccess(`Hello Traveller`);
+      })
+      .catch((error) => {
+        setLoading(false);
+      })
+      .finally(async () => {
         await dispatch(setCurrLocation())
           .unwrap()
           .then(async (data) => {
@@ -73,10 +79,6 @@ const AppNavigator = () => {
           .catch(async (error) => {
             setLoading(false);
           });
-        showSuccess(`Hello Traveller`);
-      })
-      .catch((error) => {
-        setLoading(false);
       });
   };
 
