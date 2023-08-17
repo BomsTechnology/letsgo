@@ -34,7 +34,7 @@ const TabNavigator = () => {
         },
         tabBarActiveTintColor:  Colors.onPrimaryColor,
         tabBarInactiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone,
-        tabBarLabelStyle: { fontSize: 13, fontFamily: 'Poppins_500Medium', alignSelf: 'center' },
+        tabBarLabelStyle: { fontSize: 13, fontFamily: 'Poppins_500Medium', alignSelf: 'center', maxWidth: '75%' },
         tabBarStyle: { backgroundColor: 'transparent', position:'absolute', bottom:0, elevation: 0, borderTopWidth:0, paddingHorizontal: 10, marginBottom: 15 },
         tabBarInactiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
         tabBarActiveBackgroundColor: Colors.secondaryColor,

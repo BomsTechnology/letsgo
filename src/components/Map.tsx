@@ -6,7 +6,7 @@ import MapView, {
   MarkerDragStartEndEvent,
   Polyline,
   Region,
-  UrlTile,
+  PROVIDER_GOOGLE,
 } from "react-native-maps";
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import Colors from "@constants/colors";
@@ -18,8 +18,6 @@ import {
 } from "@services/useLocalization";
 import { showError } from "@functions/helperFunctions";
 import { setDeparture, setDestination } from "@services/useSearchPlace";
-
-
 
 interface PoiProps {
   title: string;
@@ -39,9 +37,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
   const dispatch = useAppDispatch();
   const mapViewRef = useRef<MapView>(null);
   const [isDragDepart, setIsDragDepart] = React.useState(false);
-  const [mapRegion, setMapRegion] = React.useState<
-  Region | undefined
->();
+  const [mapRegion, setMapRegion] = React.useState<Region | undefined>();
   const [departureCoord, setDepartureCoord] = React.useState<
     LatLng | undefined
   >();
@@ -92,10 +88,9 @@ const Map = ({ routing, setRouting }: MapProps) => {
               type: "Point",
             },
           })
-        ).unwrap()
-          .then(async (data) => {
-            
-          });
+        )
+          .unwrap()
+          .then(async (data) => {});
       })
       .catch((error) => {
         showError(`${error}`);
@@ -122,10 +117,9 @@ const Map = ({ routing, setRouting }: MapProps) => {
               type: "Point",
             },
           })
-        ).unwrap()
-          .then(async (data) => {
-            
-        });
+        )
+          .unwrap()
+          .then(async (data) => {});
       })
       .catch((error) => {
         showError(`${error}`);
@@ -133,17 +127,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
   };
 
   useEffect(() => {
-    setMapRegion({
-      latitude: localisationState.departure?.geometry.coordinates[0]!,
-      longitude: localisationState.departure?.geometry.coordinates[1]!,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
-    setDepartureCoord({
-      latitude: localisationState.departure?.geometry.coordinates[0]!,
-      longitude: localisationState.departure?.geometry.coordinates[1]!,
-    });
-    setPois([]);
+    getLocation();
   }, []);
 
   useEffect(() => {
@@ -177,50 +161,67 @@ const Map = ({ routing, setRouting }: MapProps) => {
     }
   };
 
+  const getLocation = async () => {
+    await dispatch(setCurrLocation())
+      .unwrap()
+      .then(async (data) => {
+        await dispatch(setDeparture(data)).then((loc) => {
+          setMapRegion({
+            latitude: data?.geometry.coordinates[0]!,
+            longitude: data?.geometry.coordinates[1]!,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
+          setDepartureCoord({
+            latitude: data?.geometry.coordinates[0]!,
+            longitude: data?.geometry.coordinates[1]!,
+          });
+          setPois([]);
+        });
+      });
+  };
+
   return (
     <View style={styles.container}>
-      {mapRegion && <MapView
-        onRegionChange={onRegionChange}
-        region={mapRegion}
-        onRegionChangeComplete={onRegionChangeComplete}
-        style={styles.map}
-        ref={mapViewRef}
-       // onTouchEnd={}
-      >
-        {departureCoord && (
-          <Marker
-            pinColor={Colors.secondaryColor}
-            draggable={true}
-            title={localisationState.departure?.properties.name}
-            description={localisationState.departure?.properties.country}
-            coordinate={departureCoord}
-            onDragEnd={(e) => onDragEndDeparture(e.nativeEvent.coordinate)}
-          />
-        )}
-        {showPois()}
-        {/* 
-          <UrlTile
-            urlTemplate="https://a.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
-            maximumZ={19}
-        />*/}
-        {polylineCoords.length > 0 && (
-          <Polyline
-            coordinates={polylineCoords}
-            strokeColor={Colors.accentOrange}
-            strokeWidth={6}
-          />
-        )}
-        {destinationCoord && (
-          <Marker
-            pinColor={Colors.primaryColor}
-            draggable={true}
-            title={localisationState.destination?.properties.name}
-            description={localisationState.destination?.properties.country}
-            coordinate={destinationCoord}
-            onDragEnd={(e) => onDragEndDestination(e.nativeEvent.coordinate)}
-          />
-        )}
-      </MapView>}
+      {mapRegion && (
+        <MapView
+          onRegionChange={onRegionChange}
+          region={mapRegion}
+          onRegionChangeComplete={onRegionChangeComplete}
+          style={styles.map}
+          ref={mapViewRef}
+          provider={PROVIDER_GOOGLE}
+        >
+          {departureCoord && (
+            <Marker
+              pinColor={Colors.secondaryColor}
+              draggable={true}
+              title={localisationState.departure?.properties.name}
+              description={localisationState.departure?.properties.country}
+              coordinate={departureCoord}
+              onDragEnd={(e) => onDragEndDeparture(e.nativeEvent.coordinate)}
+            />
+          )}
+          {showPois()}
+          {polylineCoords.length > 0 && (
+            <Polyline
+              coordinates={polylineCoords}
+              strokeColor={Colors.accentOrange}
+              strokeWidth={6}
+            />
+          )}
+          {destinationCoord && (
+            <Marker
+              pinColor={Colors.primaryColor}
+              draggable={true}
+              title={localisationState.destination?.properties.name}
+              description={localisationState.destination?.properties.country}
+              coordinate={destinationCoord}
+              onDragEnd={(e) => onDragEndDestination(e.nativeEvent.coordinate)}
+            />
+          )}
+        </MapView>
+      )}
     </View>
   );
 };

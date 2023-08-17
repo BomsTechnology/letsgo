@@ -16,6 +16,7 @@ import { setDeparture } from "@services/useSearchPlace";
 import { getLocalSetting } from "@services/useSetting";
 import SettingProps from "../types/SettingProps";
 import i18n from '../locales/i18n'
+import { countryCodeProps } from "@data/CountryCode";
 
 export type AppStackParamList = {
   Home: undefined;
@@ -36,8 +37,8 @@ export type AppStackParamList = {
   TicketDetail: undefined;
   Profile: undefined;
   OnBoarding: undefined;
-  Login: { phoneNumber?: string };
-  OTP: { phoneNumber: string };
+  Login: { countryCode?: countryCodeProps, phoneNumber?: string };
+  OTP: { countryCode: countryCodeProps, phoneNumber: string };
   FavoriteDestination: undefined;
   Draft: undefined;
   InviteFriend: undefined;
@@ -47,6 +48,8 @@ export type AppStackParamList = {
   TwoWayCheck: undefined;
   VerifyIdentity: undefined;
   ChangeCredential: undefined;
+  KeyWords: undefined;
+  Language: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -64,21 +67,11 @@ const AppNavigator = () => {
     await dispatch(checkAuth(setg))
       .unwrap()
       .then(async (data) => {
+        setLoading(false);
         showSuccess(`Hello Traveller`);
       })
       .catch((error) => {
         setLoading(false);
-      })
-      .finally(async () => {
-        await dispatch(setCurrLocation())
-          .unwrap()
-          .then(async (data) => {
-            await dispatch(setDeparture(data));
-            setLoading(false);
-          })
-          .catch(async (error) => {
-            setLoading(false);
-          });
       });
   };
 

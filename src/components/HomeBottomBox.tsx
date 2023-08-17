@@ -168,6 +168,7 @@ const HomeBottomBox = ({
         setSearchHeight(height - (Constants.statusBarHeight + 272));
       }
     );
+
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -190,20 +191,23 @@ const HomeBottomBox = ({
   };
 
   const getRouting = async () => {
+    if (localisationState.departure) setDepartureValue(localisationState.departure.properties.name);
+    if (localisationState.destination) setDestanationValue(localisationState.destination.properties.name);
     if (localisationState.departure && localisationState.destination) {
       await makeRouting({
         stops: [
           {
-            lat: localisationState.departure?.geometry.coordinates[1]!,
-            lon: localisationState.departure?.geometry.coordinates[0]!,
+            latitude: localisationState.departure?.geometry.coordinates[1]!,
+            longitude: localisationState.departure?.geometry.coordinates[0]!,
           },
           {
-            lat: localisationState.destination?.geometry.coordinates[1]!,
-            lon: localisationState.destination?.geometry.coordinates[0]!,
+            latitude: localisationState.destination?.geometry.coordinates[1]!,
+            longitude: localisationState.destination?.geometry.coordinates[0]!,
           },
         ],
         isPathRequest: true,
         responseType: "GEOJSON",
+        includeGeometry: true, 
         includeInstructions: true,
       })
         .then((data) => {
@@ -390,9 +394,7 @@ const HomeBottomBox = ({
                   onBlur={handleBlur}
                   onChangeText={(text) => onChangeText(text, "departure")}
                   value={
-                    localisationState.departure
-                      ? localisationState.departure!.properties.name
-                      : departureValue
+                    departureValue
                   }
                 />
               </View>
@@ -427,9 +429,7 @@ const HomeBottomBox = ({
                   onChangeText={(text) => onChangeText(text, "destination")}
                   onBlur={handleBlur}
                   value={
-                    localisationState.destination
-                      ? localisationState.destination!.properties.name
-                      : destinationValue
+                     destinationValue
                   }
                 />
               </View>

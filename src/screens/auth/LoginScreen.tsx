@@ -46,7 +46,8 @@ const LoginScreen = ({ route }: Props) => {
       .then((data) => {
         showSuccess("Code de vérification envoyé avec succès !");
         navigation.replace("OTP", {
-          phoneNumber: `${selectedCountry?.callingCode}${numberPhone}`,
+          phoneNumber: numberPhone,
+          countryCode: selectedCountry!
         });
       })
       .catch((error) => {
@@ -55,8 +56,9 @@ const LoginScreen = ({ route }: Props) => {
   };
 
   useEffect(() => {
-    if (route.params?.phoneNumber!) {
-      setValue("phonenumber", route.params.phoneNumber.substring(4));
+    if (route.params?.phoneNumber! && route.params?.countryCode!) {
+      setValue("phonenumber", route.params.phoneNumber);
+      setSelectedCountry(route.params?.countryCode);
     }
   }, []);
 

@@ -74,7 +74,7 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     if (!userState.user) refreshData();
-
+    
     setValue(
       "firstname",
       userState.user?.firstName ? userState.user?.firstName : ""
@@ -83,6 +83,8 @@ const ProfileScreen = () => {
       "lastname",
       userState.user?.lastName ? userState.user?.lastName : ""
     );
+    if(userState.user?.birthdate) setBirthdate(new Date(Date.parse(userState.user?.birthdate)));
+    if(userState.user?.gender) setSelected(genderData.filter((g) => g.value == userState.user?.gender)[0].value)
   }, []);
 
   return (

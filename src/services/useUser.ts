@@ -3,20 +3,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import UserProps from "../types/UserProps";
 
+const PREFIX_URL = 'AUTH-SERVICE/api/v0/';
+
 export const createPoolerAccount = createAsyncThunk<UserProps, void>(
   "user/createPoolerAccount",
   async () => {
     try {
       const response = await axiosClient.post(
-        "business/subscribe/letsgo/poller"
+        PREFIX_URL + "business/subscribe/letsgo/poller"
       );
 
-      if (response.data) {
+      if (response && response.data) {
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
         throw new Error(
-          'La réponse est vide ou ne contient pas de propriété "data".'
+          "Une erreur réseau s'est produite"
         );
       }
     } catch (error: any) {
@@ -31,13 +33,13 @@ export const getUserInfo = createAsyncThunk<UserProps, void>(
   "user/getUserInfo",
   async () => {
     try {
-      const response = await axiosClient.get("userinfo");
-      if (response.data) {
+      const response = await axiosClient.get(PREFIX_URL + "userinfo");
+      if (response && response.data) {
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
         throw new Error(
-          'La réponse est vide ou ne contient pas de propriété "data".'
+          "Une erreur réseau s'est produite"
         );
       }
     } catch (error: any) {
@@ -68,6 +70,7 @@ export const updateUserInfo = createAsyncThunk<
   picture,
   keywords,
   userPaymentMode,
+  gender
 }) => {
   try {
     let data = {
@@ -78,14 +81,15 @@ export const updateUserInfo = createAsyncThunk<
       picture: picture,
       keywords: keywords,
       userPaymentMode: userPaymentMode,
+      gender: gender
     }
-    const response = await axiosClient.put("userinfo/updateUser", data);
-    if (response.data) {
+    const response = await axiosClient.put(PREFIX_URL + "userinfo", data);
+    if (response && response.data) {
       AsyncStorage.setItem("user", JSON.stringify(response.data));
       return response.data;
     } else {
       throw new Error(
-        'La réponse est vide ou ne contient pas de propriété "data".'
+        "Une erreur réseau s'est produite"
       );
     }
   } catch (error: any) {

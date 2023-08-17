@@ -39,17 +39,7 @@ const DrawerNavigator = () => {
     <Ionicons name="chevron-back" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />
   );
 
-  const signout = async () => {
-    console.log('logout');
-    await dispatch(logout())
-      .unwrap()
-      .then((data) => {
-        showSuccess("Déconnexion réussie !");
-      })
-      .catch((error) => {
-        showError(error.message);
-      });
-  };
+  
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
@@ -109,7 +99,7 @@ const DrawerNavigator = () => {
                     fontFamily: 'Poppins_600SemiBold',
                   }}
                 >
-                  {userState.user?.role?.includes('POLLER') ? 'POOLER' : "USER"}
+                  POLLER
                 </Text>
               </View>
             </View>
@@ -121,28 +111,7 @@ const DrawerNavigator = () => {
               paddingHorizontal:15,
               justifyContent: 'center'
              }}>
-              <DrawerItem
-                  label={i18n.t('logout')}
-                  style={{ 
-                    padding:0,
-                    paddingVertical:0,
-                    margin:0,
-                    marginVertical: 0
-                  }}
-                  labelStyle={{ 
-                    fontFamily: 'Poppins_400Regular',
-                    color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2
-                    }}
-                  icon={() => (
-                    <Ionicons
-                      name="log-out-outline"
-                      size={20}
-                      color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
-                      style={{ position: "absolute", left: 0 }}
-                    />
-                  )}
-                  onPress={() => signout()}
-                />
+
             </View>
             <View style={{ 
               paddingVertical: 10,
@@ -241,38 +210,6 @@ const DrawerNavigator = () => {
           drawerIcon: () => (
             <Ionicons
               name="notifications-outline"
-              size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
-              style={{ position: "absolute", left: 10 }}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Language"
-        component={LanguageScreen}
-        options={{
-          headerShown: false,
-          drawerLabel: `${i18n.t('language', {count: 1})}`,
-          drawerIcon: () => (
-            <Ionicons
-              name="language-outline"
-              size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
-              style={{ position: "absolute", left: 10 }}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Keywords"
-        component={KeyWordScreen}
-        options={{
-          headerShown: false,
-          drawerLabel: `${i18n.t('keywords')}`,
-          drawerIcon: () => (
-            <Ionicons
-              name="at-outline"
               size={20}
               color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
               style={{ position: "absolute", left: 10 }}

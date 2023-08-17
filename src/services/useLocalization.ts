@@ -6,6 +6,9 @@ import * as Location from "expo-location";
 import myTripSearchSlice from "../store/features/search/myTripSearchSlice";
 import { showError } from "@functions/helperFunctions";
 import { LatLng } from "react-native-maps";
+import axiosClient from "@config";
+
+const PREFIX_URL = 'LOCALISATION-SERVICE/api/v0/';
 
 export const setCurrLocation = createAsyncThunk<PlaceProps, undefined>(
   "localization/setCurrLocation",
@@ -78,15 +81,15 @@ export const makeRouting = async (
   data: ParamRouting
 ): Promise<RoutingProps> => {
   return new Promise(async (resolve, reject) => {
-    const url = `http://172.16.0.147:8888/routing/car/?lang=fr'`;
     try {
-      const response = await axios.post<RoutingProps>(url, data);
-      if (response.data) {
+      const response = await axiosClient.post<RoutingProps>(PREFIX_URL + 'routing/car/?lang=fr', data);
+      if (response && response.data) {
         resolve(response.data);
       } else {
-        reject(`Routage impossible`);
+        reject(`Une erreur réseau s'est produite`);
       }
     } catch (error) {
+      console.log(error)
       reject(`Routage impossible`);
     }
   });

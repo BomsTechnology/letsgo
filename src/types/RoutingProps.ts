@@ -1,7 +1,8 @@
 export interface ParamRouting{
-  "stops": {"lon": number,"lat": number}[],
+  "stops": {"longitude": number,"latitude": number}[],
   "isPathRequest": boolean,
   "includeInstructions": boolean,
+  "includeGeometry": boolean,
   "responseType": string
 }
 

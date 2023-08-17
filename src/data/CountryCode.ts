@@ -44,10 +44,24 @@ const countryCodes: countryCodeProps[] = [
     },
 
     {
+        code: 'FRA',
+        name: 'France',
+        callingCode: '+33',
+        flag: require('../assets/images/flags/france.png'),
+    },
+
+    {
         code: 'GAB',
         name: 'Gabon',
         callingCode: '+241',
         flag: require('../assets/images/flags/gabon.png'),
+    },
+
+    {
+        code: 'DEU',
+        name: 'Germany',
+        callingCode: '+49',
+        flag: require('../assets/images/flags/germany.jpg'),
     },
 
     {
@@ -76,6 +90,13 @@ const countryCodes: countryCodeProps[] = [
         name: 'Togo',
         callingCode: '+228',
         flag: require('../assets/images/flags/togo.png'),
+    },
+
+    {
+        code: 'USA',
+        name: 'United States of America',
+        callingCode: '+1',
+        flag: require('../assets/images/flags/usa.png'),
     },
     
 ];

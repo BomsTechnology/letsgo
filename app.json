@@ -30,7 +30,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rnletsgo.myapp"
+      "package": "com.letsgo.yowyob",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBtEPDKk3C7mcTx21R45OULceiNWJ-5U6U"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

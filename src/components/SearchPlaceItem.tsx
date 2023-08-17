@@ -11,7 +11,7 @@ const SearchPlaceItem = ({ item, onPress }: { item: PlaceProps, onPress(item: Pl
   const settingState = useAppSelector(
     (state: RootState) => state.setting
   );  
-  let text = item.properties.state || item.properties.country || "";
+  let text = item.properties?.state || item.properties?.country || "";
     if (text !== "") text += ", ";
   return (
     <TouchableOpacity
@@ -23,7 +23,7 @@ const SearchPlaceItem = ({ item, onPress }: { item: PlaceProps, onPress(item: Pl
           <Text style={[settingState.setting.isDarkMode ? styles.itemTextBold_DARK : styles.itemTextBold]}>{item.properties.name}</Text>
           <Text style={[settingState.setting.isDarkMode ? styles.itemTextLight_DARK : styles.itemTextLight]}>
             {text}
-            {item.properties.country}
+            {item.properties?.country}
           </Text>
           <Divider style={{ marginTop: 10 }} />
         </View>

@@ -12,7 +12,7 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
-      },
+      }
     }
     },
     "preview": {

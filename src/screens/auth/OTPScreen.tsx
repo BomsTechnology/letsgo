@@ -73,7 +73,7 @@ const OTPScreen = ({ route }: Props) => {
   };
 
   const goBack = async () => {
-    navigation.replace("Login", { phoneNumber: route.params.phoneNumber });
+    navigation.replace("Login", { countryCode:route.params.countryCode, phoneNumber: route.params.phoneNumber });
   };
 
   const resend = async () => {
@@ -120,12 +120,11 @@ const OTPScreen = ({ route }: Props) => {
 
       <Text style={styles.title}>What's the code?</Text>
       <Text style={styles.description}>
-        Type the 4-digit code we just sent to *****
-        {route.params.phoneNumber.substring(
-          route.params.phoneNumber.length - 4
-        )}
+        Type the 4-digit code we just sent to 
+        {route.params.countryCode.callingCode}
+        {route.params.phoneNumber}
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => goBack()}>
         <Text
           style={{
             color: Colors.secondaryColor,

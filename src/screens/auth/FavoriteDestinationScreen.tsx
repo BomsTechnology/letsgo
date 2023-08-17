@@ -26,7 +26,7 @@ const FavoriteDestinationScreen = () => {
   const moneyIcon = ( <FontAwesome5 name="search-dollar" size={20} color={Colors.primaryColor} /> );
   const save = () => {
     navigation.navigate('ResultSearch', {
-      destination: destination,
+      nbSeat: 1,
       price: money
     });
   }; 

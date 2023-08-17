@@ -45,6 +45,7 @@ const CustomPhoneNumberInput = (props: CustomPhoneNumberInputProps) => {
           >
             <Image
              source={ item.flag}
+             resizeMode='cover'
              style={{
               height: 25,
               width: 40,

@@ -24,6 +24,8 @@ import InviteFriendScreen from "@screens/InviteFriendScreen";
 import ChangeCredentialScreen from "@screens/ChangeCredentialScreen";
 import TwoWayCheckScreen from "@screens/TwoWayCheckScreen";
 import VerifyIdentityScreen from "@screens/VerifyIdentityScreen";
+import LanguageScreen from "@screens/LanguageScreen";
+import KeyWordScreen from "@screens/KeyWordScreen";
 
 const StackNavigator = (stack: any) => {
   return (
@@ -151,6 +153,16 @@ const StackNavigator = (stack: any) => {
       <stack.Screen
         name="VerifyIdentity"
         component={VerifyIdentityScreen}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
+        name="Language"
+        component={LanguageScreen}
+        options={{ headerShown: false }}
+      />
+      <stack.Screen
+        name="KeyWords"
+        component={KeyWordScreen}
         options={{ headerShown: false }}
       />
     </>

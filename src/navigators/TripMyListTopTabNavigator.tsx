@@ -16,8 +16,8 @@ const TripMyListTopTabNavigator = () => {
             tabBarActiveTintColor: Colors.onPrimaryColor,
             tabBarInactiveTintColor: Colors.onWhiteTone,
             tabBarIndicatorStyle: {backgroundColor: Colors.primaryColor, height: '100%', borderRadius: 30 },
-            tabBarLabelStyle: { fontSize: 10, fontFamily: 'Poppins_500Medium'},
-            tabBarStyle: { backgroundColor: Colors.whiteTone2, borderRadius: 30, elevation: 1, marginHorizontal: 10 },
+            tabBarLabelStyle: { fontSize: 10, fontFamily: 'Poppins_500Medium', },
+            tabBarStyle: { backgroundColor: Colors.whiteTone2, borderRadius: 30, elevation: 1, marginHorizontal: 10,  },
           }}
         >
           <Tab.Screen

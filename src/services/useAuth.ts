@@ -4,9 +4,12 @@ import { setUserInfo } from "@store/features/user/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as Device  from 'expo-device';
+import Constants  from "expo-constants";
 import axios from "axios";
 import SettingProps from "../types/SettingProps";
 import { setSetting } from "@store/features/setting/settingSlice";
+
+const PREFIX_URL = 'AUTH-SERVICE/api/v0/';
 
 export const sendOTP = createAsyncThunk<string, string>(
   "auth/sendOTP",
@@ -18,19 +21,20 @@ export const sendOTP = createAsyncThunk<string, string>(
       bundleId: Device.osBuildId,
       deviceName: Device.deviceName,
       deviceId: `${Device.deviceName}-${Device.osBuildId}`,
-      deviceOs: Device.osName?.toUpperCase(),
+      deviceOs: ['IOS', 'ANDROID', 'DESKTOP'].includes(Device.osName?.toUpperCase()!) ? Device.osName?.toUpperCase() : 'UNKNOWN',
     };
+
     try {
       const response =  await axiosClient.post<{
         status: string;
         verificationId: string;
-      }>("mobile/register/phone", data);
+      }>(PREFIX_URL + "mobile/register/phone", data);
    
-      if (response.data) {
+      if (response && response.data) {
         return response.data.verificationId;
       } else {
         throw new Error(
-          'La réponse est vide ou ne contient pas de propriété "data".'
+          "Une erreur réseau s'est produite"
         );
       }
     } catch (error: any) {
@@ -44,7 +48,7 @@ export const sendOTP = createAsyncThunk<string, string>(
 export const verifyOTP = createAsyncThunk<
   AuthStateTokenProps,
   { code: string; verificationId: string }
->("auth/verifyOTP", async ({ code, verificationId }, thunkAPI) => {
+>( "auth/verifyOTP", async ({ code, verificationId }, thunkAPI) => {
   let data = {
     verification_id: verificationId,
     verification_code: code,
@@ -52,15 +56,15 @@ export const verifyOTP = createAsyncThunk<
   };
   try {
     const response = await axiosClient.post<AuthStateTokenProps>(
-       "auth/sms/code/verify",
+      PREFIX_URL +  "auth/sms/code/verify",
       data
     );
-    if (response.data) {
+    if (response && response.data) {
       await AsyncStorage.setItem("token", JSON.stringify(response.data));
       return response.data;
     } else {
       throw new Error(
-        'La réponse est vide ou ne contient pas de propriété "data".'
+        "Une erreur réseau s'est produite"
       );
     }
   } catch (error: any) {
@@ -74,7 +78,7 @@ export const logout = createAsyncThunk<void, void>(
   "auth/logout",
   async () => {
     try {
-     /* let response = await axiosClient.put( `auth/devices/${Device.deviceName}-${Device.osBuildId}/terminate`);
+     /* let response = await axiosClient.put( PREFIX_URL + `auth/devices/${Device.deviceName}-${Device.osBuildId}/terminate`);
       if (response.data) {*/
         AsyncStorage.removeItem("token");
         AsyncStorage.removeItem("user");

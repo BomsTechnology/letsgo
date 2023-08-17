@@ -12,6 +12,9 @@ import { AppStackParamList } from "@navigators/AppNavigator";
 import { Switch } from "react-native";
 import { RootState, useAppDispatch, useAppSelector,  } from "@store/store";
 import { setThemeMode } from "@services/useSetting";
+import i18n from '../locales/i18n';
+import { showError, showSuccess } from "@functions/helperFunctions";
+import { logout } from "@services/useAuth";
 
 interface optionsProps {
   id: string;
@@ -30,6 +33,18 @@ const MoreOptionsScreen = () => {
 
   const toogleIsDarkMode = () => {
     dispatch(setThemeMode(settingState.setting))
+  };
+
+  const signout = async () => {
+    console.log('logout');
+    await dispatch(logout())
+      .unwrap()
+      .then((data) => {
+        showSuccess("Déconnexion réussie !");
+      })
+      .catch((error) => {
+        showError(error.message);
+      });
   };
 
   useEffect(() => {
@@ -84,6 +99,42 @@ const MoreOptionsScreen = () => {
         />
       ),
       onPress: () => navigation.navigate("InviteFriend"),
+    },
+    {
+      id: "5",
+      label: `${i18n.t('language', {count: 1})}`,
+      icon: (
+        <Ionicons
+          name="language-outline"
+          size={25}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+        />
+      ),
+      onPress: () => navigation.navigate("Language"),
+    },
+    {
+      id: "6",
+      label: `${i18n.t('keywords')}`,
+      icon: (
+        <Ionicons
+          name="at-outline"
+          size={25}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+        />
+      ),
+      onPress: () => navigation.navigate("KeyWords"),
+    },
+    {
+      id: "7",
+      label: `${i18n.t('logout')}`,
+      icon: (
+        <Ionicons
+          name="log-out-outline"
+          size={25}
+          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+        />
+      ),
+      onPress: () => signout(),
     },
   ];
 
