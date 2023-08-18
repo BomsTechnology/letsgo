@@ -10,11 +10,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import { Switch } from "react-native";
-import { RootState, useAppDispatch, useAppSelector,  } from "@store/store";
+import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { setThemeMode } from "@services/useSetting";
-import i18n from '../locales/i18n';
+import i18n from "../locales/i18n";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import { logout } from "@services/useAuth";
+import ConfirmModal from "@components/modal/ConfirmModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface optionsProps {
   id: string;
@@ -24,19 +26,23 @@ interface optionsProps {
 }
 
 const MoreOptionsScreen = () => {
-  const settingState = useAppSelector(
-    (state: RootState) => state.setting
-  );
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [isDark, setIsDark] = React.useState(false);
+  const settingState = useAppSelector((state: RootState) => state.setting);
   const dispatch = useAppDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
-  const toogleIsDarkMode = () => {
-    dispatch(setThemeMode(settingState.setting))
+  const toogleIsDarkMode = async (val: boolean) => {
+    setIsDark(val);
+    await dispatch(setThemeMode(settingState.setting))
+    .unwrap()
+    .then(async (data) =>  {
+      await AsyncStorage.setItem("setting", JSON.stringify(data));
+    });
   };
 
   const signout = async () => {
-    console.log('logout');
     await dispatch(logout())
       .unwrap()
       .then((data) => {
@@ -48,7 +54,7 @@ const MoreOptionsScreen = () => {
   };
 
   useEffect(() => {
-    
+    setIsDark(settingState.setting.isDarkMode);
   }, []);
 
   const options: optionsProps[] = [
@@ -59,7 +65,11 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="chatbubbles-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("Chat"),
@@ -71,7 +81,11 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="help-circle-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("Faq"),
@@ -83,7 +97,11 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="phone-portrait-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("ManageDevice"),
@@ -95,46 +113,62 @@ const MoreOptionsScreen = () => {
         <Ionicons
           name="person-add-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("InviteFriend"),
     },
     {
       id: "5",
-      label: `${i18n.t('language', {count: 1})}`,
+      label: `${i18n.t("language", { count: 1 })}`,
       icon: (
         <Ionicons
           name="language-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("Language"),
     },
     {
       id: "6",
-      label: `${i18n.t('keywords')}`,
+      label: `${i18n.t("keywords")}`,
       icon: (
         <Ionicons
           name="at-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
       onPress: () => navigation.navigate("KeyWords"),
     },
     {
       id: "7",
-      label: `${i18n.t('logout')}`,
+      label: `${i18n.t("logout")}`,
       icon: (
         <Ionicons
           name="log-out-outline"
           size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
+          color={
+            settingState.setting.isDarkMode
+              ? Colors.grayTone3
+              : Colors.grayTone1
+          }
         />
       ),
-      onPress: () => signout(),
+      onPress: () => setModalVisible(true),
     },
   ];
 
@@ -142,7 +176,15 @@ const MoreOptionsScreen = () => {
     return (
       <TouchableOpacity style={styles.faqItem} onPress={item.onPress}>
         {item.icon}
-        <Text style={settingState.setting.isDarkMode ? styles.faqText_DARK : styles.faqText}>{item.label}</Text>
+        <Text
+          style={
+            settingState.setting.isDarkMode
+              ? styles.faqText_DARK
+              : styles.faqText
+          }
+        >
+          {item.label}
+        </Text>
         <Ionicons
           name="chevron-forward"
           size={30}
@@ -152,40 +194,75 @@ const MoreOptionsScreen = () => {
     );
   };
   return (
-    <SafeAreaView style={settingState.setting.isDarkMode ? styles.container_DARK : styles.container}>
-      <SimpleHeader text="More Options" />
-      <TouchableOpacity style={styles.faqItem} onPress={toogleIsDarkMode}>
-      <MaterialCommunityIcons
-          name="theme-light-dark"
-          size={25}
-          color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone1}
-        />
-      <Text style={settingState.setting.isDarkMode ? styles.faqText_DARK : styles.faqText}>Theme</Text>
-        <View style={styles.faqItem}>
-          <Text style={styles.minText}>
-            {!settingState.setting.isDarkMode ? "White Mode" : "Dark Mode"}
-          </Text>
-          <Switch
-            trackColor={{
-              false: Colors.grayTone3,
-              true: Colors.primaryShade1,
-            }}
-            thumbColor={settingState.setting.isDarkMode ? Colors.primaryColor : Colors.grayTone2}
-            ios_backgroundColor={Colors.grayTone3}
-            onValueChange={toogleIsDarkMode}
-            value={settingState.setting.isDarkMode}
+    <>
+    <ConfirmModal 
+      modalVisible={modalVisible} 
+      setModalVisible={setModalVisible} 
+      cancelBtnAction={() => setModalVisible(false)}
+      confirmBtnAction={() => signout()}
+      title={`${i18n.t("logout")}`}
+      message={"Are you sure you want to disconnect?"}
+      btnColor={Colors.accentOrange}
+      cancelBtnLabel='No, Keep it'
+      confirmBtnLabel={`${i18n.t("logout")}`}
+    />
+      <SafeAreaView
+        style={
+          settingState.setting.isDarkMode
+            ? styles.container_DARK
+            : styles.container
+        }
+      >
+        <SimpleHeader text="More Options" />
+        <TouchableOpacity style={styles.faqItem} onPress={() => toogleIsDarkMode(!isDark)}>
+          <MaterialCommunityIcons
+            name="theme-light-dark"
+            size={25}
+            color={
+              settingState.setting.isDarkMode
+                ? Colors.grayTone3
+                : Colors.grayTone1
+            }
           />
-        </View>
-      </TouchableOpacity>
-      <FlatList
-        data={options}
-        showsHorizontalScrollIndicator={false}
-        renderItem={optionsItemRender}
-        keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        style={{ flex: 1, marginTop: 20 }}
-      />
-    </SafeAreaView>
+          <Text
+            style={
+              settingState.setting.isDarkMode
+                ? styles.faqText_DARK
+                : styles.faqText
+            }
+          >
+            Theme
+          </Text>
+          <View style={styles.faqItem}>
+            <Text style={styles.minText}>
+              {!settingState.setting.isDarkMode ? "White Mode" : "Dark Mode"}
+            </Text>
+            <Switch
+              trackColor={{
+                false: Colors.grayTone3,
+                true: Colors.primaryShade1,
+              }}
+              thumbColor={
+                settingState.setting.isDarkMode
+                  ? Colors.primaryColor
+                  : Colors.grayTone2
+              }
+              ios_backgroundColor={Colors.grayTone3}
+              onValueChange={(val) => toogleIsDarkMode(val)}
+              value={isDark}
+            />
+          </View>
+        </TouchableOpacity>
+        <FlatList
+          data={options}
+          showsHorizontalScrollIndicator={false}
+          renderItem={optionsItemRender}
+          keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
+          style={{ flex: 1, marginTop: 20 }}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -225,5 +302,5 @@ const styles = StyleSheet.create({
   minText: {
     fontFamily: "Poppins_400Regular",
     color: Colors.grayTone3,
-  }
+  },
 });

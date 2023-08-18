@@ -104,7 +104,10 @@ export const getPermissions = async (): Promise<Location.LocationObject> => {
       reject(lastposition);
     }
 
-    const location = await Location.getCurrentPositionAsync({});
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+      distanceInterval: 10
+    });
     resolve(location);
   });
 };

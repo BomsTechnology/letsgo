@@ -8,7 +8,6 @@ export const setThemeMode = createAsyncThunk<SettingProps, SettingProps>(
   async (setting: SettingProps) => {
     setting.isDarkMode = !setting.isDarkMode;
     // set online setting
-    await AsyncStorage.setItem("setting", JSON.stringify(setting));
     return setting;
   }
 );
@@ -21,7 +20,6 @@ export const setLanguage = createAsyncThunk<
   async (data: { setting: SettingProps; lang: string }) => {
     data.setting.language = data.lang;
     // set online setting
-    await AsyncStorage.setItem("setting", JSON.stringify(data.setting));
     return data.setting;
   }
 );

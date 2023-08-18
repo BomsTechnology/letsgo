@@ -36,7 +36,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
   );
   const dispatch = useAppDispatch();
   const mapViewRef = useRef<MapView>(null);
-  const [isDragDepart, setIsDragDepart] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const [mapRegion, setMapRegion] = React.useState<Region | undefined>();
   const [departureCoord, setDepartureCoord] = React.useState<
     LatLng | undefined
@@ -162,27 +162,41 @@ const Map = ({ routing, setRouting }: MapProps) => {
   };
 
   const getLocation = async () => {
+    setLoading(true);
     await dispatch(setCurrLocation())
       .unwrap()
       .then(async (data) => {
-        await dispatch(setDeparture(data)).then((loc) => {
+        await dispatch(setDeparture(data))
+        .unwrap()
+        .then((loc) => {
           setMapRegion({
-            latitude: data?.geometry.coordinates[0]!,
-            longitude: data?.geometry.coordinates[1]!,
+            latitude: loc?.geometry.coordinates[0]!,
+            longitude: loc?.geometry.coordinates[1]!,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           });
           setDepartureCoord({
-            latitude: data?.geometry.coordinates[0]!,
-            longitude: data?.geometry.coordinates[1]!,
+            latitude: loc?.geometry.coordinates[0]!,
+            longitude: loc?.geometry.coordinates[1]!,
           });
           setPois([]);
+          setLoading(false);
         });
+      }).catch((error) => {
+          console.log(error)
+          setLoading(false);
+          showError('Une erreur est survenue lors du chargement de la map')
       });
   };
 
   return (
+    <>
+    {loading ?
     <View style={styles.container}>
+      <Text style={[styles.loadText]}>Chargement de la map...</Text>
+    </View>
+    :
+      <View style={styles.container}>
       {mapRegion && (
         <MapView
           onRegionChange={onRegionChange}
@@ -222,7 +236,8 @@ const Map = ({ routing, setRouting }: MapProps) => {
           )}
         </MapView>
       )}
-    </View>
+    </View>}
+    </>
   );
 };
 
@@ -232,9 +247,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   map: {
     width: "100%",
     height: "100%",
   },
+  loadText: {
+    fontFamily: 'Poppins_400Regular',
+    fontStyle: 'italic'
+  }
 });

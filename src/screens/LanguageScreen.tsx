@@ -8,17 +8,27 @@ const { width, height } = Dimensions.get('window');
 import { RootState, useAppSelector, useAppDispatch } from "@store/store";
 import i18n from '../locales/i18n';
 import { setLanguage } from '@services/useSetting';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const LanguageScreen = () => {
   const settingState = useAppSelector(
     (state: RootState) => state.setting
   );
+  const [lang, setLang] = React.useState("fr");
   const dispatch = useAppDispatch();
 
 
-  const handleValueChange = (newValue: string) => {
+  const handleValueChange = async (newValue: string) => {
+    setLang(newValue);
     i18n.locale = newValue;
-    dispatch(setLanguage({ setting: settingState.setting, lang: newValue}));
+    dispatch(setLanguage({ setting: settingState.setting, lang: newValue}))
+    .unwrap().then( (data) => {
+       AsyncStorage.setItem("setting", JSON.stringify(data));
+    }); 
   };
+
+  useEffect(() => {
+    setLang(settingState.setting.language);
+  }, []);
 
 
   return (
@@ -34,7 +44,7 @@ const LanguageScreen = () => {
         <Text
           style={settingState.setting.isDarkMode ? styles.title_DARK : styles.title}
         >{i18n.t('language', {count: 2})}</Text>
-        <RadioButton.Group   onValueChange={handleValueChange} value={settingState.setting.language}>
+        <RadioButton.Group   onValueChange={handleValueChange} value={lang}>
            <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label={`${i18n.t('french')} (FR)`} value="fr" />
            <RadioButton.Item color={Colors.primaryColor} style={styles.radio} labelStyle={settingState.setting.isDarkMode ? styles.radioText_DARK : styles.radioText} label={`${i18n.t('english')} (US)`} value="en" />
         </RadioButton.Group>

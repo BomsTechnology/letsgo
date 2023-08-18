@@ -13,7 +13,7 @@ export const createPoolerAccount = createAsyncThunk<UserProps, void>(
         PREFIX_URL + "business/subscribe/letsgo/poller"
       );
 
-      if (response && response.data) {
+      if (response) {
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
@@ -34,7 +34,7 @@ export const getUserInfo = createAsyncThunk<UserProps, void>(
   async () => {
     try {
       const response = await axiosClient.get(PREFIX_URL + "userinfo");
-      if (response && response.data) {
+      if (response) {
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
@@ -84,7 +84,7 @@ export const updateUserInfo = createAsyncThunk<
       gender: gender
     }
     const response = await axiosClient.put(PREFIX_URL + "userinfo", data);
-    if (response && response.data) {
+    if (response.data != undefined) {
       AsyncStorage.setItem("user", JSON.stringify(response.data));
       return response.data;
     } else {
