@@ -191,8 +191,10 @@ const HomeBottomBox = ({
   };
 
   const getRouting = async () => {
-    if (localisationState.departure) setDepartureValue(localisationState.departure.properties.name);
-    if (localisationState.destination) setDestanationValue(localisationState.destination.properties.name);
+    if (localisationState.departure)
+      setDepartureValue(localisationState.departure.properties.name);
+    if (localisationState.destination)
+      setDestanationValue(localisationState.destination.properties.name);
     if (localisationState.departure && localisationState.destination) {
       await makeRouting({
         stops: [
@@ -207,7 +209,7 @@ const HomeBottomBox = ({
         ],
         isPathRequest: true,
         responseType: "GEOJSON",
-        includeGeometry: true, 
+        includeGeometry: true,
         includeInstructions: true,
       })
         .then((data) => {
@@ -346,11 +348,10 @@ const HomeBottomBox = ({
             }
           >
             {userState.user?.firstName
-              ? i18n
-                  .t("welcome-message", {
-                    count: 1,
-                    name: userState.user?.firstName,
-                  })
+              ? i18n.t("welcome-message", {
+                  count: 1,
+                  name: userState.user?.firstName,
+                })
               : i18n.t("welcome-message", { count: 0 })}
           </Text>
           <Text
@@ -393,9 +394,7 @@ const HomeBottomBox = ({
                   }
                   onBlur={handleBlur}
                   onChangeText={(text) => onChangeText(text, "departure")}
-                  value={
-                    departureValue
-                  }
+                  value={departureValue}
                 />
               </View>
               {departureValue != "" && (
@@ -428,9 +427,7 @@ const HomeBottomBox = ({
                   }
                   onChangeText={(text) => onChangeText(text, "destination")}
                   onBlur={handleBlur}
-                  value={
-                     destinationValue
-                  }
+                  value={destinationValue}
                 />
               </View>
               {destinationValue != "" && (

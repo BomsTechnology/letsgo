@@ -15,11 +15,13 @@ import IconButton from "@components/buttons/IconButton";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 import SearchModal from "@components/modal/SearchModal";
-import Map from "@components/Map";
+import Map, { MapMethods } from "@components/Map";
 import HomeBottomBox from "@components/HomeBottomBox";
 import RoutingProps from "../types/RoutingProps";
 
-const HomeScreen = () => {
+
+
+const HomeScreen: React.FC = () => {
   const settingState = useAppSelector(
     (state: RootState) => state.setting
   );
@@ -27,6 +29,7 @@ const HomeScreen = () => {
   const [showBox, setShowBox] = React.useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [routing, setRouting] = React.useState<RoutingProps | null>(null);
+  const mapRef = React.useRef<MapMethods>(null);
   const menuIcon = <Ionicons name="menu" size={25} color={Colors.whiteTone1} />;
   const searchIcon = <Ionicons name="search" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />;
       const locateIcon = (
@@ -34,7 +37,11 @@ const HomeScreen = () => {
       );
       const navigation =
         useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-        const onPress = () => {};
+        const onPress = () => {
+          if(mapRef.current) {
+            mapRef.current.goToCurrentPosition();
+          }
+        };
 
   return (
     <>
@@ -62,7 +69,7 @@ const HomeScreen = () => {
           <IconButton icon={searchIcon} onPress={() => setShowBox(true)} />
         </View>
 
-        <Map setRouting={setRouting} routing={routing} />
+        <Map setRouting={setRouting} routing={routing} ref={mapRef} />
 
         <HomeBottomBox setRouting={setRouting} boxVisble={showBox} setBoxVisble={setShowBox}  />
 

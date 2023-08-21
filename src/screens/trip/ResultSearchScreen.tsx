@@ -23,7 +23,7 @@ import CardResultSearch from "@components/cards/CardResultSearchPlaned";
 import SimpleHeader from "@components/SimpleHeader";
 import NoResult from "@components/NoResult";
 import CustomButton from "@components/buttons/CustomButton";
-import { makeRouting } from "@services/useLocalization";
+import { makeRouting, setCurrLocation } from "@services/useLocalization";
 import {
   searchPlace,
   setDeparture,
@@ -141,6 +141,9 @@ const ResultSearchScreen = ({ route }: Props) => {
 
   useEffect(() => {
     setValue("money", route.params.price);
+    if (!localisationState.departure) {
+      getCurrentLocation();
+    }
   }, []);
 
   const clearSearch = async (type: string) => {
@@ -166,6 +169,19 @@ const ResultSearchScreen = ({ route }: Props) => {
 
   const goToPlan = () => {
     navigation.push("TripPlan");
+  };
+
+  const getCurrentLocation = async () => {
+    await dispatch(setCurrLocation())
+      .unwrap()
+      .then(async (data) => {
+        await dispatch(setDeparture(data))
+          .unwrap()
+          .then((loc) => {})
+          .catch((error) => {
+            showError("Une erreur est survenue lors du chargement des données");
+          });
+      });
   };
 
   return (

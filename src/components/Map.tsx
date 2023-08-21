@@ -30,7 +30,11 @@ interface MapProps {
   setRouting: Function;
 }
 
-const Map = ({ routing, setRouting }: MapProps) => {
+export interface MapMethods {
+  goToCurrentPosition: () => void
+}
+
+const Map = React.forwardRef<MapMethods, MapProps>(({ routing, setRouting }: MapProps, ref) => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
@@ -170,14 +174,14 @@ const Map = ({ routing, setRouting }: MapProps) => {
         .unwrap()
         .then((loc) => {
           setMapRegion({
-            latitude: loc?.geometry.coordinates[0]!,
-            longitude: loc?.geometry.coordinates[1]!,
+            longitude: loc?.geometry.coordinates[0]!,
+            latitude: loc?.geometry.coordinates[1]!,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           });
           setDepartureCoord({
-            latitude: loc?.geometry.coordinates[0]!,
-            longitude: loc?.geometry.coordinates[1]!,
+            longitude: loc?.geometry.coordinates[0]!,
+            latitude: loc?.geometry.coordinates[1]!,
           });
           setPois([]);
           setLoading(false);
@@ -185,15 +189,40 @@ const Map = ({ routing, setRouting }: MapProps) => {
       }).catch((error) => {
           console.log(error)
           setLoading(false);
-          showError('Une erreur est survenue lors du chargement de la map')
+          showError('Une erreur est survenue lors du chargement de la carte')
       });
   };
+
+  React.useImperativeHandle(ref, () => ({
+    goToCurrentPosition: goToCurrentPosition
+  }));
+
+  const goToCurrentPosition =async () =>  {
+    await dispatch(setCurrLocation())
+      .unwrap()
+      .then(async (data) => {
+        await dispatch(setDeparture(data))
+        .unwrap()
+        .then((loc) => {
+          setMapRegion({
+            longitude: loc?.geometry.coordinates[0]!,
+            latitude: loc?.geometry.coordinates[1]!,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
+          setDepartureCoord({
+            longitude: loc?.geometry.coordinates[0]!,
+            latitude: loc?.geometry.coordinates[1]!,
+          });
+        });
+      });
+  }
 
   return (
     <>
     {loading ?
     <View style={styles.container}>
-      <Text style={[styles.loadText]}>Chargement de la map...</Text>
+      <Text style={[styles.loadText]}>Chargement de la carte...</Text>
     </View>
     :
       <View style={styles.container}>
@@ -239,7 +268,7 @@ const Map = ({ routing, setRouting }: MapProps) => {
     </View>}
     </>
   );
-};
+});
 
 export default Map;
 

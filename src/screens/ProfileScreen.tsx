@@ -29,6 +29,7 @@ const ProfileScreen = () => {
   const [asError, setAsError] = useState(false);
   const [birthdate, setBirthdate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState("");
+  const [defaultGender, setDefaultGender] = useState<DropDataProps | undefined>(undefined);
   const [selected, setSelected] = useState("");
   const genderData: DropDataProps[] = [
     { key: "1", value: "Male" },
@@ -83,8 +84,9 @@ const ProfileScreen = () => {
       "lastname",
       userState.user?.lastName ? userState.user?.lastName : ""
     );
+    console.log(userState.user?.gender);
     if(userState.user?.birthdate) setBirthdate(new Date(Date.parse(userState.user?.birthdate)));
-    if(userState.user?.gender) setSelected(genderData.filter((g) => g.value == userState.user?.gender)[0].value)
+    if(userState.user?.gender) setDefaultGender(genderData.filter((g) => g.value == userState.user?.gender)[0])
   }, []);
 
   return (
@@ -173,6 +175,7 @@ const ProfileScreen = () => {
           search={false}
           asError={asError}
           errorMessage={errorMessage}
+          defaultOption={defaultGender}
         />
 
         <CustomButton
