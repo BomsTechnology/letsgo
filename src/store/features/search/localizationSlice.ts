@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PlaceProps } from "../../../types/PlaceProps";
 import RoutingProps, { RouteProps } from "../../../types/RoutingProps";
-import { setDeparture, setDestination } from "@services/useSearchPlace";
+import { setDeparture, setDestination } from "@services/useSearch";
 import { setCurrLocation, makeRouting } from "@services/useLocalization";
 export interface localizationState {
   currentLocation: PlaceProps | null;

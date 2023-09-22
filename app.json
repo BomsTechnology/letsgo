@@ -6,6 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "plugins": [
       [
         "expo-location",
@@ -31,6 +34,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.letsgo.yowyob",
+      "versionCode": 1,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBtEPDKk3C7mcTx21R45OULceiNWJ-5U6U"

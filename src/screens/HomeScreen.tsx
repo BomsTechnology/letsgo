@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Colors from "@constants/colors";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import { RootState, useAppSelector,  } from "@store/store";
+import { RootState, useAppSelector } from "@store/store";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import IconButton from "@components/buttons/IconButton";
@@ -19,30 +19,49 @@ import Map, { MapMethods } from "@components/Map";
 import HomeBottomBox from "@components/HomeBottomBox";
 import RoutingProps from "../types/RoutingProps";
 
-
-
 const HomeScreen: React.FC = () => {
-  const settingState = useAppSelector(
-    (state: RootState) => state.setting
-  );
+  const settingState = useAppSelector((state: RootState) => state.setting);
   const { height, width } = useWindowDimensions();
-  const [showBox, setShowBox] = React.useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [routing, setRouting] = React.useState<RoutingProps | null>(null);
   const mapRef = React.useRef<MapMethods>(null);
   const menuIcon = <Ionicons name="menu" size={25} color={Colors.whiteTone1} />;
-  const searchIcon = <Ionicons name="search" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />;
-      const locateIcon = (
-        <Ionicons name="ios-locate" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />
-      );
-      const navigation =
-        useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-        const onPress = () => {
-          if(mapRef.current) {
-            mapRef.current.goToCurrentPosition();
-          }
-        };
+  const searchIcon = (
+    <Ionicons
+      name="search"
+      size={25}
+      color={
+        settingState.setting.isDarkMode
+          ? Colors.onPrimaryColor
+          : Colors.onWhiteTone
+      }
+    />
+  );
+  const locateIcon = (
+    <Ionicons
+      name="ios-locate"
+      size={25}
+      color={
+        settingState.setting.isDarkMode
+          ? Colors.onPrimaryColor
+          : Colors.onWhiteTone
+      }
+    />
+  );
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppStackParamList>>();
+  const onPress = () => {
+    if (mapRef.current) {
+      mapRef.current.goToCurrentPosition();
+    }
+  };
 
+  const gosearch = () => {
+    navigation.navigate("SearchScreen", {
+      nbSeat: 1,
+      price: 300,
+    });
+  };
   return (
     <>
       <SearchModal
@@ -61,19 +80,15 @@ const HomeScreen: React.FC = () => {
           <IconButton
             icon={menuIcon}
             bgColor={Colors.primaryColor}
-            onPress={() => {
-              navigation.dispatch(DrawerActions.toggleDrawer());
-            }}
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
           />
           <IconButton icon={locateIcon} onPress={onPress} />
-          <IconButton icon={searchIcon} onPress={() => setShowBox(true)} />
+          <IconButton icon={searchIcon} onPress={gosearch} />
         </View>
 
         <Map setRouting={setRouting} routing={routing} ref={mapRef} />
 
-        <HomeBottomBox setRouting={setRouting} boxVisble={showBox} setBoxVisble={setShowBox}  />
-
-        
+        <HomeBottomBox setRouting={setRouting} />
       </SafeAreaView>
     </>
   );

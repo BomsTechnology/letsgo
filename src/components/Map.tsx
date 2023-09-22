@@ -17,7 +17,7 @@ import {
   setCurrLocation,
 } from "@services/useLocalization";
 import { showError } from "@functions/helperFunctions";
-import { setDeparture, setDestination } from "@services/useSearchPlace";
+import { setDeparture, setDestination } from "@services/useSearch";
 
 interface PoiProps {
   title: string;

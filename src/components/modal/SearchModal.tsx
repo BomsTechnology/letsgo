@@ -17,7 +17,7 @@ import {
   searchPlace,
   setDeparture,
   setDestination,
-} from "@services/useSearchPlace";
+} from "@services/useSearch";
 const { width, height } = Dimensions.get("window");
 import { showError } from "@functions/helperFunctions";
 import { ActivityIndicator } from "react-native";

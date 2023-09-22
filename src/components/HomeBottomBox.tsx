@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import SearchPlaceItem from "./SearchPlaceItem";
 import { FlatList } from "react-native";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { TextInput } from "react-native";
 import { makeRouting, setCurrLocation } from "@services/useLocalization";
 import { PlaceProps } from "../types/PlaceProps";
@@ -17,7 +17,7 @@ import {
   searchPlace,
   setDeparture,
   setDestination,
-} from "@services/useSearchPlace";
+} from "@services/useSearch";
 import { showError } from "@functions/helperFunctions";
 import Colors from "@constants/colors";
 import { useForm } from "react-hook-form";
@@ -32,18 +32,16 @@ import CustomInput from "./inputFields/CustomInput";
 import Constants from "expo-constants";
 import SeatInput from "./inputFields/SeatInput";
 import i18n from "../locales/i18n";
+import IconButton from "./buttons/IconButton";
 
 interface HomeBottomBoxProps {
-  boxVisble: boolean;
-  setBoxVisble: Function;
   setRouting: Function;
 }
 
 const HomeBottomBox = ({
-  boxVisble,
-  setBoxVisble,
   setRouting,
 }: HomeBottomBoxProps) => {
+  const [boxVisble, setBoxVisble] = React.useState(true);
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
@@ -75,9 +73,9 @@ const HomeBottomBox = ({
   );
 
   const onChangeText = async (value: string, type: string) => {
-    /* if (typingTimeoutRef.current) {
+     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
-    }*/
+    }
     if (type === "departure") {
       setCurrentSearch(type);
       setDepartureValue(value);
@@ -87,9 +85,9 @@ const HomeBottomBox = ({
       setDestanationValue(value);
     }
     setShowSearch(true);
-    /*typingTimeoutRef.current = setTimeout(async () => {*/
+    typingTimeoutRef.current = setTimeout(async () => {
     await search();
-    /*}, 1000);*/
+    }, 1000);
   };
 
   const handleBlur = () => {
@@ -146,7 +144,7 @@ const HomeBottomBox = ({
   };
 
   const gosearch = () => {
-    navigation.navigate("ResultSearch", {
+    navigation.navigate("SearchScreen", {
       nbSeat: nb,
       price: money,
     });
@@ -226,6 +224,21 @@ const HomeBottomBox = ({
   }, [localisationState]);
   return (
     <View style={[styles.containerBoxSearch]}>
+      <View style={{ 
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        width: "100%"
+       }}>
+        {!boxVisble && (<TouchableOpacity style={{ backgroundColor: "rgba(255, 255, 255, 1), padding: 5" }}  onPress={() => setBoxVisble(true)}>
+            <MaterialCommunityIcons
+                name="arrow-expand"
+                size={25}
+                color={Colors.primaryColor}
+                style={{ transform: [{ rotate: "90deg" }] }}
+              />
+        </TouchableOpacity>)}
+      </View>
       {showSearch && (
         <TouchableOpacity
           style={[styles.shadowProp, styles.closeBtn]}
@@ -234,7 +247,7 @@ const HomeBottomBox = ({
           <Ionicons name="close" size={25} color={Colors.primaryColor} />
         </TouchableOpacity>
       )}
-      {!showSearch && (
+      {!showSearch && boxVisble && (
         <TouchableOpacity
           style={[
             styles.shadowProp,
@@ -332,6 +345,7 @@ const HomeBottomBox = ({
           }
         </View>
       ) : null}
+      
       {boxVisble && (
         <View
           ref={bottomBoxRef}
@@ -495,6 +509,7 @@ const HomeBottomBox = ({
           </View>
         </View>
       )}
+      
     </View>
   );
 };

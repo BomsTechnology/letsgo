@@ -6,20 +6,17 @@ import Rating from './Rating';
 interface UserRatingProps {
   rate: number;
   bgColor?: string; 
-  fgColor?: string; 
+  fgColor?: string;
+  enablerating?: boolean 
 }
 
-const UserRating = ({rate, bgColor, fgColor}: UserRatingProps) => {
+const UserRating = ({rate, bgColor, fgColor, enablerating}: UserRatingProps) => {
   return (
     <View style={[styles.container,styles.shadowProp,
        {backgroundColor: bgColor ? bgColor : Colors.whiteTone2}
     ]}>
-        <Rating rate={rate} enablerating={false} />
-        <View style={[styles.textContainer]}>
-          <Text style={[styles.textStyle,
-          {color: fgColor ? fgColor : Colors.onWhiteTone}
-          ]}>{rate} out of  5</Text>
-          </View>
+        <Rating rate={rate} enablerating={enablerating != undefined ? enablerating : false} />
+
     </View>
   );
 };

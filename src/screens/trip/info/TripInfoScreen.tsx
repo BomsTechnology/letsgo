@@ -12,7 +12,7 @@ const TripInfoScreen = ({route, navigation}: Props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 20 }}>
-        <SimpleHeader text='Trip Info By Buca Voyage' />
+        <SimpleHeader text='Trip Info' />
       </View>
         <TripInfoTopTabNavigator route={route} navigation={navigation} />
     </SafeAreaView>

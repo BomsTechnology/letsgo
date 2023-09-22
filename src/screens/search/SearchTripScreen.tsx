@@ -4,7 +4,7 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  useWindowDimensions,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,31 +17,24 @@ import {
 } from "@react-navigation/native-stack";
 import { AppStackParamList } from "@navigators/AppNavigator";
 
-type Props = NativeStackScreenProps<AppStackParamList, "ResultSearch">;
-
 import CardResultSearch from "@components/cards/CardResultSearchPlaned";
-import SimpleHeader from "@components/SimpleHeader";
 import NoResult from "@components/NoResult";
-import CustomButton from "@components/buttons/CustomButton";
 import { makeRouting, setCurrLocation } from "@services/useLocalization";
 import {
   searchPlace,
   setDeparture,
   setDestination,
-} from "@services/useSearchPlace";
-import Constants from "expo-constants";
-import { Keyboard } from "react-native";
+} from "@services/useSearch";
 import { showError } from "@functions/helperFunctions";
-import { PlaceProps } from "../../types/PlaceProps";
+import { PlaceProps } from "@mytypes/PlaceProps";
 import { useForm } from "react-hook-form";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import CustomInput from "@components/inputFields/CustomInput";
 import SeatInput from "@components/inputFields/SeatInput";
 import SearchPlaceItem from "@components/SearchPlaceItem";
 import { FlatList } from "react-native-gesture-handler";
-import { ActivityIndicator } from "react-native";
 
-const ResultSearchScreen = ({ route }: Props) => {
+const SearchTripScreen = () => {
   const localisationState = useAppSelector(
     (state: RootState) => state.localization
   );
@@ -54,7 +47,7 @@ const ResultSearchScreen = ({ route }: Props) => {
   const [results, setResults] = useState<PlaceProps[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [showSearch, setShowSearch] = React.useState(false);
-  const [nb, setNb] = useState(route.params.nbSeat);
+  const [nb, setNb] = useState(1);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const navigation =
@@ -63,7 +56,7 @@ const ResultSearchScreen = ({ route }: Props) => {
   const { control, handleSubmit, watch, setValue } = useForm();
 
   const money = watch("money");
-  const homeIcon = <Ionicons name="home" size={22} color={Colors.grayTone1} />;
+
   const moneyIcon = (
     <FontAwesome5 name="search-dollar" size={16} color={Colors.primaryColor} />
   );
@@ -140,7 +133,7 @@ const ResultSearchScreen = ({ route }: Props) => {
   };
 
   useEffect(() => {
-    setValue("money", route.params.price);
+    // setValue("money", route.params.price);
     if (!localisationState.departure) {
       getCurrentLocation();
     }
@@ -185,12 +178,7 @@ const ResultSearchScreen = ({ route }: Props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <SimpleHeader
-        LeftbuttonIcon={homeIcon}
-        LeftbuttonAction={() => navigation.push("Home")}
-        text="Search Trips"
-      />
+    <View style={styles.container}>
       <View style={[styles.box]}>
         <View
           style={{
@@ -281,6 +269,7 @@ const ResultSearchScreen = ({ route }: Props) => {
           </View>
         </View>
       </View>
+
       <View
         style={{
           position: "relative",
@@ -352,7 +341,7 @@ const ResultSearchScreen = ({ route }: Props) => {
         <Text
           style={{
             fontSize: 20,
-            marginVertical: 10,
+            marginBottom: 10,
             marginLeft: 5,
             fontFamily: "Poppins_600SemiBold",
           }}
@@ -368,7 +357,7 @@ const ResultSearchScreen = ({ route }: Props) => {
           buttonLabel='Plan this trip'
         /> */}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -376,17 +365,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.whiteTone1,
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    padding: 20,
   },
   box: {
-    marginVertical: 10,
+    marginBottom: 10,
     borderWidth: 2,
     borderColor: Colors.primaryColor,
     backgroundColor: Colors.whiteTone2,
     borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 16,
+    padding: 10,
   },
   innerInputContainer: {
     flex: 1,
@@ -458,4 +445,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ResultSearchScreen;
+export default SearchTripScreen;

@@ -1,6 +1,5 @@
 import React from "react";
 import ProfileScreen from "@screens/ProfileScreen";
-import ResultSearchScreen from "@screens/trip/ResultSearchScreen";
 import TripInfoScreen from "@screens/trip/info/TripInfoScreen";
 import TripPlanScreen from "@screens/trip/planned/TripPlanScreen";
 import PlannerDetailScreen from "@screens/planner/PlannerDetailScreen";
@@ -26,6 +25,7 @@ import TwoWayCheckScreen from "@screens/TwoWayCheckScreen";
 import VerifyIdentityScreen from "@screens/VerifyIdentityScreen";
 import LanguageScreen from "@screens/LanguageScreen";
 import KeyWordScreen from "@screens/KeyWordScreen";
+import SearchScreen from "@screens/search/SearchScreen";
 
 const StackNavigator = (stack: any) => {
   return (
@@ -36,8 +36,8 @@ const StackNavigator = (stack: any) => {
         options={{ headerShown: false }}
       />
       <stack.Screen
-        name="ResultSearch"
-        component={ResultSearchScreen}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{ headerShown: false }}
       />
       <stack.Screen

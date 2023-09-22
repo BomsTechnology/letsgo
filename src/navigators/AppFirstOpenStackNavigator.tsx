@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileScreen from "@screens/ProfileScreen";
-import ResultSearchScreen from "@screens/trip/ResultSearchScreen";
+import ResultSearchScreen from "@screens/search/SearchTripScreen";
 import TripInfoScreen from "@screens/trip/info/TripInfoScreen";
 import PlannerDetailScreen from "@screens/planner/PlannerDetailScreen";
 import DriverDetailScreen from "@screens/driver/DriverDetailScreen";

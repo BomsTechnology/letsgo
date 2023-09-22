@@ -2,9 +2,10 @@ import { ImageSourcePropType, StyleSheet, Text, View, Image, TouchableOpacity, G
 import React from 'react';
 import Colors from '@constants/colors';
 import Rating from '@components/Rating';
+import { Ionicons } from '@expo/vector-icons';
 
 interface TripInfoCardProps {
-  image : string | ImageSourcePropType;
+  image? : string | undefined;
   label?: string;
   title: string;
   info1?: string;
@@ -21,7 +22,9 @@ const TripInfoCard = ({image, label, title, info1, info2, rate, carColor, border
     <TouchableOpacity onPress={onPress} style={[styles.container]}>
       {label && <Text style={[styles.lightText, {marginBottom:5, marginLeft:5}]}>{label}</Text>}
       <View style={[styles.cardContainer, {borderColor: borderColor ? borderColor : Colors.primaryColor,}]}>
-        <Image resizeMode='contain' style={[styles.image]} source={image as ImageSourcePropType} />
+        {image ? <Image resizeMode='contain' style={[styles.image]} source={{ uri: image }} /> : 
+         <Ionicons name="person-circle" size={50} color={Colors.primaryColor} />
+         }
         <View style={[{marginLeft: 10, flexGrow:1}]}>
             <Text style={[styles.boldText]}>{title}</Text>
             {info1 && <Text style={[styles.mediumText]}>{info1}</Text>}

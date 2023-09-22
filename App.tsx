@@ -14,17 +14,11 @@ import AppNavigator from "@navigators/AppNavigator";
 import { View, useColorScheme } from "react-native";
 import FlashMessage from "react-native-flash-message";
 import { StatusBar } from "expo-status-bar";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { store } from "@store/store";
 import { PaperProvider } from "react-native-paper";
 
 export default function App() {
-  const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
     Poppins_300Light,
     Poppins_400Regular,

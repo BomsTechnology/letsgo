@@ -12,20 +12,21 @@ import { checkAuth } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import Colors from "@constants/colors";
 import { getLastKnownPosition, setCurrLocation } from "@services/useLocalization";
-import { setDeparture } from "@services/useSearchPlace";
+import { setDeparture } from "@services/useSearch";
 import { getLocalSetting } from "@services/useSetting";
 import SettingProps from "../types/SettingProps";
 import i18n from '../locales/i18n'
 import { countryCodeProps } from "@data/CountryCode";
+import { Driver } from "@mytypes/DriverProps";
 
 export type AppStackParamList = {
   Home: undefined;
-  ResultSearch: { nbSeat: number; price: number };
+  SearchScreen: { nbSeat: number; price: number };
   TripInfo: { from: string };
   TripPlan: undefined;
   TripPublish: undefined;
   PlannerDetail: undefined;
-  DriverDetail: undefined;
+  DriverDetail: { driver: Driver };
   VehiculeDetail: undefined;
   SeatDetail: undefined;
   SelectPayMode: undefined;
