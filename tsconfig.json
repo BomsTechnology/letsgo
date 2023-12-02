@@ -46,6 +46,7 @@
       "@functions/*": ["./src/functions/*"],
       "@config/*": ["./src/config/*"],
       "@services/*": ["./src/services/*"],
+      "@firebase/*": ["./src/firebase/*"],
       "@mytypes/*": ["./src/types/*"],
       "@locales/*": ["./src/locales/*"]
     }

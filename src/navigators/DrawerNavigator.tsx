@@ -19,27 +19,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RootState, useAppDispatch, useAppSelector } from "@store/store";
 import { logout } from "@services/useAuth";
 import { showError, showSuccess } from "@functions/helperFunctions";
-import MoreOptionsScreen from '@screens/MoreOptionsScreen';
-import LanguageScreen from '@screens/LanguageScreen';
-import NotificationScreen from '@screens/NotificationScreen';
-import SecurityInformationScreen from '@screens/SecurityInformationScreen';
-import KeyWordScreen from '@screens/KeyWordScreen';
-import TransactionHistoryScreen from '@screens/TransactionHistoryScreen';
-import i18n from '../locales/i18n';
+import MoreOptionsScreen from "@screens/MoreOptionsScreen";
+import LanguageScreen from "@screens/LanguageScreen";
+import NotificationScreen from "@screens/NotificationScreen";
+import SecurityInformationScreen from "@screens/SecurityInformationScreen";
+import KeyWordScreen from "@screens/KeyWordScreen";
+import TransactionHistoryScreen from "@screens/TransactionHistoryScreen";
+import i18n from "../locales/i18n";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  const settingState = useAppSelector(
-    (state: RootState) => state.setting
-  );
+  const settingState = useAppSelector((state: RootState) => state.setting);
   const userState = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const menuIcon = (
-    <Ionicons name="chevron-back" size={25} color={settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone} />
+    <Ionicons
+      name="chevron-back"
+      size={25}
+      color={
+        settingState.setting.isDarkMode
+          ? Colors.onPrimaryColor
+          : Colors.onWhiteTone
+      }
+    />
   );
-
-  
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
@@ -48,7 +52,14 @@ const DrawerNavigator = () => {
       drawerContent={(props) => {
         return (
           <SafeAreaView
-            style={{ flex: 1, paddingTop: 10, paddingHorizontal: 10, backgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2, }}
+            style={{
+              flex: 1,
+              paddingTop: 10,
+              paddingHorizontal: 10,
+              backgroundColor: settingState.setting.isDarkMode
+                ? Colors.darkTone1
+                : Colors.whiteTone2,
+            }}
           >
             <IconButton
               icon={menuIcon}
@@ -57,29 +68,44 @@ const DrawerNavigator = () => {
               }}
             />
             <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("@assets/images/avatars/Avatar5.png")}
-                style={{
-                  height: 130,
-                  width: 130,
-                  borderRadius: 65,
-                }}
-              />
-              <View style={{ margin: 10 }}></View>
+              {userState.user?.picture ? (
+                <Image
+                  resizeMode="cover"
+                  style={{
+                    height: 130,
+                    width: 130,
+                    borderRadius: 65,
+                  }}
+                  source={{ uri: userState.user?.picture }}
+                />
+              ) : (
+                <Ionicons
+                  name="person-circle"
+                  size={130}
+                  color={Colors.primaryColor}
+                />
+              )}
               <Rating enablerating={false} rate={4} size={12} />
 
               <Text
                 style={{
                   fontSize: 19,
                   marginVertical: 8,
-                  color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone,
-                  fontFamily: 'Poppins_600SemiBold',
+                  color: settingState.setting.isDarkMode
+                    ? Colors.onPrimaryColor
+                    : Colors.onWhiteTone,
+                  fontFamily: "Poppins_600SemiBold",
                 }}
               >
-                { userState.user?.firstName ? 
-                i18n.t('welcome-message', {count: 1, name: userState.user?.firstName}).toUpperCase(): 
-                  i18n.t('welcome-message', {count: 0}).toUpperCase()
-                } 👋
+                {userState.user?.firstName
+                  ? i18n
+                      .t("welcome-message", {
+                        count: 1,
+                        name: userState.user?.firstName,
+                      })
+                      .toUpperCase()
+                  : i18n.t("welcome-message", { count: 0 }).toUpperCase()}{" "}
+                👋
               </Text>
               <View
                 style={{
@@ -88,7 +114,7 @@ const DrawerNavigator = () => {
                   backgroundColor: Colors.primaryColor,
                   borderRadius: 10,
                   marginBottom: 10,
-                  alignItems: 'center',
+                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
@@ -96,35 +122,39 @@ const DrawerNavigator = () => {
                   style={{
                     textAlign: "center",
                     color: Colors.whiteTone1,
-                    fontFamily: 'Poppins_600SemiBold',
+                    fontFamily: "Poppins_600SemiBold",
                   }}
                 >
                   POLLER
                 </Text>
               </View>
             </View>
-            <View style={{ flex: 1, paddingHorizontal: 5, paddingTop:15 }}>
+            <View style={{ flex: 1, paddingHorizontal: 5, paddingTop: 15 }}>
               <DrawerItemList {...props} />
             </View>
-            <View style={{ 
-              height: 100,
-              paddingHorizontal:15,
-              justifyContent: 'center'
-             }}>
-
-            </View>
-            <View style={{ 
-              paddingVertical: 10,
-              paddingHorizontal: 20,
-             }}>
-              <Text
+            <View
               style={{
-                textAlign: "center",
-                fontFamily: 'Poppins_300Light',
-                letterSpacing: 3,
-                color: Colors.grayTone2,
+                height: 100,
+                paddingHorizontal: 15,
+                justifyContent: "center",
               }}
-              >LETSGO POOLER</Text>
+            ></View>
+            <View
+              style={{
+                paddingVertical: 10,
+                paddingHorizontal: 20,
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontFamily: "Poppins_300Light",
+                  letterSpacing: 3,
+                  color: Colors.grayTone2,
+                }}
+              >
+                LETSGO POOLER
+              </Text>
             </View>
           </SafeAreaView>
         );
@@ -134,22 +164,30 @@ const DrawerNavigator = () => {
         drawerStyle: {
           borderBottomRightRadius: 50,
           borderTopRightRadius: 50,
-          overflow: 'hidden',
+          overflow: "hidden",
         },
-        drawerInactiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2,
-        drawerActiveTintColor: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.grayTone2,
-        drawerInactiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
-        drawerActiveBackgroundColor: settingState.setting.isDarkMode ? Colors.darkTone1 : Colors.whiteTone2,
+        drawerInactiveTintColor: settingState.setting.isDarkMode
+          ? Colors.onPrimaryColor
+          : Colors.grayTone2,
+        drawerActiveTintColor: settingState.setting.isDarkMode
+          ? Colors.onPrimaryColor
+          : Colors.grayTone2,
+        drawerInactiveBackgroundColor: settingState.setting.isDarkMode
+          ? Colors.darkTone1
+          : Colors.whiteTone2,
+        drawerActiveBackgroundColor: settingState.setting.isDarkMode
+          ? Colors.darkTone1
+          : Colors.whiteTone2,
         //overlayColor: 'transparent',
         drawerItemStyle: {
-          padding:0,
-          paddingVertical:0,
-          margin:0,
-          marginVertical: 0
+          padding: 0,
+          paddingVertical: 0,
+          margin: 0,
+          marginVertical: 0,
         },
         drawerLabelStyle: {
           lineHeight: 15,
-          fontFamily: 'Poppins_400Regular'
+          fontFamily: "Poppins_400Regular",
         },
       }}
     >
@@ -158,12 +196,16 @@ const DrawerNavigator = () => {
         component={TabNavigator}
         options={{
           headerShown: false,
-          drawerLabel: `${i18n.t('home')}`,
+          drawerLabel: `${i18n.t("home")}`,
           drawerIcon: () => (
             <Ionicons
               name="home-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -174,12 +216,16 @@ const DrawerNavigator = () => {
         component={ProfileScreen}
         options={{
           headerShown: false,
-          drawerLabel: `${i18n.t('profile')}`,
+          drawerLabel: `${i18n.t("profile")}`,
           drawerIcon: () => (
             <Ionicons
               name="person-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -190,12 +236,16 @@ const DrawerNavigator = () => {
         component={SecurityInformationScreen}
         options={{
           headerShown: false,
-          drawerLabel:  `${i18n.t('security-information')}`,
+          drawerLabel: `${i18n.t("security-information")}`,
           drawerIcon: () => (
             <Ionicons
               name="shield-checkmark-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -206,12 +256,16 @@ const DrawerNavigator = () => {
         component={NotificationScreen}
         options={{
           headerShown: false,
-          drawerLabel: `${i18n.t('notification', {count: 1})}`,
+          drawerLabel: `${i18n.t("notification", { count: 1 })}`,
           drawerIcon: () => (
             <Ionicons
               name="notifications-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -222,12 +276,16 @@ const DrawerNavigator = () => {
         component={TransactionHistoryScreen}
         options={{
           headerShown: false,
-          drawerLabel: `${i18n.t('transaction-history')}`,
+          drawerLabel: `${i18n.t("transaction-history")}`,
           drawerIcon: () => (
             <Ionicons
               name="cash-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),
@@ -238,12 +296,16 @@ const DrawerNavigator = () => {
         component={MoreOptionsScreen}
         options={{
           headerShown: false,
-          drawerLabel: `${i18n.t('more')}`,
+          drawerLabel: `${i18n.t("more")}`,
           drawerIcon: () => (
             <Ionicons
               name="add-outline"
               size={20}
-              color={settingState.setting.isDarkMode ? Colors.grayTone3 : Colors.grayTone2}
+              color={
+                settingState.setting.isDarkMode
+                  ? Colors.grayTone3
+                  : Colors.grayTone2
+              }
               style={{ position: "absolute", left: 10 }}
             />
           ),

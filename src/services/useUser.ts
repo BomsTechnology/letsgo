@@ -2,8 +2,9 @@ import axiosClient, { API_BASE_URL } from "@config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import UserProps from "../types/UserProps";
+import useFile from "./useFile";
 
-const PREFIX_URL = 'AUTH-SERVICE/api/v0/';
+const PREFIX_URL = "AUTH-SERVICE/api/v0/";
 
 export const createPoolerAccount = createAsyncThunk<UserProps, void>(
   "user/createPoolerAccount",
@@ -17,9 +18,7 @@ export const createPoolerAccount = createAsyncThunk<UserProps, void>(
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
-        throw new Error(
-          "Une erreur réseau s'est produite"
-        );
+        throw new Error("Une erreur réseau s'est produite");
       }
     } catch (error: any) {
       throw new Error(
@@ -38,9 +37,7 @@ export const getUserInfo = createAsyncThunk<UserProps, void>(
         AsyncStorage.setItem("user", JSON.stringify(response.data));
         return response.data;
       } else {
-        throw new Error(
-          "Une erreur réseau s'est produite"
-        );
+        throw new Error("Une erreur réseau s'est produite");
       }
     } catch (error: any) {
       throw new Error(
@@ -53,46 +50,52 @@ export const getUserInfo = createAsyncThunk<UserProps, void>(
 export const updateUserInfo = createAsyncThunk<
   UserProps,
   {
-    firstName: string;
-    lastName: string;
-    gender: string;
-    birthdate: string;
-    avatar?: string;
-    picture?: string;
-    keywords?: string;
-    userPaymentMode?: string;
+    profile: UserProps;
+    file: { name: string; file: Blob } | null;
+    removeAvatar: boolean;
   }
->("user/updateUserInfo", async ({
-  firstName,
-  lastName,
-  birthdate,
-  avatar,
-  picture,
-  keywords,
-  userPaymentMode,
-  gender
-}) => {
-  try {
-    let data = {
-      firstName: firstName,
-      lastName:   lastName,
-      birthdate: birthdate,
-      avatar: avatar,
-      picture: picture,
-      keywords: keywords,
-      userPaymentMode: userPaymentMode,
-      gender: gender
-    }
-    const response = await axiosClient.put(PREFIX_URL + "userinfo", data);
-    if (response.data != undefined) {
-      AsyncStorage.setItem("user", JSON.stringify(response.data));
-      return response.data;
-    } else {
-      throw new Error(
-        "Une erreur réseau s'est produite"
+>(
+  "user/updateUserInfo",
+  async (data: {
+    profile: UserProps;
+    file: { name: string; file: Blob } | null;
+    removeAvatar: boolean;
+  }) => {
+    const { uploadFile, getFile } = useFile();
+    try {
+      if (data.file != null) {
+        let file = new File(
+          [data.file.file],
+          `${new Date().getTime()}_${data.file.name}`
+        );
+        await uploadFile(file, "pooler/avatar");
+        let res = await getFile(`${"pooler/avatar"}/${file.name}`);
+        if (res.status == "success") data.profile.picture = res.response;
+      } else if (data.removeAvatar) {
+        data.profile.picture = "";
+      }
+      console.log('picture: ',data.profile.picture)
+      console.log('data: ',data.profile)
+      const response = await axiosClient.put(
+        PREFIX_URL + "userinfo",
+        data.profile,
+        {}
       );
+      if (response && response.data != undefined) {
+        console.log('response', response.data)
+        AsyncStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
+      } else {
+        throw new Error("Une erreur réseau s'est produite");
+      }
+    } catch (error: any) {
+      if (error.response) {
+        throw new Error(
+          `Une erreur s'est produite : ${error.response.data.error}`
+        );
+      } else {
+        throw new Error(`Une erreur s'est produite`);
+      }
     }
-  } catch (error: any) {
-    throw new Error(`Une erreur s'est produite : ${error.response.data.error}`);
   }
-});
+);

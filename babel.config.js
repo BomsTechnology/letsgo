@@ -37,6 +37,7 @@ module.exports = function(api) {
             "@config" : ["./src/config"],
             "@services" : ["./src/services"],
             "@mytypes" : ["./src/types"],
+            "@firebase" : ["./src/firebase"],
             "@locales" : ["./src/locales"],
           }
         }

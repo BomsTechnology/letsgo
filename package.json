@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "firebase": "^10.4.0",
+    "expo-image-picker": "~14.1.1",
     "@expo-google-fonts/inter": "^0.2.3",
     "@expo-google-fonts/poppins": "^0.2.3",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

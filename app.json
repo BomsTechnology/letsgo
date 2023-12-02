@@ -2,7 +2,7 @@
   "expo": {
     "name": "Lets go",
     "slug": "letsgo",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,12 +29,12 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.letsgo.yowyob",
-      "versionCode": 1,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBtEPDKk3C7mcTx21R45OULceiNWJ-5U6U"

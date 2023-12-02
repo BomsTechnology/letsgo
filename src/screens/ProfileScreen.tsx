@@ -16,6 +16,7 @@ import {
 } from "@services/useUser";
 import { showError, showSuccess } from "@functions/helperFunctions";
 import DatePicker from "@components/inputFields/DatePicker";
+import * as ExpoImagePicker from "expo-image-picker";
 import CustomDropdownInput, {
   DropDataProps,
 } from "@components/inputFields/CustomDropdownInput";
@@ -30,7 +31,9 @@ const ProfileScreen = () => {
   const [birthdate, setBirthdate] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState("");
   const [defaultGender, setDefaultGender] = useState<DropDataProps | undefined>(undefined);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(userState.user?.gender ? userState.user?.gender :"");
+  const [avatar, setAvatar] = useState("");
+  const [file, setFile] = useState<{ name: string; file: Blob } | null>(null);
   const genderData: DropDataProps[] = [
     { key: "1", value: "Male" },
     { key: "2", value: "Female" },
@@ -47,11 +50,17 @@ const ProfileScreen = () => {
   const lastname = watch("lastname");
 
   const editProfile = async () => {
+    console.log(selected)
     await dispatch(updateUserInfo({
-      firstName: firstname,
-      lastName: lastname,
-      gender: selected,
-      birthdate: birthdate.toISOString().split("T")[0],
+      profile: {
+        keywords: [],
+        firstName: firstname!,
+        lastName: lastname!,
+        gender: selected,
+        birthdate: birthdate.toISOString().split("T")[0],
+      },
+      file: file,
+      removeAvatar: avatar == "" ? true : false
     }))
       .unwrap()
       .then((data) => {
@@ -73,9 +82,31 @@ const ProfileScreen = () => {
       });
   };
 
+  const pickImage = async () => {
+    const { status } =
+      await ExpoImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      showError("Permission to access camera roll is required!");
+    } else {
+      let result = await ExpoImagePicker.launchImageLibraryAsync({
+        mediaTypes: ExpoImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setAvatar(result.assets[0].uri);
+        const response = await fetch(result.assets[0].uri);
+        const blob = await response.blob();
+        setFile({ file: blob, name: result.assets[0].uri.split("/").pop()! });
+      }
+    }
+  };
+
   useEffect(() => {
     if (!userState.user) refreshData();
-    
+    if(userState.user?.picture) setAvatar(userState.user?.picture);
     setValue(
       "firstname",
       userState.user?.firstName ? userState.user?.firstName : ""
@@ -84,9 +115,12 @@ const ProfileScreen = () => {
       "lastname",
       userState.user?.lastName ? userState.user?.lastName : ""
     );
-    console.log(userState.user?.gender);
+    console.log(selected);
     if(userState.user?.birthdate) setBirthdate(new Date(Date.parse(userState.user?.birthdate)));
-    if(userState.user?.gender) setDefaultGender(genderData.filter((g) => g.value == userState.user?.gender)[0])
+    if(userState.user?.gender) {
+      setSelected(userState.user?.gender)
+      setDefaultGender(genderData.filter((g) => g.value == userState.user?.gender)[0])
+    }
   }, []);
 
   return (
@@ -101,11 +135,19 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          <Image
-            resizeMode="contain"
-            style={[styles.image]}
-            source={require("@assets/images/avatars/Avatar5.png")}
-          />
+          {avatar ? (
+            <Image
+              resizeMode="cover"
+              style={[styles.image]}
+              source={{ uri: avatar }}
+            />
+          ) : (
+            <Ionicons
+              name="person-circle"
+              size={120}
+              color={Colors.primaryColor}
+            />
+          )}
           <View
             style={{
               flexDirection: "row",
@@ -115,20 +157,45 @@ const ProfileScreen = () => {
             }}
           >
             <TouchableOpacity
-               style={settingState.setting.isDarkMode ? styles.actionBtn_DARK : styles.actionBtn}
+              onPress={pickImage}
+              style={
+                settingState.setting.isDarkMode
+                  ? styles.actionBtn_DARK
+                  : styles.actionBtn
+              }
             >
               <Ionicons name="pencil" size={16} color={Colors.primaryColor} />
-              <Text style={{ 
-                color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone
-               }}>Edit avatar</Text>
+              <Text
+                style={{
+                  color: settingState.setting.isDarkMode
+                    ? Colors.onPrimaryColor
+                    : Colors.onWhiteTone,
+                }}
+              >
+                Edit avatar
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={settingState.setting.isDarkMode ? styles.actionBtn_DARK : styles.actionBtn}
+              onPress={() => {
+                setAvatar("");
+                setFile(null);
+              }}
+              style={
+                settingState.setting.isDarkMode
+                  ? styles.actionBtn_DARK
+                  : styles.actionBtn
+              }
             >
               <Ionicons name="trash" size={16} color={Colors.errorInputColor} />
-              <Text style={{ 
-                color: settingState.setting.isDarkMode ? Colors.onPrimaryColor : Colors.onWhiteTone
-               }}>Delete Picture</Text>
+              <Text
+                style={{
+                  color: settingState.setting.isDarkMode
+                    ? Colors.onPrimaryColor
+                    : Colors.onWhiteTone,
+                }}
+              >
+                Delete Picture
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
